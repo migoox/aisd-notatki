@@ -1,0 +1,240 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{bookmark}
+\usepackage{fullpage} % uniform 1.5 margins
+\usepackage[polish]{babel}
+\usepackage{polski}
+\let\babellll\lll % babel and math shenanigans :/
+\let\lll\relax
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}  % page customization
+\usepackage[T1]{fontenc} % use 8-bit font encoding
+\usepackage{amsmath,amsthm,amsfonts,amssymb} % lovely American Mathematical Society packages
+\let\mathlll\lll
+\let\lll\babellll
+\frenchspacing
+\usepackage[makeroom]{cancel} % usefull cancelling (slash) command
+\usepackage[dvipsnames,table]{xcolor} % colors!!!
+\usepackage{float} % stop figures going to the top of the page u stupido by [H] placement
+\usepackage{mathtools} % more cool math features
+\usepackage{enumitem} % cool enumeration additions
+\usepackage{fancyhdr} % fancy headers and footers
+\usepackage{mathrsfs} % \mathscr command for cool font
+\usepackage{graphicx} % enhanced support for graphics
+\usepackage{hyperref} % extensive support for hypertext
+\usepackage{theoremref} % refer to theorems using /ref
+\usepackage{systeme} % french lib for systems of eq-ns
+\usepackage{empheq} % emphasise eq-ns
+\usepackage{multicol} % cool columns!
+\usepackage{nicematrix} % nice matrices
+\usepackage{tikz}  % plots!!
+\usepackage{makecell} % cool table cell manipulation
+\usepackage{calc} % arithmetic operations on internal counters (e.g. skipping enumeration)
+\usepackage{stackengine} % stack engine; stack things on top of things!
+\usepackage{diagbox} % table head with diagonal lines
+\usepackage{yfonts} % support for old German fonts: gothic, schwabacher, fraktur and baroque
+\usepackage{wrapfig} % wrap text around figures
+\usepackage{mathdots} % more math dots!
+\usepackage[bottom]{footmisc} % some footnote things
+\usepackage[justification=centering]{caption} % customize captions in floats
+\usepackage{subcaption} % subcaptions for subfigures
+\usepackage[all]{nowidow} % avoid widows!
+\usepackage{extarrows} % more arrows!
+\usepackage{multirow}
+\usepackage{amsmath} % fonts for algorithms
+\usepackage{algorithm}
+\usepackage{algorithmicx} % algorithms, pseudocode
+\usepackage[noend]{algpseudocode} % algorithms, pseudocode
+
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5}, % set backgroundcolor
+    basicstyle=\footnotesize,% basic font setting
+}
+\input{insbox} % Floating box tex macro
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+\renewcommand\useanchorwidth{T} % https://tex.stackexchange.com/questions/205145/flip-the-underbrace
+\renewcommand\theadalign{bc} % table head align - bottom center
+\renewcommand\theadfont{\bfseries} % table head font
+\renewcommand\theadgape{\Gape[4pt]} % some table spacings ig
+\renewcommand\cellgape{\Gape[4pt]}
+
+\widowpenalty10000
+\clubpenalty10000
+
+% hypertext config
+\hypersetup{
+	colorlinks=true,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=black,
+	urlcolor=black
+}
+
+% rename Rysunek to Rys.
+\addto\captionspolish{%
+	\renewcommand{\figurename}{Rys.}
+}
+
+% make space of width of one text and fill with other
+\newcommand{\textover}[3][l]{%
+	% #1 is the alignment, default l
+	% #2 is the text to be printed
+	% #3 is the text for setting the width
+	\ensuremath{\makebox[\widthof{#3}][#1]{#2}}%
+}
+
+% matrix of type: ... ... ... | ...
+\newenvironment{amatrix}[1]{%
+	\begin{bNiceArray}{*{#1}{c}|c}
+	}{%
+	\end{bNiceArray}
+}
+
+% use boondox font on \mathds command
+\DeclareMathAlphabet{\mathds}{U}{BOONDOX-ds}{m}{n}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+% theorems with * are not numbered
+\newtheorem{axiom}{Aksjomat}[section]
+\newtheorem{theorem}{Twierdzenie}[section]
+\newtheorem{defi}{Definicja}[section]
+\newtheorem{corollary}{Wniosek}[theorem]
+\newtheorem*{corollary*}{Wniosek}
+\newtheorem{lemma}{Lemat}[section]
+\newtheorem*{lemma*}{Lemat}
+\newtheorem{excercise}{Zadanie}[section]
+\newtheorem*{excercise*}{Zadanie}
+\newtheorem*{example}{Przykład}
+\newtheorem*{note}{Uwaga}
+\newtheorem*{przp}{Przypomnienie}
+\newtheorem{prop}{Własność}[section]
+\newtheorem{fact}{Fakt}[section]
+\newtheorem{algo}{Algorytm}[section]
+
+% things needed for my basic template to work
+\newcommand\person{Michał Okurowski}
+\newcommand\depart{Wydział MiNI PW}
+
+% slightly higher fbox? dont remember
+\newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
+
+% footer and header setup
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{\person\\\depart}
+%\chead{\textbf{\Large \dtype}\\\leftmark}
+%\rhead{\course \\ \today}
+\lfoot{}
+\cfoot{}
+\rfoot{\small\thepage}
+\headsep 1.5em
+
+% custom command for putting things on top of = sign
+\newcommand{\myeq}[2][=]{\mathrel{\overset{#2}{#1}}}
+
+% math sets defined
+\newcommand\N{\ensuremath{\mathbb{N}}}
+\newcommand\R{\ensuremath{\mathbb{R}}}
+\newcommand\Z{\ensuremath{\mathbb{Z}}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\C{\ensuremath{\mathbb{C}}}
+\renewcommand\d{\ensuremath{\mathrm{d}}}
+
+% force \limits after \lim, old lim available as \svlim
+\let\svlim\lim\def\lim{\svlim\limits}
+% remove those ugly ass characters ew
+\let\Re\relax 
+\let\Im\relax
+% \arccot is something wrong
+\let\arccot\relax
+
+% define my own operators
+\DeclareMathOperator{\Re}{Re}
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\rz}{rz}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\arccot}{arccot}
+
+\usepackage{cutwin} % cut windows in paragraphs
+\usepackage{pgfplots} % even better plots!!!
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{matrix,calc,patterns,angles,quotes}
+\usetikzlibrary{arrows.meta, intersections, fillbetween,babel}
+
+% you know \cancelto? yea its always cancelling upwards, there is no \bcancelto, so here it is
+\makeatletter
+% #1, #2 offset of label   #6 extra width to clear arrowhead
+% #3, #4 vector direction  #7 superscript label style
+% #5 vector width          #8 superscript label
+\def\cantox@vector#1#2#3#4#5#6#7#8{%
+	\dimen@.5\p@
+	\setbox\z@\vbox{\boxmaxdepth.5\p@
+		\hbox{\kern-1.2\p@\kern#1\dimen@$#7{#8}\m@th$}}%
+	\ifx\canto@fil\hidewidth  \wd\z@\z@ \else \kern-#6\unitlength \fi
+	\ooalign{%
+		\canto@fil$\m@th \CancelColor
+		\vcenter{\hbox{\dimen@#6\unitlength \kern\dimen@
+				\multiply\dimen@#4\divide\dimen@#3 \vrule\@depth\dimen@\@width\z@
+				\vector(#3,-#4){#5}%
+		}}_{\raise-#2\dimen@\copy\z@\kern-\scriptspace}$%
+		\canto@fil \cr
+		\hfil \box\@tempboxa \kern\wd\z@ \hfil \cr}}
+\def\bcancelto#1#2{\let\canto@vector\cantox@vector\cancelto{#1}{#2}}
+\makeatother
+
+% some cute colors
+\definecolor{highlight}{HTML}{FFFEEC}
+\definecolor{highlight2}{HTML}{FAFFEC}
+
+% \highlight[<color>]{<stuff>}
+\newcommand{\highlight}[2][highlight]{\mathchoice%
+	{\colorbox{#1}{$\displaystyle#2$}}%
+	{\colorbox{#1}{$\textstyle#2$}}%
+	{\colorbox{#1}{$\scriptstyle#2$}}%
+	{\colorbox{#1}{$\scriptscriptstyle#2$}}}%
+
+% Default plot config
+\pgfplotsset{every axis/.append style ={
+	width=1\linewidth,
+	axis equal image,
+	axis x line=center,
+	axis y line=center,
+	xlabel style={at={(current axis.right of origin)},anchor=north},
+	ylabel style={at={(current axis.above origin)},anchor=east},
+	trig format plots=rad,
+	unbounded coords=jump,
+	xlabel={$x$},
+	ylabel={$y$},
+}}
+
+% some cute open and closed points
+\tikzset{
+	circ/.style={circle,fill=white,draw,inner sep=1.5pt,outer sep=0pt, fill opacity=1},
+	poin/.style={circ,fill=#1,draw=#1,},
+	poin/.default=black,
+}
+
+\newcounter{daggerfootnote}
+\newcommand*{\daggerfootnote}[1]{%
+	\setcounter{daggerfootnote}{\value{footnote}}%
+	\renewcommand*{\thefootnote}{\fnsymbol{footnote}}%
+	\footnote[2]{#1}%
+	\setcounter{footnote}{\value{daggerfootnote}}%
+	\renewcommand*{\thefootnote}{\arabic{footnote}}%
+}
+
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+\usepackage{lmodern}
