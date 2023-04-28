@@ -1,0 +1,219 @@
+\subsection{Zadanie 1 -- Szukanie podzbioru o zadanej sumie elementów}
+\textbf{Treść: } Zaprojektuj algorytm, który dla zadanego zbioru 
+liczb naturalnych $S$ i liczby naturalnej $N$ rozstrzygnie,
+czy $S$ zawiera podzbiór o sumie równej $N$ w czasie $O(N |S|)$.
+
+Wskazówka: wyznacz wszystkie możliwe sumy podzbiorów zbioru $S$
+
+\textbf{Rozwiązanie: }
+
+Niech $S = \{s_0, s_1, \dots, s_{|S| - 1}\}$ to zbiór wejściowy, oraz 
+niech $N$ to liczba, dla której sprawdzimy czy istnieją elementy, które się do niej sumują.
+
+Niech $T$ to tablica dwuwymiarowa o wymiarach $|S|$ na $N + 1$, przyjmująca wartości 
+\textit{True} lub \textit{False} w każdej komórce tablicy $T$.
+Komórka tablicy $T[i, j]$ odpowiada na pytanie, czy da się otrzymać 
+sumę równą $i$ z $j$-elementowego podzbioru $\{s_1, s_2, \dots, s_j\} \subseteq S$.
+
+Algorytm polega na uzupełnianiu kolejnych wierszy tablicy.
+Najpierw rozważamy problem oparty na zbiorze $\{s_1\}$. 
+Nastepnie aby otrzymać rozwiązanie dla $\{s_1, s_2\}$, wystarczy
+od każdej komórki przechowującej $T$ przemieścić się o $s_2$ komórek w prawo
+i zmienić wartość na $T$ i tak do momentu uzupełnienia tablicy $T$.
+
+Po uzupełnieniu $T$ odpowiedzią na zadane pytanie jest $T[k, N]$.
+
+Rozważmy przykład: $S = \{1, 3, 5, 10\}$ (tzn. $s_0=1$, $s_1=3$, $s_2=5$, $s_3=10$), 
+$N = 9$. Tablica prezentuje się wtedy tak jak poniżej.
+
+\begin{table}[H]
+	\center
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		& \multicolumn{1}{l|}{\textbf{0}} & \multicolumn{1}{l|}{\textbf{1}} & \multicolumn{1}{l|}{\textbf{2}} & \multicolumn{1}{l|}{\textbf{3}} & \multicolumn{1}{l|}{\textbf{4}} & \multicolumn{1}{l|}{\textbf{5}} & \multicolumn{1}{l|}{\textbf{6}} & \multicolumn{1}{l|}{\textbf{7}} & \multicolumn{1}{l|}{\textbf{8}} & \multicolumn{1}{l|}{\textbf{9}} \\ \hline
+		\textbf{1 $\{1\}$} & \color{ForestGreen}T                               & \color{ForestGreen}T                                & F                               & F                               & F                               & F                               & F                               & F                               & F                               & F                               \\ \cline{1-1}
+		\textbf{2 $\{1, 3\}$} & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & F                               & F                               & F                               & F                               \\ \cline{1-1}
+		\textbf{3 $\{1, 3, 5\}$} & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                \\ \cline{1-1}
+		\textbf{4 $\{1, 3, 5, 10\}$} & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                 \\ \cline{1-1}
+		\hline
+	\end{tabular}
+	\caption{Elementy $s_1, s_2 \dots, s_k \in S$ nie muszą być posortowane.}
+\end{table}
+
+\begin{algorithm}[H]
+	\caption{Rozwiązanie zadania 1.1}\label{Zadanie11}
+	\begin{algorithmic}[1]
+		\Procedure{SubsetSum($S = \{s_0, s_1, \dots, s_{|S| - 1}\} \subseteq \mathbb{N}$, $N \in \mathbb{N}$)}{}
+		\State Utwórz tablicę dwuwymiarową $T$ o $|S|$ wierszach i $N + 1$ kolumnach 
+		\State Wypełnij tablicę $T$ wartością \textit{False}
+		\State $T[0, 0] \gets $ \textit{True}
+		\State $T[0, s_1] \gets $ \textit{True}
+		\State $i \gets 1$
+		\For{$i = 1, 2 \dots |S| - 1$}
+		\For{$j = 0, 1, 2 \dots N$}
+		\If{$T[i - 1, j] = $ \textit{True}}
+		\State $T[i, j] \gets \text{True}$
+		\If{$j + s_j \leq N$}
+		\State $T[i, j + s_j] \gets$ \textit{True}
+		\EndIf
+		\EndIf
+		\EndFor 
+		\EndFor
+		\State \Return $T[k, N]$
+		\EndProcedure 
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Zadanie 2 -- Szukanie najdłuższego wspólnego podciągu}
+\textbf{Treść:} Zaprojektuj algorytm, który znajdzie długość najdłuższego wspólnego podciągu dwoch zadanych ciągów
+o nie więcej niż $n$ wyrazach w czasie $O(n^2)$. Przykładowo, najdłuższym wspólnym podciągiem 
+ciągów „abcdef” i „eacgd” jest „acd”.
+
+Wskazówka: zastosuj programowanie dynamiczne; wyznacz rozwiązanie dla każdej pary prefiksów zadanych napsów.
+
+\textbf{Rozwiązanie:}
+Oznaczmy ciągi wejściowe jako 
+$A = a_1, a_2, \dots a_n$ oraz 
+$B = b_1, b_2, \dots b_m$. Niech $C$ to największy możliwy
+wspólny podciąg $A$ i $B$.  Zauważmy, że jeśli znamy rozwiązanie
+nastepujących podproblemów:
+\begin{itemize}
+	\item[1.] Największy możliwy wspólny podciąg $C_1$ dla ciągów $A_1=a_1, a_2, \dots a_n$ oraz 
+	$B_1=b_1, b_2, \dots b_{m-1}$,
+	\item[2.] Największy możliwy wspólny podciąg $C_2$ dla ciągów $A_2 =a_1, a_2, \dots a_{n-1}$ oraz 
+	$B_2=b_1, b_2, \dots b_{m}$,
+	\item[3.] Największy możliwy wspólny podciąg $C_3$ dla ciągów $A_3=a_1, a_2, \dots a_{n-1}$ oraz 
+	$B_3=b_1, b_2, \dots b_{m-1}$
+\end{itemize}
+to jesteśmy w stanie znaleźć $C$
+w następujący sposób: jeżeli $a_n = b_m$, to rozwiązaniem 
+jest podciąg $C_3$ z dodatkowym elementem $a_n$, w przeciwnym przypadku
+rozwiązaniem musi być większy z ciągów $C_1$ oraz $C_2$ ($\bigstar$). 
+
+Aby zaimplementować to rozumowanie, zastosujemy tablicę dwuwymiarową $T$ 
+(indeksujemy od 0)
+o $n+1$ wierszach oraz $m+1$ kolumnach. Jako, że w zadaniu mowa jest 
+tylko o długości szukanego podciągu $C$, każda z komórek tablicy $T$ 
+o indeksach $i$ oraz $j$ ($i \in \{0,1, \dots, n\}$, 
+$j \in \{0,1, \dots, m\}$) będzie 
+przechowywać długość szukanego podciągu dla ciągów 
+$a_1, a_2, \dots, a_i$ oraz $b_1, b_2, \dots, b_j$. 
+
+Dla przykładu 
+jeśli $A = $ „abcdef” i  $B = $ „eacgd”, to tablica 
+wygląda tak jak tabela nr. \ref{tab_zad12}.
+
+
+\begin{table}[H]
+	\center
+	\begin{tabular}{|l|lllllll|}
+		\hline
+		& \multicolumn{1}{l|}{\textbf{""}} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{f}} \\ \hline
+		\textbf{""} & 0                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\textbf{e}  & 0                                & 0                               & 0                               & 0                               & 0                               & 1                               & 1                               \\ \cline{1-1}
+		\textbf{a}  & 0                                & 1                               & 1                               & 1                               & 1                               & 1                               & 1                               \\ \cline{1-1}
+		\textbf{c}  & 0                                & 1                               & 1                               & 2                               & 2                               & 2                               & 2                               \\ \cline{1-1}
+		\textbf{g}  & 0                                & 1                               & 1                               & 2                               & 2                               & 2                               & 2                               \\ \cline{1-1}
+		\textbf{d}  & 0                                & 2                               & 2                               & 2                               & 3                               & 3                               & 3                               \\ \cline{1-1}
+		\hline
+	\end{tabular}
+	\caption{}
+	\label{tab_zad12}
+\end{table}
+
+Na początku zerową kolumnę oraz zerowy wiersz tablicy $T$
+wypełniamy zerami. W każdym kroku algorytmu, wypełniając $T[i, j]$
+($i \in \{0,1, \dots, n\}$, $j \in \{0,1, \dots, m\}$)
+będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg. ($\bigstar$).
+
+
+\begin{algorithm}[H]
+	\caption{Rozwiązanie zadania 1.2}\label{Zadanie12}
+	\begin{algorithmic}[1]
+		\Procedure{SubsetSum($A = a_1, a_2, \dots, a_n$, $B = b_1, b_2, \dots, b_m$)}{}
+		\State Utwórz tablicę dwuwymiarową $T$ o $n+1$ wierszach i $m+1$ kolumnach.
+		\State Wypełnij zerową kolumnę i zerowy wiersz tablicy $T$ zerami
+		\State $i \gets 1$
+		\While{$i \leq n$}
+		\State $j \gets 1$
+		\While{$j \leq m$}
+		\If {$a_i = b_j$}
+		\State $T[i, j] = T[i-1,j-1] + 1$
+		\Else
+		\State $T[i, j] = \max\{T[i-1,j], T[i,j-1]\}$
+		\EndIf
+		\State $j \gets j + 1$
+		\EndWhile
+		\State $i \gets i + 1$
+		\EndWhile
+		\State \Return $T[n, m]$
+		\EndProcedure 
+	\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Zadanie 3 -- Problem łamania tekstu}
+\textbf{Treść:} W problemie łamania tekstu dany jest tekst składający się z $n$
+słów o długościach $d_1, d_2, \ldots , d_n$ oraz
+szerokość wiersza $s$. Szukamy rozmieszczenia słów w wierszach w taki 
+sposób, żeby każde słowo mieściło się w całości
+w wierszu, w żadnym wierszu nie bylo więcej niż $s$ znaków 
+oraz suma kwadratów liczb pozostałych wolnych miejsc we
+wszystkich wierszach była jak najmniejsza.
+Zaprojektuj jak najszybszy algorytm rozwiązujący problem łamania tekstu.
+\subsection{Zadanie 4 -- Szukanie odległości edycyjnej napisów}
+\textbf{Treść:} Przez odległość edycyjną napisów 
+$x$ i $y$ rozumiemy najmniejszą liczbę operacji wstawienia lub usunięcia
+pojedynczego znaku, które pozwalają przekształcić napis $x$ w napis $y$.
+Zaprojektuj algorytm, który znajdzie odległość 
+edycyjną dwóch zadanych napisów.
+
+\textbf{Rozwiązanie:}
+Na początek warto wspomnieć, że dodanie jeszcze jednej operacji - 
+zamiany znaków z dwóch różnych słów powoduje powstanie metryki
+którą nazywamy odległością Levenshtein'a.
+
+Rozważmy najpierw naiwne podejście rekurencyjne: badamy 
+oba napisy od tyłu, oznaczmy $m$ jako długość napisu $x$
+oraz $n$ jako długość napisu $y$. 
+\begin{itemize}
+	\item[1.] Jeśli znaki są takie same to wywołujemy rekurencyjnie
+	nasz algorytm dla napisu $x$ skróconego do $m - 1$ oraz 
+	napisu $y$ skróconego do $n - 1$.
+	\item[2.] Jeśli znaki są różne to robimy dwa wywołania 
+	rekurencyjne - jedno dla usunięcia znaku z napisu $x$ 
+	a drugie dla dodania znaku z napisu $x$, po 
+	to by wybrać z tych dwóch wywołań mniejszy koszt.
+\end{itemize}
+
+
+Podejście programowania dynamicznego: Tworzymy tablicę $T[,]$ o
+$m + 1$ kolumnach oraz $n + 1$ wierszach
+gdzie kolumny oznaczają kolejne litery napisu $x$ a
+wiersze kolejne litery napisu $y$. 
+$T[i, j]$ będzie oznaczało odległość podnapisów:
+$i$-elementowego podnapisu $x$ licząc od początku oraz 
+$j$-elementowego podnapisu $y$ licząc od początku.
+
+Wtedy możemy wypełniać od lewego górnego rogu tablicy.. to do
+
+
+Przykład: rozważmy dwa napisy $x =$ \textit{piesek} oraz $y =$ \textit{kotek}.
+
+
+\begin{table}[H]
+	\center
+	\begin{tabular}{|l|lllllll|}
+		\hline
+		& \multicolumn{1}{l|}{\textbf{""}} & \multicolumn{1}{l|}{\textbf{p}} & \multicolumn{1}{l|}{\textbf{i}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{s}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{k}} \\ \hline
+		\textbf{""} & 0                                & 1                               & 2                               & 3                               & 4                               & 5                               & 6                               \\ \cline{1-1}
+		\textbf{k}  & 1                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\textbf{o}  & 2                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\textbf{t}  & 3                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\textbf{e}  & 4                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\textbf{k}  & 5                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\hline
+	\end{tabular}
+	\caption{}
+	\label{tab_zad14}
+\end{table}

@@ -1,0 +1,180 @@
+\subsection{Zadanie 1 -- Struktura danych reprezentująca graf skierowany}
+
+\textbf{Treść:} Zaprojektuj strukturę danych reprezentującą graf skierowany o $n$ wierzchołkach i $m$ krawędziach, z
+następującymi operacjami:
+\begin{itemize}
+	\item dodanie krawędzi,
+	\item usunięcie krawędzi,
+	\item sprawdzenie istnienia krawędzi,
+	\item przejrzenie wszystkich krawędzi wychodzących z zadanego wierzchołka $v$,
+\end{itemize}
+która spełnia następujące wymagania:
+\begin{itemize}
+	\item[a)] Operacje na pojedynczej krawędzi w czasie $O(log n)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(deg+(v))^1$,
+	złożoność pamięciowa $O(m)$.
+	\item[b)] Dodawanie krawędzi w czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(deg+(v))$, złożoność
+	pamięciowa $O(m)$.
+	\item[c)] Operacje na pojedynczej krawędzi w czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(deg+(v))$.
+	\item[d)] Operacje na pojedynczej krawędzi w oczekiwanym czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie
+	$O(deg+(v))$, złożoność pamięciowa $O(m)$.
+\end{itemize}
+
+\textbf{Rozwiązanie}
+\begin{itemize}
+	\item[a)] Wystarczy zastosować reprezentację listową, w której 
+	listy zastępujemy drzewami zrównoważonymi (CC, AVL).
+	\item[b)] Lista nieuporządkowana dla każdego wierzchołka
+	\item[c)] Zastosować reprezentację macierzową, która przechowuje
+	referencję na node w liscie incydencji (mamy liste incydencji
+	gdzie sa wartosci i tablice referencji)
+	\item[d)] Tablica haszująca o $m$ elementach (haszowanie łańcuchowe)
+\end{itemize}
+
+\subsection{Zadanie 2 -- Nierekurencyjne przeszukiwanie w głąb (DFS)}
+\textbf{Treść: } Zaproponuj nierekurencyjną implementację
+przeszukiwania grafu w głąb.
+
+\textbf{Rozwiązanie:}
+Poniższy algorytm działa zarówno dla grafów skierowanych
+jak i prostych.
+
+\begin{algorithm}[H]
+	\caption{Rozwiązanie zadania 2}\label{Zadanie22a}
+	\begin{algorithmic}[1]
+		\Procedure{DFSNR($G$ - graf, $v$ - wierzchołek startowy)}{}
+		\State Zainicjalizuj stos (\textit{last in, first out}) $S$
+		\State Zainicjalizuj tablicę bool'i $T$ o $|V(G)|$ elementach wartością 
+		\textit{false}
+		\State $S$.Push(v)
+		\State $T[v] \gets$ \textit{false}
+		\While {$S$.IsEmpty() = \textit{false}}
+		\State $x \gets$ $S$.Pop()
+		\While {$y \in N(x)$}
+		\If {$T[y]$ = \textit{false}}
+		\State $S$.Push(y)
+		\State $T[y] \gets$ \textit{true} 
+		\EndIf
+		\EndWhile
+		\EndWhile
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\textbf{Wersja rekurencyjna:} Zakładamy, że dysponujemy globalną
+tablicą bool'i $T$ o $|V(G)|$ elementach zainicjowaną wartością 
+\textit{false}.
+
+\begin{algorithm}[H]
+	\caption{Algorytm przeszukiwania DFS - wersja rekurencyjna}\label{Zadanie22b}
+	\begin{algorithmic}[1]
+		\Procedure{DFS($G$ - graf, $v$ - wierzchołek startowy)}{}
+		\While{$x \in N(v)$}
+		\If {$T[x] = $ \textit{false} }
+		\State $T[x] \gets$ \textit{true}
+		\State DFS($G$, $x$)
+		\EndIf
+		\EndWhile
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Zadanie 3 -- Implementacja przeszukiwania wszerz (BFS)}
+
+\textbf{Treść: } Zaproponuj implementację
+przeszukiwania grafu wszerz.
+
+\textbf{Rozwiązanie:}
+Poniższy algorytm działa zarówno dla grafów skierowanych
+jak i prostych.
+
+\begin{algorithm}[H]
+	\caption{Rozwiązanie zadania 2}\label{Zadanie23}
+	\begin{algorithmic}[1]
+		\Procedure{BFS($G$ - graf, $v$ - wierzchołek startowy)}{}
+		\State Zainicjalizuj kolejkę (\textit{first in, first out}) $Q$
+		\State Zainicjalizuj tablicę bool'i $T$ o $|V(G)|$ elementach wartością 
+		\textit{false}
+		\State $Q$.PushBack(v)
+		\State $T[v] \gets$ \textit{false}
+		\While {$Q$.IsEmpty() $=$ \textit{false}}
+		\State $x \gets$ $Q$.PopFront()
+		\While {$y \in N(x)$}
+		\If {$T[y] =$  \textit{false}}
+		\State $Q$.PushBack(y)
+		\State $T[y] \gets$ \textit{true} 
+		\EndIf
+		\EndWhile
+		\EndWhile
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Zadanie 4 -- Szukanie liczby składowych spójności grafu}
+\textbf{Treść: } konstruuj algorytm znajdujący liczbę składowych 
+spójności zadanego grafu w czasie $O(m)$
+
+\textbf{Rozwiązanie: } Stosujemy BFS lub DFS z dowolnego 
+wierzchołka i zapisujemy odwiedzone wierzchołki (tablica bool).
+Jeżeli po wyszukiwaniu istnieje nieodwiedzony wierzchołek to 
+wykonujemy na nim BFS lub DFS ponownie. Powtarzamy aż
+wszystkie wierzchołki będą odwiedzone. 
+
+Liczba wywołań BFS lub DFS to liczba składowych w grafie $G$.
+
+\subsection{Zadanie 5 -- Sprawdzanie dwudzielności grafu}
+\textbf{Treść: } Skonstruuj algorytm sprawdzający, 
+czy zadany graf o m krawędziach jest dwudzielny, w czasie $O(m)$.
+
+\textbf{Rozwiązanie: } Zauważmy, najpierw, że 
+graf $G$ jest dwudzielny $\Leftrightarrow$ istnieje $2$-kolorowanie
+poprawne grafu $G$ (dowód w prawą stronę - kolorujemy 
+wierzchołki obu zbiorów dwudzielności na przeciwne kolory, dowód 
+w lewą stronę - kolorujemy poprawnym kolorowaniem, niebieskie
+wierzchołki wyznaczają jeden zbiór, a czerwone drugi zbiór dwudzielności). 
+
+Aby rozwiązać ten problem stosujemy kolorowanie 
+zachłanne z przeszukiwaniem BFS (dowód że to działa - to do). 
+Podczas wyszukiwania, wierzchołek od którego zaczynamy 
+wyszukiwanie kolorujemy 
+bez straty ogólności na czerwono, natomiast jego
+wszystkich sąsiadów na niebiesko.
+
+Powtarzamy wywołanie BFS tak długo aż nie będzie 
+wierzchołków niepokolorowanych.
+
+\subsection{Zadanie 6 -- Sortowanie topologiczne}
+\textbf{Treść: } Skonstruuj algorytm znajdujący 
+sortowanie topologiczne acyklicznego grafu skierowanego 
+o $m$ krawędziach w czasie $O(m)$. 
+Przez sortowanie topologiczne rozumiemy uporządkowanie 
+wierzchołków w taki sposób, że dla
+każdej krawędzi $uv$, wierzchołek $u$ znajduje się przed 
+wierzchołkiem $v$
+
+\textbf{Rozwiązanie:} Zakładamy, że dysponujemy globalną
+tablicą bool'i $T$ o $|V(G)|$ elementach zainicjowaną wartością 
+\textit{false}.
+
+Ponadto zakładamy, że mamy globalną listę $L$, w której 
+będą znajdować się posortowane wierzchołki.
+
+\begin{algorithm}[H]
+	\caption{Rozwiąznie zadania 5}
+	\begin{algorithmic}[1]
+		\Procedure{TSort($G$ - graf, $v$ - wierzchołek startowy)}{}
+		\While{$x \in N(v)$}
+		\If {$T[x] = $ \textit{false} }
+		\State $T[x] \gets$ \textit{true}
+		\State TSort($G$, $x$)
+		\EndIf
+		\EndWhile
+		\State $L$.PushFront(x)
+		\EndProcedure
+	\end{algorithmic}
+	\label{Zadanie26}
+\end{algorithm}
+
+\subsection{Zadanie 7 -- Szukanie cyklu Eulera}
+\textbf{Treść: } Skontruuj algorytm znajdujący cykl Eulera 
+w zadanym grafie o $m$ krawędziach w czasie $O(m)$.
+\textbf{Rozwiązanie: }

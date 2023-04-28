@@ -1,0 +1,165 @@
+\subsection{Zadanie 1 -- Algorytm Bellmana-Forda z odtwarzaniem ściezki}
+\textbf{Treść: }Zmodyfikuj algorytm Bellmana-Forda tak, 
+aby znajdował najkrótszą ścieżkę między zadanymi dwoma
+wierzchołkami.
+
+\textbf{Rozwiązanie: }
+
+\begin{algorithm}[H]
+	\caption{Algorytm Bellmana-Forda z odtwarzaniem ściezki}
+	\begin{algorithmic}[1]
+		\Procedure{BellmanFord(($G, w$), $s,x \in V(G)$))}{}
+		\State odległość = tablica liczb, rozmiaru $V[G]$
+		\State poprzednik = tablica wierzchołków, rozmiaru $V[G]$
+		\For{$v \in V(G)$}
+		\State odległość$[v]\gets\infty$
+		\State poprzednik$[v]\gets-1$
+		\EndFor
+		\State odległość$[s]\gets0$
+		\For{$i=1,2,\dots,n-1$}
+		\For{$uv \in E(G)$}
+		\If{odległość$[v] >$ odległość$[u]$ + $w(uv)$}
+		\State odległość$[v]\gets$ odległość$[u] + w(uv)$ 
+		\State poprzednik$[v]\gets u$
+		\EndIf
+		\EndFor
+		\EndFor
+		\State ścieżka = pusta lista wierzchołków
+		\State ściezka.PushFront(x)
+		\While{$x \gets \text{poprzednik}[x] \not = -1$}
+		\State ścieżka.PushFront(x)
+		\EndWhile
+		\State \Return ścieżka
+		\EndProcedure
+	\end{algorithmic}
+	\label{Zadanie31}
+\end{algorithm}
+\subsection{Zadanie 2 -- Szukanie ujemnego cyklu}
+\textbf{Treść: } Zaprojektuj algorytm, który znajdzie w 
+ważonym grafie skierowanym ujemny cykl, jeśli taki istnieje.
+Wskazówka: zmodyfikuj algorytm Bellmana-Forda
+
+\textbf{Rozwiązanie: }
+Rozwiązanie polega na sprawdzeniu, czy wykonanie
+jeszcze jednej nadmiarowej iteracji 
+w algorytmie Belmmana-Forda, oraz sprawdzenie
+czy pewien wierzchołek został poprawiony.
+
+Jeżeli poniższy warunek jest spełniony
+\[\exists_{v\in V(G)} \text{odległość}_n[v] < \text{odległość}_{n-1}[v],\]
+to w grafie $G$ musi istnieć ujemny cykl. Dzieje się 
+tak ponieważ zawsze istnieje co najmniej jedna krawędź 
+w cyklu ujemnym $C$, która spełnia warunek 
+\[\text{odległość}[v] > \text{odległość}[u] + w(uv),\]
+zatem będzie wtedy istniał wierzchołek, który zostanie 
+poprawiony.
+
+Jako, że graf wejściowy może być niespójny,
+musimy jeszcze dodać dodatkowy wierzchołek $s$, który
+będzie połączony z każdym innym wierzchołkiem
+przy pomocy krawędzi skierowanej. Jako
+że dodane krawędzie to krawędzie skierowane
+od wierzchołka $s$, możemy mieć pewność
+że żadne nowe cykle nie powstaną, a więc
+w szczególności nie powstaną nowe
+ujemne cykle.
+
+\begin{algorithm}[H]
+	\caption{Znajdowanie ujemnego cyklu}
+	\begin{algorithmic}[1]
+		\Procedure{BellmanFord(($G, w$)))}{}
+		\State $G'$ - graf $G$ z dodanym wierzchołkiem $s$
+		oraz krawędziami skierowanymi od $s$ do każdego innego
+		wierzchołka o wadze $0$
+		\State odległość = tablica liczb, rozmiaru $V[G']$
+		\For{$v \in V(G')$}
+		\State odległość$[v]\gets\infty$
+		\EndFor
+		\State odległość$[s]\gets0$
+		\For{$i=1,2,\dots,n-1$}
+		\For{$uv \in E(G')$}
+		\If{odległość$[v] >$ odległość$[u]$ + $w(uv)$}
+		\State odległość$[v]\gets$ odległość$[u] + w(uv)$ 
+		\EndIf
+		\EndFor
+		\EndFor
+		\For{$uv \in E(G')$}
+		\If{odległość$[v] >$ odległość$[u]$ + $w(uv)$}
+		\State return True
+		\EndIf
+		\EndFor
+		\State \Return False
+		\EndProcedure
+	\end{algorithmic}
+	\label{Zadanie32}
+\end{algorithm}
+
+\subsection{Zadanie 3 -- Szukanie liczby spacerów o zadanej liczbie krawędzi}
+\textbf{Treść: }
+Zaprojektuj algorytm, który dla danego grafu prostego 
+$G$, wierzchołków $u, v \in V(G)$ i liczby $k \in
+\{1, 2, \ldots , n\}$ znajdzie liczbę spacerów 
+od $u$ do $v$ o dokładnie $k$ krawędziach.
+
+\textbf{Rozwiązanie: }
+
+\subsection{Zadanie 4 -- Wyznaczanie odległości w drzewie ważonym}
+\textbf{Treść: } Zaprojektuj algorytm, ktory dla ważonego 
+acyklicznego grafu skierowanego $G$ oraz wierzchołków $s, t \in
+V(G)$ wyznaczy odległość od $s$ do $t$ w czasie $O(m)$. 
+Wskazówka: wykorzystaj sortowanie topologiczne (zadanie 1.5)
+
+\textbf{Rozwiązanie: }
+Dijkstra tylko, że zamiast kolejki $Q$ stosujemy
+sortowanie topologiczne (średnia złożoność $O(m)$), 
+po czym iter
+\begin{algorithm}[H]
+	\caption{Znajdowanie ujemnego cyklu}
+	\begin{algorithmic}[1]
+		\Procedure{FindDistanceInTree(($T, w$))}{}
+		\State Niech odległość to tablica liczb, rozmiaru $V[G]$
+		\State Niech kolejność to tablica liczb, rozmiaru $V[G]$, na
+		$i$-tej komórce znajduje się wierzchołek, który ma 
+		$i$-te miejsce w posortowanej topologicznie tablicy wierzchołków
+		\State kolejność $\gets$ TopologicalSort($T$)
+		\For{$i = 0, 1, \dots n - 1$}
+		\State $u \gets \text{kolejność}[i]$
+		\For{$v \in N(u)$}
+		\If {$\text{odległość}[u] + \omega(uv) < 
+			\text{odległość}[v]$}
+		\State $\text{odległość}[v] = \text{odległość}[u] + \omega(uv)$
+		\EndIf
+		\EndFor 
+		\EndFor
+		\State \Return False
+		\EndProcedure
+	\end{algorithmic}
+	\label{Zadanie34}
+\end{algorithm}
+
+\subsection{Zadanie 5 -- Naiwna wersja algorytmu A\texorpdfstring{$^*$}{TEXT}}
+\textbf{Treść: } Znajdź przykład, dla 
+którego algorytm A$^*$ nie zadziała zgodnie z oczekiwaniami, 
+w którym spełnione
+są wszystkie założenia 
+poza 
+"dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + \text{waga}(uv)$".
+\textbf{Rozwiązanie: }
+
+\subsection{Zadanie 6 -- Poprawność algorytmu A\texorpdfstring{$^*$}{TEXT}}
+\textbf{Treść: } Udowodnij poprawność algorytmu 
+A$^*$ i wskaż, w których miejscach wykorzystywane są jego założenia.
+Wskazówka: zainspiruj się dowodem poprawności algorytmu Dijkstry.
+\textbf{Rozwiązanie: } Dowód twierdzenia \ref{aStar_proof}.
+
+\subsection{Zadanie 7 -- Poprawność algorytmu Floyda-Warshalla}
+\textbf{Treść:} Udowodnij poprawność algorytmu Floyda-Warshalla. 
+Wskazówka: niech 
+$d^{(m)}(i, j)$ będzie długością
+najkrótszej ścieżki od $i$ do $j$, której wewnętrzne wierzchołki należą
+do zbioru $\{0, 1, 2, . . . , m - 1\}$; 
+udowodnij, że po $l$
+iteracjach zewnętrznej pętli dla każdych $i, j \in V (G)$ zachodzi 
+odległość$[i, j] \leq d^{(l)}(i, j)$.
+
+\textbf{Rozwiązanie:} Dowód twierdzenia \ref{floydWarshall_proof}.
