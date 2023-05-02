@@ -52,7 +52,7 @@ $N = 9$. Tablica prezentuje się wtedy tak jak poniżej.
 		\For{$i = 1, 2 \dots |S| - 1$}
 		\For{$j = 0, 1, 2 \dots N$}
 		\If{$T[i - 1, j] = $ \textit{True}}
-		\State $T[i, j] \gets \text{True}$
+		\State $T[i, j] \gets \textit{True}$
 		\If{$j + s_j \leq N$}
 		\State $T[i, j + s_j] \gets$ \textit{True}
 		\EndIf
@@ -88,7 +88,7 @@ nastepujących podproblemów:
 to jesteśmy w stanie znaleźć $C$
 w następujący sposób: jeżeli $a_n = b_m$, to rozwiązaniem 
 jest podciąg $C_3$ z dodatkowym elementem $a_n$, w przeciwnym przypadku
-rozwiązaniem musi być większy z ciągów $C_1$ oraz $C_2$ ($\bigstar$). 
+rozwiązaniem musi być większy z ciągów $C_1$ oraz $C_2$ ($\ast$). 
 
 Aby zaimplementować to rozumowanie, zastosujemy tablicę dwuwymiarową $T$ 
 (indeksujemy od 0)
@@ -101,7 +101,7 @@ $a_1, a_2, \dots, a_i$ oraz $b_1, b_2, \dots, b_j$.
 
 Dla przykładu 
 jeśli $A = $ „abcdef” i  $B = $ „eacgd”, to tablica 
-wygląda tak jak tabela nr. \ref{tab_zad12}.
+wygląda tak jak tabela \ref{tab_zad12}.
 
 
 \begin{table}[H]
@@ -109,12 +109,12 @@ wygląda tak jak tabela nr. \ref{tab_zad12}.
 	\begin{tabular}{|l|lllllll|}
 		\hline
 		& \multicolumn{1}{l|}{\textbf{""}} & \multicolumn{1}{l|}{\textbf{a}} & \multicolumn{1}{l|}{\textbf{b}} & \multicolumn{1}{l|}{\textbf{c}} & \multicolumn{1}{l|}{\textbf{d}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{f}} \\ \hline
-		\textbf{""} & 0                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{e}  & 0                                & 0                               & 0                               & 0                               & 0                               & 1                               & 1                               \\ \cline{1-1}
-		\textbf{a}  & 0                                & 1                               & 1                               & 1                               & 1                               & 1                               & 1                               \\ \cline{1-1}
-		\textbf{c}  & 0                                & 1                               & 1                               & 2                               & 2                               & 2                               & 2                               \\ \cline{1-1}
-		\textbf{g}  & 0                                & 1                               & 1                               & 2                               & 2                               & 2                               & 2                               \\ \cline{1-1}
-		\textbf{d}  & 0                                & 2                               & 2                               & 2                               & 3                               & 3                               & 3                               \\ \cline{1-1}
+		\textbf{""} & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \cline{1-1}
+		\textbf{e}  & 0 & 0 & 0 & 0 & 0 & 1 & 1 \\ \cline{1-1}
+		\textbf{a}  & 0 & 1 & 1 & 1 & 1 & 1 & 1 \\ \cline{1-1}
+		\textbf{c}  & 0 & 1 & 1 & 2 & 2 & 2 & 2 \\ \cline{1-1}
+		\textbf{g}  & 0 & 1 & 1 & 2 & 2 & 2 & 2 \\ \cline{1-1}
+		\textbf{d}  & 0 & 2 & 2 & 2 & 3 & 3 & 3 \\ \cline{1-1}
 		\hline
 	\end{tabular}
 	\caption{}
@@ -124,7 +124,7 @@ wygląda tak jak tabela nr. \ref{tab_zad12}.
 Na początku zerową kolumnę oraz zerowy wiersz tablicy $T$
 wypełniamy zerami. W każdym kroku algorytmu, wypełniając $T[i, j]$
 ($i \in \{0,1, \dots, n\}$, $j \in \{0,1, \dots, m\}$)
-będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg. ($\bigstar$).
+będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg ($\ast$).
 
 
 \begin{algorithm}[H]
@@ -171,7 +171,7 @@ edycyjną dwóch zadanych napisów.
 \textbf{Rozwiązanie:}
 Na początek warto wspomnieć, że dodanie jeszcze jednej operacji - 
 zamiany znaków z dwóch różnych słów powoduje powstanie metryki
-którą nazywamy odległością Levenshtein'a.
+którą nazywamy odległością Levensteina.
 
 Rozważmy najpierw naiwne podejście rekurencyjne: badamy 
 oba napisy od tyłu, oznaczmy $m$ jako długość napisu $x$
@@ -187,15 +187,15 @@ oraz $n$ jako długość napisu $y$.
 \end{itemize}
 
 
-Podejście programowania dynamicznego: Tworzymy tablicę $T[,]$ o
-$m + 1$ kolumnach oraz $n + 1$ wierszach
-gdzie kolumny oznaczają kolejne litery napisu $x$ a
+Podejście programowania dynamicznego: Tworzymy tablicę $T[\,,]$ o
+$m + 1$ kolumnach oraz $n + 1$ wierszach,
+gdzie kolumny oznaczają kolejne litery napisu $x$, a
 wiersze kolejne litery napisu $y$. 
 $T[i, j]$ będzie oznaczało odległość podnapisów:
 $i$-elementowego podnapisu $x$ licząc od początku oraz 
 $j$-elementowego podnapisu $y$ licząc od początku.
 
-Wtedy możemy wypełniać od lewego górnego rogu tablicy.. to do
+Wtedy możemy wypełniać od lewego górnego rogu tablicy.. \textbf{TO DO}
 
 
 Przykład: rozważmy dwa napisy $x =$ \textit{piesek} oraz $y =$ \textit{kotek}.

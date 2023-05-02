@@ -46,7 +46,7 @@ w algorytmie Belmmana-Forda, oraz sprawdzenie
 czy pewien wierzchołek został poprawiony.
 
 Jeżeli poniższy warunek jest spełniony
-\[\exists_{v\in V(G)} \text{odległość}_n[v] < \text{odległość}_{n-1}[v],\]
+\[\exists_{v\in V(G)}\quad \text{odległość}_n[v] < \text{odległość}_{n-1}[v],\]
 to w grafie $G$ musi istnieć ujemny cykl. Dzieje się 
 tak ponieważ zawsze istnieje co najmniej jedna krawędź 
 w cyklu ujemnym $C$, która spełnia warunek 
@@ -67,7 +67,7 @@ ujemne cykle.
 \begin{algorithm}[H]
 	\caption{Znajdowanie ujemnego cyklu}
 	\begin{algorithmic}[1]
-		\Procedure{BellmanFord(($G, w$)))}{}
+		\Procedure{BellmanFord(($G, w$): graf ważony)}{}
 		\State $G'$ - graf $G$ z dodanym wierzchołkiem $s$
 		oraz krawędziami skierowanymi od $s$ do każdego innego
 		wierzchołka o wadze $0$
@@ -143,7 +143,7 @@ którego algorytm A$^*$ nie zadziała zgodnie z oczekiwaniami,
 w którym spełnione
 są wszystkie założenia 
 poza 
-"dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + \text{waga}(uv)$".
+,,dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + \text{waga}(uv)$''.
 \textbf{Rozwiązanie: }
 
 \subsection{Zadanie 6 -- Poprawność algorytmu A\texorpdfstring{$^*$}{TEXT}}

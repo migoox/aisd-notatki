@@ -5,7 +5,7 @@
 \subsection{Problem najkrótszej ściezki w grafach ważonych}
 
 W tym rozdziale poprzez \textit{spacer} będziemy rozumieli dowolny
-ciąg wierzchołków $v_0$, $v_1$, $\dots$ $v_{n}$, w 
+ciąg wierzchołków $v_0$, $v_1$, $\dots$, $v_{n}$, w 
 którym dla każdego $i \in \{0, 1, n-1\}$,
 istnieje krawędź (może być skierowana)
 $v_iv_{i+1}$. Poprzez \textit{ścieżkę}
@@ -15,7 +15,7 @@ będziemy rozumieli dowolny spacer, w którym
 \begin{lemma}
 	Niech $(G,\omega)$ będzie skierowanym grafem ważonym 
 	bez ujemnych cykli oraz niech $u,v \in V(G)$ będą
-	takie, że $u \not = v$. Wtedy
+	takie, że $u \neq v$. Wtedy
 	każdy spacer od $u$ do $v$ ma wagę nie 
 	mniejszą niż waga
 	najkrótszej ścieżki od $u$ do $v$.
@@ -80,8 +80,8 @@ będziemy rozumieli dowolny spacer, w którym
 \subsubsection{Algorytm Bellmana-Forda}
 Algorytm Bellmana-Forda służy do znajdowania 
 najkrótszej ścieżki w grafie skierowanym ważonym $(G, w)$,
-\underline{nieposiadającym cykli o ujemnej długości}, przy 
-\underline{dowolnych wagach krawędzi}, 
+\ul{nieposiadającym cykli o ujemnej długości}, przy 
+\ul{dowolnych wagach krawędzi}, % może textit zamiast ul?
 z wierzchołka startowego $s \in V(G)$
 do dowolnego osiągalnego wierzchołka.
 
@@ -116,8 +116,8 @@ gęstych lub dla dowolnych grafów
 zareprezentowanych z użyciem reprezentacji macierzowej, co wynika
 z potrzeby przejścia po całej macierzy sąsiedztwa w pętli w linii nr. 7.
 
-\begin{theorem}
-	(Poprawność algorytmu Bellmana-Forda) Jeśli
+\begin{theorem}[Poprawność algorytmu Bellmana-Forda]
+	Jeśli
 	$(G, w)$ jest ważonym grafem skierowanym
 	bez ujemnych cykli oraz
 	$s \in V(G)$, to algorytm \ref{bellman_ford}
@@ -239,7 +239,7 @@ z potrzeby przejścia po całej macierzy sąsiedztwa w pętli w linii nr. 7.
 Algorytm Dijkstry stanowi algernatywę do algorytmu
 Bellmana-Forda, pod warunkiem, że graf wejściowy
 jest grafem (skierowanym) ważonym $(G, \omega)$, 
-gdzie każda krawędź ma \underline{nieujemną} wagę. 
+gdzie każda krawędź ma \ul{nieujemną} wagę. 
 Tak samo jak algorytm Belmmana-Forda, 
 Algorytm Dijkstry znajduje wszystkie ścieżki 
 do osiągalnych wierzchołków z 
@@ -303,7 +303,7 @@ możemy rozbudować o zwracanie ścieżek.
 Zakładając, że kolejka priorytetowa jest oparata na kopcach 
 Fibonacciego otrzymujemy złożoność $O(n\log n + m)$. 
 
-\begin{theorem}{(Poprawność algorytmu Dijkstry).}
+\begin{theorem}[Poprawność algorytmu Dijkstry]
 	Jeśli $(G, \omega)$ jest ważonym grafem (skierowanym)
 	bez ujemnych wag krawędzi, wówczas algorytm Dijkstry,
 	dla danych $(G, \omega)$ i dowolnego $s \in V(G)$, 
@@ -321,7 +321,7 @@ Fibonacciego otrzymujemy złożoność $O(n\log n + m)$.
 		Poprawność algorytmu wyniknie z poniższego niezmiennika.
 		
 		\textbf{Niezmiennik: } Na początku oraz po 
-		każdej iteracji pętli w linii nr. 8 prawdziwe są 
+		każdej iteracji pętli w linii nr 8 prawdziwe są 
 		następujące własności:
 		\begin{itemize}
 			\item[(a)] Dla każdego wierzchołka $w \not \in Q$
@@ -333,7 +333,7 @@ Fibonacciego otrzymujemy złożoność $O(n\log n + m)$.
 			w $Q$ 
 		\end{itemize}
 		\textbf{Dowód niezmiennika: } Indukcja po iteracjach
-		pętli w linii nr. 8.
+		pętli w linii nr 8.
 		
 		Warunki (a), (b) są spełnione przed pierwszą iteracją
 		pętli, ponieważ, $Q$
@@ -438,8 +438,10 @@ na odległość od $v$ do $t$. Założenia danych wejściowych są następujące
 	\item dla każdego wierzchołka $v$ zachodzi $h(v) \leq \text{dist}(v, t)$,
 	\item dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + \omega(uv)$ (warunek zgodności).
 \end{itemize}
-Ideą algorytmu jest przeszukiwanie wierzchołków $v$ w kolejności 
-rosnącego $\text{dist}(s,v) + h(v)$.
+Dla grafu, którego wierzchołkami są miasta na mapie, a wagami krawędzi odległości drogowe, przykładem heurystyki spełniającej powyższe założenia jest odległość miast w linii prostej.
+
+ Ideą algorytmu jest przeszukiwanie wierzchołków $v$ w kolejności 
+rosnącego $\text{dist}(s,v) + h(v)$. 
 
 \begin{algorithm}[H]
 	\caption{Algorytm A*}
@@ -490,7 +492,7 @@ mniejszej długości niż odległość euklidesowa, oba warunki
 heurystyki są spełnione.
 
 \begin{theorem}
-	(Poprawność algorytmu A$^*$) Jeśli
+	[Poprawność algorytmu A$^*$] Jeśli
 	$(G, w)$ jest ważonym grafem skierowanym
 	z wagami nieujemnymi,
 	$s,t \in V(G)$, oraz heurystyka $h(v)$
@@ -503,19 +505,19 @@ heurystyki są spełnione.
 	poprawnie rozwiązuje problem najkrótszej ścieżki
 	pomiędzy wierzchołkami $s$ i $t$.
 	\begin{proof}
-		to do (nie obowiązuje na kolokwium)
+		\textbf{to do} (nie obowiązuje na kolokwium)
 	\end{proof}
 	\label{aStar_proof}
 \end{theorem}
 
 \subsubsection{Algorytm Johnsona}
 Algorytmy Johnsona jak i Floyda-Warshalla 
-różnią się od poprzedników, tym, że
+różnią się od poprzedników tym, że
 ścieżki znajdowane są pomiędzy każdą parą
 wierzchołków z tego grafu.
 
 Algorytm Johnsona opiera się na sprytnym wykorzystaniu
-algorytmu Belmmana-Forda oraz algorytmu Dijkstry. Na 
+algorytmu Bellmana-Forda oraz algorytmu Dijkstry. Na 
 wejściu przyjmowane są grafy (skierowane) o dowolnych
 wagach, bez cyklów o ujemnej długości. Ideą tego
 algorytmu jest skonstruowanie równoważnego 
@@ -525,8 +527,8 @@ w celu zastosowania algorytmu Dijsktry.
 W tym miejscu warto zaznaczyć, że skonstruowanie takiego
 grafu nie może odbyć się przez zwyczajne dodanie
 do wagi każdej krawędzi, wartości $|\min_{v \in V(G)}{\omega(v)}|$. 
-Na rysunku (\ref{fig:kontrprzyklad_johnson})
-znajduje się kontrprzykład - w grafie wejściowym
+Rysunku \ref{fig:kontrprzyklad_johnson}.
+przedstawia kontrprzykład -- w grafie wejściowym
 optymalna $s$-$u$-ścieżka to $svwu$, natomiast
 w grafie wyjściowym, otrzymanym po dodaniu
 $|\min_{v \in V(G)}{\omega(v)}| = 15$ do każdej 
@@ -588,7 +590,7 @@ Fibonacciego otrzymujemy złożoność $O(n^2\log n + nm)$. Algorytm
 ten jest szybszy niż później omawiany 
 algorytm Floyda-Warshalla, dla graów rzadkich. 
 
-\begin{theorem}{(Poprawność algorytmu Johnsona)}
+\begin{theorem}[Poprawność algorytmu Johnsona]
 	Jeśli $(G, \omega)$ jest ważonym grafem skierowanym
 	bez ujemnych cykli, to algorytm Johnsona dla 
 	danych wejściowych $(G, \omega)$ poprawnie
@@ -599,6 +601,7 @@ algorytm Floyda-Warshalla, dla graów rzadkich.
 		Przez $dist_\chi(u, v)$ oznaczmy wagę minimalnej ścieżki
 		z wierzchołka $u$ do $v$ przy ważeniu $\chi$ domyślając się, 
 		że chodzi o graf $G$ lub $G'$ w zależności od dziedziny $\chi$.
+		% niezrozumiałe XD
 		
 		Aby wykazać poprawność aglorytmu Johnsona 
 		musimy udowodnić poniższe obserwacje:
@@ -671,7 +674,7 @@ algorytm Floyda-Warshalla, dla graów rzadkich.
 		\[dist_{\omega}(u, v) = dist_{\omega''}(u, v) - h(u) + h(v).\]
 		
 		Obserwacje 1, 2 i 4 implikują, że tablica odległości zostanie
-		wypełniona poprawnie. Jako, że algorytm na pewno zakończy pracę
+		wypełniona poprawnie. Jako że algorytm na pewno zakończy pracę,
 		dowód poprawności jest kompletny.
 	\end{proof} 
 \end{theorem}
@@ -711,7 +714,7 @@ algorytm Floyda-Warshalla, dla graów rzadkich.
 
 Złożoność powyższego algorytmu to $O(n^3)$.
 
-\begin{theorem}{(Poprawność algorytmu Floyda-Warshalla)}
+\begin{theorem}[Poprawność algorytmu Floyda-Warshalla]
 	Jeśli $(G, \omega)$ jest ważonym grafem skierowanym
 	bez ujemnych cykli, to algorytm Floyda-Warshalla dla 
 	danych wejściowych $(G, \omega)$ poprawnie
