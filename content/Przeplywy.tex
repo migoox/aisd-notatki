@@ -272,6 +272,104 @@ algorytm zakończy się w czasie wielomianowym.
 	\end{proof}
 \end{theorem}
 
+\subsubsection{Algorytm Dinic'a}
+Za pomocą algorytmu Edmondsa-Karpa udało się uzyskać złożoność 
+pesymistyczną $O(nm^2)$. Zauważmy jednak, że każde wywołanie 
+BFS w celu znalezienia najkrótszej względem liczby krawędzi 
+$s$-$t$-ściezki w sieci rezydualnej $R$, skutkuje znalezieniem 
+wszystkich najkrótszych $s$-$t$-ścieżek, pomimo tego algorytm
+Edmondsa-Karpa nasyca tylko jedną z nich, co oznacza, że
+BFS może zostać wywołany w celu znalezienia ścieżek,
+które były już wcześniej znalezione.
+
+Algorytm Dinic'a po każdym wywołaniu BFS, nasyca wszystkie możliwe najkrótsze ścieżki a nie tylko jedną
+tak jak w przypadku algorytmu Edmondsa-Karpa, co pozwala na 
+osiągnięcie złożoności pesymistycznej $O(n^2m)$. Przepływ w $R$, który nasyca każdą taką ścieżkę
+będziemy nazywali \textit{przepływem blokującym}.
+
+\begin{defi}[Przepływ blokujący]
+	Niech $R$ będzie siecią rezydualną dla pewnej sieci przepływowej
+	$(G, c, s, t)$ oraz przepływu $f$. Niech $d$ będzie odległością w sensie
+	liczby krawędzi od $s$ do $t$ w $R$.
+	
+	Przez przepływ blokujący w $R$ rozumiemy przepływ $b$ w sieci
+	$(R, c_f, s, t)$, taki, że każda ścieżka od $s$ do $t$ 
+	w $b$ ma dokładnie $d$ krawędzi oraz dla każdej ścieżki o $d$ 
+	krawędziach od $s$ do $t$ w $R$, przynajmniej jedna krawędź tej ścieżki
+	jest nasycona przez $b$.
+\end{defi}
+
+\begin{algorithm}[H]
+	\caption{Algorytm Dinic'a}
+	\begin{algorithmic}[1]
+		\Procedure{Dinic($G, w$, $s$, $t$)}{}
+		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
+		\State Utwórz sieć rezydualną $(R, c_f)$ dla wejściowej 
+		sieci przepływowej oraz dla $f$ 
+		\While{Istnieje ścieżka powiększająca w $R$}
+		\State Znajdź przepływ blokujący $b$ w sieci $(R, c_f, s, t)$
+		\State Powiększ $f$ o $b$
+		\State Uaktualnij $(R, c_f)$
+		\EndWhile
+		\State \Return $f$
+		\EndProcedure
+	\end{algorithmic}
+	\label{dinic_alg}
+\end{algorithm}
+
+Aby powyższy algorytm był kompletny, musimy jeszcze pokazać jak znaleźć przepływ blokujący.
+
+Wprowadźmy pojęcie \textit{sieci warstwowej}, która będzie
+oznaczała drzewo najkrótszych ścieżek.
+\begin{defi}[Sieć warstwowa]
+	Siecią warstwową $\overline{R}$ dla sieci rezydualnej $R$
+	definiujemy jako graf skierowany $\overline{R} = (V(R), \overline{E})$, gdzie
+	\[\overline{E}=\{uv : uv \in E(R) \land \text{dist}(s, u)  + 1 = \text{dist}(s, v)\}.\]
+\end{defi}
+
+Znajdowanie przepływu blokującego odbywa się w dwóch etapach -- najpierw
+wywołujemy BFS w celu znalezienia sieci warstwowej,
+a następnie korzystając z wywołania DFS, konstruujemy
+przepływ blokujący.
+
+\begin{algorithm}[H]
+	\caption{Znajdowanie przepływu blokującego}
+	\begin{algorithmic}[1]
+		\Procedure{FindBlockingFlow($R, c_f, s, t$)}{}
+		\State $\overline{R} \gets$ FindLayerGraph($R$, $c_f$, $s$, $t$)
+		\State Niech $b$ to zerowy przepływ w sieci $(R, c_f, s, t)$
+		\State Niech Min to tablica o $|V(\overline{R})|$ elementach, 
+		dla każdego wierzchołka $v$ przechowywana będzie liczba całkowita,
+		oznaczająca ile jednostek możemy przesłać $s$-$v$-ścieżką 
+		\State Min$[s] = \infty$
+		\State Niech Visited to tablica booli o $|V(\overline{R})|$ elementach
+		\State Niech $P$ oznacza aktualną ścieżkę
+		\Procedure{EdgeDFS}{$u$, $v$}
+		\State Min = $\min\{c_f(uv) - b(uv), \text{Min}[u]\}$
+		\If{$v = t$}
+		\For{$xy \in P$}
+		\State $b(xy) = b(xy) + \text{Min}[t]$
+		\State $\text{Min}[x] = \text{Min}[x] - \text{Min}[t]$
+		\EndFor
+		\EndIf
+		\For{$x \in N(v)$}
+		\If{Visited$[x]=$ \textit{false}}
+		\State Visited$[x]=$ \textit{true} 
+		\State $P$.PushBack($v$)
+		\State EdgeDFS($v$, $x$)
+		\State $P$.PopBack()
+		\EndIf
+		\EndFor
+		\EndProcedure
+		\For{$v \in N(s)$}
+		\State EdgeDFS($s$, $v$)
+		\EndFor
+		\State \Return $b$
+		\EndProcedure
+	\end{algorithmic}
+	\label{layer_graph_alg}
+\end{algorithm}
+
 \subsection{Problem MinCostMaxFlow}
 \textbf{Dane:}
 \begin{itemize}
