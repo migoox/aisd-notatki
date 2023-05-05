@@ -43,6 +43,8 @@
 \usepackage{algorithm}
 \usepackage{algorithmicx} % algorithms, pseudocode
 \usepackage[noend]{algpseudocode} % algorithms, pseudocode
+\usepackage{soul} % better underline (ul)
+\setul{2pt}{.4pt} % set underline to be 2pt below contents
 
 \usepackage{listings}
 \usepackage{xcolor}
@@ -52,6 +54,11 @@
     basicstyle=\footnotesize,% basic font setting
 }
 \input{insbox} % Floating box tex macro
+
+% change algorithm label
+\makeatletter
+\renewcommand{\ALG@name}{Algorytm}
+\makeatother
 
 \makeatletter
 \def\BState{\State\hskip-\ALG@thistlm}
@@ -146,6 +153,7 @@
 \newcommand\Q{\ensuremath{\mathbb{Q}}}
 \newcommand\C{\ensuremath{\mathbb{C}}}
 \renewcommand\d{\ensuremath{\mathrm{d}}}
+\newcommand{\val}[0]{\mathrm{val}}
 
 % force \limits after \lim, old lim available as \svlim
 \let\svlim\lim\def\lim{\svlim\limits}

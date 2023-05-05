@@ -4,7 +4,7 @@
 	z funkcją wag $c: E(G) \to 
 	\mathbb{R}_{\geq 0} \cup \{\infty\}$ oraz
 	wyróżnionymi wierzchołkami $s$ i $t$. Mówimy, że
-	\begin{itemize}
+	\begin{itemize}[noitemsep, nolistsep]
 		\item $c(e)$ to przepustowość krawędzi $e \in E(G)$,
 		\item $s$ to źródło (ang. source),
 		\item $t$ to ujście (ang. target).
@@ -25,7 +25,7 @@
 
 \begin{defi}
 	Wartością przepływu nazywamy różnicę 
-	$\text{val}(f)=f^+(s)-f^-(s)$.
+	$\val(f)=f^+(s)-f^-(s)$.
 \end{defi}
 
 \subsection{Problem maksymalnego przepływu}
@@ -48,8 +48,8 @@ o maksymalnej możliwej wartości $\text{val}(f)$.
 
 Intuicyjnie $c_f(uw)$ możemy
 rozumieć jako określenie ile jednostek przepływu 
-jesteśmy w stanie "przepuścić" z $u$ do $w$, co
-możemy osiągnąć albo zwiększając przepływ na krawędzi $uw$
+jesteśmy w stanie ,,przepuścić'' z $u$ do $w$, co
+możemy osiągnąć albo zwiększając przepływ na krawędzi $uw$,
 albo zmniejszając przepływ na krawędzi $wu$.
 
 Warto zauważyć, że w sieci rezydualnej rozpatrujemy tylko te 
@@ -70,7 +70,7 @@ $\min\limits_{uw \in E(P)} \{c_f(uw)\}$.
 \begin{algorithm}[H]
 	\caption{Algorytm Forda-Fulkersona}\label{ford-fulker_alg}
 	\begin{algorithmic}[1]
-		\Procedure{FordFulkerson($G, w$, $s$, $t$)}{}
+		\Procedure{FordFulkerson($(G, w)$, $s$, $t$)}{}
 		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
 		\State Utwórz sieć rezydualną $(R, c_f)$ dla wejściowej 
 		sieci przepływowej oraz dla $f$ 
@@ -86,7 +86,7 @@ $\min\limits_{uw \in E(P)} \{c_f(uw)\}$.
 \end{algorithm}
 
 \begin{theorem}
-	(Twierdzenie Forda-Fulkersona) Przepływ ma maksymalną wartość wtedy i tylko 
+	[Twierdzenie Forda-Fulkersona] Przepływ ma maksymalną wartość wtedy i tylko 
 	wtedy, gdy nie istnieje ścieżka powiększająca.
 	\begin{proof}
 		MD2
@@ -113,7 +113,7 @@ algorytmu Forda-Fulkersona tylko tym, że
 w pętli while operujemy na najkrótszej ścieżce powiększającej
 zamiast na dowolnej.
 
-Okazuje, się że taka modyfikacja daje nam gwarancję, że
+Taka modyfikacja daje nam gwarancję, że
 algorytm zakończy się w czasie wielomianowym.
 
 \begin{algorithm}[H]
@@ -150,7 +150,7 @@ algorytm zakończy się w czasie wielomianowym.
 		Niech $P_1, P_2, \dots P_k$ to wszystkie najkrótsze
 		$s$-$v$-ścieżki w sieci rezydualnej odpowiadającej przepływowi
 		$f$, wtedy 
-		\[L_f := |\bigcup_{i \in [k]} E(P_i)|.\]
+		\[L_f := \left|\bigcup_{i \in [k]} E(P_i)\right|.\]
 		
 		\textbf{Stwierdzenie 1:} Niech $f$ będzie przepływem przed
 		pewną iteracją pętli w linii nr. 4, a $f'$ przepływem 
@@ -186,12 +186,12 @@ algorytm zakończy się w czasie wielomianowym.
 			
 			\item[2.] Krawędź $wv$ nie należy do sieci rezydualnej 
 			odpowiadającej
-			przepływowi $f$, tzn. $c_f(wv) = 0 \Rightarrow c(wv) = f(wv)$.
+			przepływowi $f$, tzn. $c_f(wv) = 0 \implies c(wv) = f(wv)$.
 			Skoro  $c_{f'}(wv) > 0$, to oznacza, że przepływ na
 			krawędzi $wv$ podczas wykonywania się iteracji zmienił się, 
 			co w połączeniu z faktem, że  $c_f(wv) = 0$
 			implikuje, że krawędź $vw$ musiała być częścią ścieżki 
-			powiększającej wybranej w linii nr. 5 w tej iteracji.
+			powiększającej wybranej w linii nr 5 w tej iteracji.
 			Zatem 
 			\[d_f(s, w) = d_f(s, v) + 1,\]
 			co doprowadza nas do 
@@ -211,28 +211,28 @@ algorytm zakończy się w czasie wielomianowym.
 		\textbf{Dowód stwierdzenia 2:} Najpierw pokażemy, że
 		każda krawędź licząca się do $L_{f'}$, musi zaliczać się
 		również do $L_f$. W tym celu rozważmy pewną najkrótszą (względem
-		liczby krawędzi) ścieżkę $P' = \omega_0 \omega_1 \dots \omega_k$,
+		liczby krawędzi) ścieżkę $P' = w_0 w_1 \dots w_k$,
 		w sieci rezydualnej dla $f'$,
-		gdzie $s = \omega_0$, $t = \omega_k$ oraz $k = d_{f'}(s, t)$.
+		gdzie $s = w_0$, $t = w_k$ oraz $k = d_{f'}(s, t)$.
 		Rozważmy odległości kolejnych wierzchołków na ścieżce 
 		od $s$ w sieci rezydualnej dla $f$. 
 		
-		Rozważmy dwa przypadki dla krawędzi $\omega_i \omega_{i+1}$:
+		Rozważmy dwa przypadki dla krawędzi $w_i w_{i+1}$:
 		\begin{itemize}
-			\item[1.] Krawędź $\omega_i \omega_{i+1}$ była obecna w sieci rezydualnej
+			\item[1.] Krawędź $w_i w_{i+1}$ była obecna w sieci rezydualnej
 			dla przepływu $f$, wtedy musi zachodzić 
-			\[d_f(\omega_{i+1}) \leq d_f(\omega_{i}) + 1.\]
-			\item[2.] Krawędź $\omega_i \omega_{i+1}$ nie była obecna w sieci rezydualnej
+			\[d_f(w_{i+1}) \leq d_f(w_{i}) + 1.\]
+			\item[2.] Krawędź $w_i w_{i+1}$ nie była obecna w sieci rezydualnej
 			dla przepływu $f$, wtedy musi zachodzić
-			\[d_f(\omega_{i+1}) \leq d_f(\omega_{i}) - 1,\]
-			ponieważ krawędź $\omega_i \omega_{i+1}$ została dodana
+			\[d_f(w_{i+1}) \leq d_f(w_{i}) - 1,\]
+			ponieważ krawędź $w_i w_{i+1}$ została dodana
 			do sieci rezydualnej $f'$ wskutek powiększenia przepływu
 			wzdłuż ścieżki $P$ wybranej w linii nr. 5.
 		\end{itemize}
 		
 		Kumulując powyższe przypadki, otrzymamy
-		\[d_{f}(s, t) \leq d_{f}(s, \omega_{k-1}) \pm 1 \leq
-		(d_{f}(s, \omega_{k-2}) \pm 1) \pm 1 \leq \ldots \leq A - B,\]
+		\[d_{f}(s, t) \leq d_{f}(s, w_{k-1}) \pm 1 \leq
+		(d_{f}(s, w_{k-2}) \pm 1) \pm 1 \leq \ldots \leq A - B,\]
 		gdzie $A$ oznacza liczbę wystąpień przypadku 1., z kolei
 		$B$ - liczbę wystąpień przypadku 2. Ale z założenia 
 		$d_{f'}(s,t)=d_f(s,t)$, więc ścieżka $P'$ ma dokładnie $d_f(s,t)$
@@ -264,10 +264,10 @@ algorytm zakończy się w czasie wielomianowym.
 		
 		W pesymistycznym przypadku mamy $n-1$ $s$-$t$-ścieżek oraz 
 		pesymistycznie usuwamy dokładnie jedną krawędź w każdej iteracji
-		co ostatecznie daje nam nie więcej niż $nm$ wywołań pętli w nr. 4.
+		co ostatecznie daje nam nie więcej niż $nm$ wywołań pętli w nr 4.
 		Ponadto w każdej iteracji wywołujemy BFS w celu znalezienia najkrótszej
 		ścieżki, z kosztem $O(m)$. Zatem złożoność algorytmu Edmondsa-Karpa
-		to $O(nm^2)$.
+		to $O(nm^2)$. \textbf{TODO Marcin:} \textit{Wytłumaczyć to inaczej}
 		
 	\end{proof}
 \end{theorem}
@@ -407,7 +407,7 @@ krawędzi $uw$ lub $wu$, przyjmujemy, że operujemy na grafach,
 w których takie sytuacje nie występują.
 
 \begin{theorem}
-	(Twierdzenie o minimalnym koszcie) Niech $f$ będzie
+	[Twierdzenie o minimalnym koszcie] Niech $f$ będzie
 	maksymalnym przepływem w sieci $(G, c, s, t)$ z funkcją 
 	kosztu $k$. Wówczas $f$ jest maksymalnym przepływem 
 	o minimalnym koszcie wtedy i tylko wtedy, gdy 
@@ -430,8 +430,8 @@ w których takie sytuacje nie występują.
 		przepływ $f'$, taki, że, dla każdego
 		$e \in E(G)$
 		\[f'(e) = \begin{cases} 
-			f(e) + a, \text{jeśli } e \in C \\
-			f(e), \text{jeśli } e \not \in C 
+			f(e) + a, &  e \in C \\
+			f(e), & e \notin C.
 		\end{cases}\]
 		Zauważmy, że wartość przepływu $f'$ jest taka sama
 		jak wartość przepływu $f$, zatem $f'$ również jest
@@ -515,9 +515,9 @@ w których takie sytuacje nie występują.
 \begin{algorithm}[H]
 	\caption{Algorytm ,,Przez usuwanie cykli''}
 	\begin{algorithmic}[1]
-		\Procedure{CycleCanceling(($G, c$, $s$, $t$), $k$)}{}
+		\Procedure{CycleCanceling(($G, c, s, t$), $k$)}{}
 		\State $f \gets $ maksymalny przepływ dla $(G,c,s,t)$
-		\State $(R,c_f,k_f) \gets (G,c,k)$ (sieć rezydualna dla $f$)
+		\State $(R,c_f,k_f) \gets $ sieć rezydualna dla $f$
 		\While{Istnieje ujemny cykl $C$ w $(R, k_f)$}
 		\State $a \gets \min\{c_f(uw) : uw \in C\}$
 		\State Powiększ $f$ o $a$ na wszystkich krawędziach $C$
