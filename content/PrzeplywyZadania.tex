@@ -47,7 +47,7 @@ z $s$ w sieci rezydualnej $R$. Zbiór osiągalnych wierzchołków $S$ oraz
 $\overline{S} = V(G) \setminus S$ stanowią podział o najmniejszej 
 przepustowości.
 
-\subsection{Zadanie 5 -- Algorytm Dinic'a}
+\subsection{Zadanie 5 -- Algorytm Dinica}
 \textbf{Treść: } Niech $R$ będzie siecią rezydualną 
 dla pewnej sieci przeplywowej $(G, c, s, t)$ i przepływu $f$; 
 niech $d$ będzie
@@ -77,10 +77,11 @@ przynajmniej jedna krawędź tej ścieżki jest nasycona przez $f'$.
 BFS + usuwanie niepotrzebnych krawędzi w $R$ w celu utworzenia tzw. 
 grafu warstwowego, potem DFS w celu przejscia po kazdej ścieżce
 i utworzenia przepływów.
+
 \textbf{Rozwiązanie b: }
 
 \begin{algorithm}[H]
-	\caption{Algorytm Dinic'a}
+	\caption{Algorytm Dinica}
 	\begin{algorithmic}[1]
 		\Procedure{Dinic($G, w$, $s$, $t$)}{}
 		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
@@ -120,11 +121,11 @@ szukane $w$.
 
 
 Powyższe rozumowanie można zoptymalizować korzystając z 
-binarnego przeszukiwania. Jako maximum przyjmujemy
+binarnego przeszukiwania. Jako maksimum przyjmujemy
 sumę przepustowości na krawędziach
 wychodzących z $s$ 
-(bo $\text{val} f_max$ jest nie większe niż
-wartość dowolnego przekroju), a jako minimum - 1.
+(bo $\text{val} f_{max}$ jest nie większe niż
+wartość dowolnego przekroju), a jako minimum -- 1.
 
 \begin{algorithm}[H]
 	\caption{Wyznaczanie pesymistycznej wydajności}
