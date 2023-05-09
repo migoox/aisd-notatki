@@ -164,7 +164,7 @@ Zaprojektuj jak najszybszy algorytm rozwiązujący problem łamania tekstu.
 
 \textbf{Rozwiązanie:} Niech wejściem algorytmu będzie ciąg  długości słów $d=d_1,d_2,\dotsc,d_n$ oraz szerokość linii $s$.
 
-Niech $C$ to tablica dwuwymiarowa o wymiarach $n$ na $n$, gdzie w komórce $C[i,j]$ znajdować będzie się koszt umieszczenia słów od $i$ do $j$ w jednej linii. Dla każdej pary $(i,j)$, $i\leq j$ należy więc wyznaczyć ilość dodatkowych spacji. Mamy więc przypadki: \begin{itemize}
+Niech $C$ to tablica dwuwymiarowa o wymiarach $n$ na $n$, gdzie w komórce $C[i,j]$ znajdować będzie się koszt umieszczenia słów od $i$ do $j$ w jednej linii, gdzie jako koszt rozumiemy kwadrat liczby pozostałych miejsc. Dla każdej pary $(i,j)$, $i\leq j$ należy więc wyznaczyć ilość dodatkowych spacji. Mamy więc przypadki: \begin{itemize}
 	\item słowa od $i$ do $j$ nie mieszczą się w linii: $C[i,j]=\infty$,
 	\item $j=n$, jest to ostatnia linia, więc nie ma kosztu: $C[i,j]=0$,
 	\item w przeciwnym wypadku: $C[i,j]=\textrm{ex}^2$, gdzie $\textrm{ex}$ to liczba dodatkowych spacji w linii.
