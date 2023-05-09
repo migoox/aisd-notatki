@@ -211,7 +211,7 @@ Dla wcześniejszego przykładu $d=(3,2,2,5)$ i $s=6$ tablice $c$ i $p$ wyglądaj
 	\label{tab_zad13_c}
 \end{table}
 
-Na podstawie tablicy $p$ można teraz odtworzyć poszczególne linie: ostatnia linia zawiera słowa od $p[n]$ do $n$, przedostatnia linia zawiera słowa od $p[p[n]]$ do $p[n]-1$ itd.
+Zauważmy, że $p[n]$ zawiera informację, od którego słowa zaczyna się linia kończąca się słowem $n$. Na podstawie tablicy $p$ można teraz odtworzyć poszczególne linie: ostatnia linia zawiera słowa od $p[n]$ do $n$, przedostatnia linia zawiera słowa od $p[p[n]-1]$ do $p[n]-1$ itd.
 
 W algorytmie panuje umowa, że $C$ jest indeksowana od 1, a $c,p$ od 0.
 \begin{algorithm}[H]
