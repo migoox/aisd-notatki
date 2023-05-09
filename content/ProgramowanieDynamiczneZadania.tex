@@ -168,52 +168,117 @@ pojedynczego znaku, które pozwalają przekształcić napis $x$ w napis $y$.
 Zaprojektuj algorytm, który znajdzie odległość 
 edycyjną dwóch zadanych napisów.
 
-\textbf{Rozwiązanie:}
-Na początek warto wspomnieć, że dodanie jeszcze jednej operacji - 
-zamiany znaków z dwóch różnych słów powoduje powstanie metryki
-którą nazywamy odległością Levensteina.
 
-Rozważmy najpierw naiwne podejście rekurencyjne: badamy 
+\textbf{Rozwiązanie:}
+Warto wspomnieć, że dodanie jeszcze jednej operacji - 
+zamiany znaków z dwóch różnych słów powoduje powstanie metryki
+którą nazywamy odległością Levenshteina.
+
+Przeanalizujmy najpierw naiwne podejście rekurencyjne: badamy 
 oba napisy od tyłu, oznaczmy $m$ jako długość napisu $x$
-oraz $n$ jako długość napisu $y$. 
+oraz $n$ jako długość napisu $y$. Rozważmy dwa przypadki: 
+
 \begin{itemize}
 	\item[1.] Jeśli znaki są takie same to wywołujemy rekurencyjnie
 	nasz algorytm dla napisu $x$ skróconego do $m - 1$ oraz 
 	napisu $y$ skróconego do $n - 1$.
-	\item[2.] Jeśli znaki są różne to robimy dwa wywołania 
-	rekurencyjne - jedno dla usunięcia znaku z napisu $x$ 
-	a drugie dla dodania znaku z napisu $x$, po 
-	to by wybrać z tych dwóch wywołań mniejszy koszt.
+	\item[2.] Jeśli znaki są różne to potrzebujemy dwóch wywołań rekurencyjnych
+	\begin{itemize}
+		\item wywołanie dla $m - 1$ oraz $n$, które interpretujemy jako operację usunięcia znaku $x[m]$,
+		\item wywołanie dla $m$ oraz $n - 1$, które
+		interpretujemy jako operację wstawienia znaku $y[m]$ do napisu $x$,
+		po znaku $x[m]$.
+	\end{itemize} 
 \end{itemize}
 
+W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania npaisów od 1.
+\begin{algorithm}[H]
+	\caption{Odległość edycyjna - naiwny algorytm rekurencyjny}
+	\begin{algorithmic}[1]
+		\Procedure{NaiveEditDistance($x$, $m$, $y$, $n$)}{}
+		\If{$m=0$}
+		\Comment $x$ jest puste, więc możemy jedynie dodać wszystkie znaki z napisu $y$ do napisu $x$
+		\State \Return $n$ 
+		\EndIf
+		\If{$n=0$}
+		\Comment $y$ jest puste, więc możemy jedynie usunąć wszystkie znaki z napisu $x$
+		\State \Return $m$ 
+		\EndIf
+		\If{$x[m] = y[n]$}
+		\State \Return NaiveEditDistance($x$, $m - 1$, $y$, $n - 1$)
+		\Else
+		\State DeleteCost = NaiveEditDistance($x$, $m - 1$, $y$, $n$)
+		\State InsertCost = NaiveEditDistance($x$, $m$, $y$, $n - 1$)
+		\State \Return 1 + min(DeleteCost, InsertCost) \Comment +1, bo musimy wliczyć koszt wykonania aktualnej operacji
+		\EndIf
+		\EndProcedure 
+	\end{algorithmic}
+	\label{Zadanie14-naive}
+\end{algorithm}
 
-Podejście programowania dynamicznego: Tworzymy tablicę $T[\,,]$ o
-$m + 1$ kolumnach oraz $n + 1$ wierszach,
-gdzie kolumny oznaczają kolejne litery napisu $x$, a
-wiersze kolejne litery napisu $y$. 
-$T[i, j]$ będzie oznaczało odległość podnapisów:
-$i$-elementowego podnapisu $x$ licząc od początku oraz 
-$j$-elementowego podnapisu $y$ licząc od początku.
+Teraz zajmijmy się podejściem programowania dynamicznego.
+Niech $T$ to tablica dwuwymiarowa o
+$n + 1$ wierszach oraz $m + 1$ kolumnach
+gdzie kolumny oznaczają kolejne litery napisu $x$ a
+wiersze kolejne litery napisu $y$. Komórka
+$T[i, j]$ ($i \in [0, n+1], j \in [0, m+1]$), będzie 
+oznaczała odległość 
+podnapisu $x$ składającego się z indeksów $1,2 \ldots j$ od 
+podnapisu $y$ składającego się z indeksów $1,2 \ldots i$.
 
-Wtedy możemy wypełniać od lewego górnego rogu tablicy.. \textbf{TO DO}
-
+Przyjmijmy, że $i \in [1, n+1]$ i $ j \in [1, m+1]$ oraz 
+zaobserwujmy następującą relację: 
+\begin{itemize}
+	\item jeśli $x[j]=y[i]$, to $T[i, j] = T[i - 1, j - 1]$,
+	\item w przeciwnym przypadku $T[i, j] = 1 + \min(T[i - 1, j], T[i, j - 1])$, gdzie
+	$+1$ wynika, z potrzeby wykonania operacji dodawania lub usuwania znaku
+	(w zależności od tego, czy $T[i - 1, j] > T[i, j - 1]$).
+\end{itemize}
 
 Przykład: rozważmy dwa napisy $x =$ \textit{piesek} oraz $y =$ \textit{kotek}.
-
 
 \begin{table}[H]
 	\center
 	\begin{tabular}{|l|lllllll|}
-		\hline
+		\hline \diagbox{$y$}{$x$}
 		& \multicolumn{1}{l|}{\textbf{""}} & \multicolumn{1}{l|}{\textbf{p}} & \multicolumn{1}{l|}{\textbf{i}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{s}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{k}} \\ \hline
-		\textbf{""} & 0                                & 1                               & 2                               & 3                               & 4                               & 5                               & 6                               \\ \cline{1-1}
-		\textbf{k}  & 1                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{o}  & 2                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{t}  & 3                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{e}  & 4                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{k}  & 5                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\textbf{""} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-1}
+		\textbf{k}  & 1 & 2 & 3 & 4 & 5 & 6 & 5 \\ \cline{1-1}
+		\textbf{o}  & 2 & 3 & 4 & 5 & 6 & 7 & 6 \\ \cline{1-1}
+		\textbf{t}  & 3 & 4 & 5 & 6 & 7 & 8 & 7 \\ \cline{1-1}
+		\textbf{e}  & 4 & 5 & 6 & 5 & 6 & 7 & 8 \\ \cline{1-1}
+		\textbf{k}  & 5 & 6 & 7 & 6 & 7 & 8 & 7 \\ \cline{1-1}
 		\hline
 	\end{tabular}
 	\caption{}
 	\label{tab_zad14}
 \end{table}
+
+Na podstawie tabeli \ref{tab_zad14}, wiemy, że szukana odległość wynosi 7.
+
+\begin{algorithm}[H]
+	\caption{Rozwiązanie zadania 1.4}
+	\begin{algorithmic}[1]
+		\Procedure{EditDistance($x$, $m$, $y$, $n$)}{}
+		\State Utwórz tablicę $T$ o $n + 1$ wierszach i $m + 1$ kolumnach
+		\For{$i=0,1\ldots n$}
+		\State $T[i, 0] = i$
+		\EndFor		
+		\For{$j=0,1\ldots m$}
+		\State $T[0, j] = j$
+		\EndFor
+		\For{$i=1,2\ldots n$}
+		\For{$j=1,2\ldots m$}
+		\If{$x[j] = y[i]$}
+		\State $T[i, j] = T[i - 1, j - 1]$
+		\Else
+		\State $T[i, j] = 1 + \min(T[i - 1, j], T[i, j - 1])$
+		\EndIf
+		\EndFor
+		\EndFor
+		\State \Return $T[n, m]$
+		\EndProcedure 
+	\end{algorithmic}
+	\label{Zadanie14}
+\end{algorithm}
+
