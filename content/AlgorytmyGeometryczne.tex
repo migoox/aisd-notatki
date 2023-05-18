@@ -1,13 +1,13 @@
 \subsection{Zasada prawej ręki}
 
 \subsection{Sprawdzenie czy dwa odcinki się przecinają}
-Przypuśćmy, że dysponujemy przestrzenią $R^3$ oraz odcinkami danymi przez pary punktów 
+Przypuśćmy, że dysponujemy przestrzenią $\mathbb{R}^3$ oraz odcinkami danymi przez pary punktów 
 $(P_1, P_2)$ oraz $(P_3, P_4)$. Naszym celem będzie sprawdzenie
 czy istnieje punkt wspólny pomiędzy tymi odcinkami.
 
 Na początku omówmy geometryczną interpretację iloczynów skalarnych, którą wykorzystamy w dalszych rozważaniach.
 
-Dane są wektory $\vec{u},\vec{v} \in R^2$ oraz prosta $L$ prostopadła
+Dane są wektory $\vec{u},\vec{v} \in \mathbb{R}^2$ oraz prosta $L$ prostopadła
 do $\vec{u}$ przechodząca przez punkt $(0,0)$. Wtedy iloczyn skalarny 
 standardowy $\vec{u} \cdot \vec{v}$
 jest 
@@ -19,7 +19,7 @@ jest
 \end{itemize}
 
 Teraz możemy sformuować uogólnienie zasady prawej ręki.
-Dane są wektory $\vec{u},\vec{v},\vec{w} \in R^3$.
+Dane są wektory $\vec{u},\vec{v},\vec{w} \in \mathbb{R}^3$.
 Wtedy jeśli $(\vec{u} \times \vec{v})
 \cdot (\vec{u} \times \vec{w}) > 0$, to bazy
 $(\vec{u}, \vec{v},  (\vec{u} \times \vec{v}))$ oraz
@@ -41,7 +41,7 @@ odcinki muszą się przecinać.
 
 
 \begin{algorithm}[H]
-	\caption{Sprawdzenie, czy dwa odcinki się przecinają w przestrzeni $R^3$}
+	\caption{Sprawdzenie, czy dwa odcinki się przecinają w przestrzeni $\mathbb{R}^3$}
 	\begin{algorithmic}[1]
 		\Procedure{SegmentIntersectionR3($P_1$, $P_2$, $P_3$, $P_4$)}{}
 		\If{$P_1 = P_3$ lub $P_1 = P_4$ lub $P_2 = P_3$ lub $P_2 = P_4$}
@@ -74,7 +74,7 @@ odcinki muszą się przecinać.
 	\label{segment_intersection_r3}
 \end{algorithm}
 
-Zauważmy, że gdybyśmy powyższy problem rozwiązywali w przestrzeni $R^2$,
+Zauważmy, że gdybyśmy powyższy problem rozwiązywali w przestrzeni $\mathbb{R}^2$,
 to podczas badania iloczynów wektorowych, jedyne co nas by interesowało
 to znak 3-ej współrzędnej. Z zasady prawej ręki, jeśli
 trzecia współrzędna wektora 
@@ -85,14 +85,14 @@ znajduje się po prawej stronie wektora $\vec{u}$.
 
 Fakt ten znacznie upraszcza sprawdzanie orientacji wektorów iloczynem wektorowym.
 
-Trzecią współrzędną iloczynu wektorowego $\vec{u} \times \vec{v}$ w $R^2$
+Trzecią współrzędną iloczynu wektorowego $\vec{u} \times \vec{v}$ w $\mathbb{R}^2$
 obliczymy korzystając ze wzoru
 \[c = \vec{u}_x \vec{v}_y - \vec{v}_x \vec{u}_y.\]
 
 
 
 \begin{algorithm}[H]
-	\caption{Sprawdzenie, czy dwa odcinki się przecinają w przestrzeni $R^2$}
+	\caption{Sprawdzenie, czy dwa odcinki się przecinają w przestrzeni $\mathbb{R}^2$}
 	\begin{algorithmic}[1]
 		\Procedure{Prod2($\vec{u}$,$\vec{v}$)}{}
 		\State \Return $\vec{u}_x \vec{v}_y - \vec{v}_x \vec{u}_y$
@@ -255,5 +255,116 @@ Ponadto struktura Rectangle tworzona jest przez zmienne MinX, MinY, MaxX, MaxY.
 \end{algorithm}
 
 \subsubsection{Sprawdzenie czy w zbiorze odcinków istnieją przecinające się odcinki}
+Problem ten rozważamy w przestrzeni $\mathbb{R}^2$, bardzo pomocny będzie 
+algorytm \ref{segment_intersection_r2}, który roztrzyga, czy dwa odcinki
+w przestrzeni $R^2$ przecinają się. Ponadto przy drugim wariancie założymy,
+że dysponujemy funkcją, która znajduje punkt wspólny dwóch 
+przecinających się odcinków. 
 
+\textbf{Dane:} Zbiór odcinków $S$, taki, że nie istnieją 3 wierzchołki przecinające
+się w tym samym punkcie oraz nie istnieją odcinki pionowe.
+
+\textbf{Wariant 1:} Roztrzygnięcie, czy w zbiorze wierzchołków istnieje 
+para przecinających się odcinków.
+
+\textbf{Wariant 2:} Znalezienie wszystkich punktów, które 
+stanowią miejsce przecięć dwóch odcinków ze zbioru $S$.
+
+W celu rozwiązania obu wariantów, zastosujemy metodę zamiatania. Wyobraźmy
+sobie dwuwymiarową płaszczyznę, na której rozmieszczone są odcinki ze zbioru $S$.
+Ustawiamy miotłę po lewej stronie tej płaszczyzny. Będziemy przechodzić do prawej strony.
+
+Zajmijmy się teraz \textbf{wariantem 1}.
+
+Zakładamy, że \textit{zdarzenie}, będzie przechowywać 
+\begin{itemize}
+	\item wierzchołek $p$, który je spowodował, 
+	\item odcinek $s$, którego $p$ jest początkiem lub końcem,
+	\item informację, czy $p$ jest początkiem, czy też końcem odcinka $s$,
+\end{itemize}
+gdzie jako początek odcinka $s$ rozumiemy wierczhołek, który jest 
+mniejszy względem $x$ (czyli bardziej po lewej stronie).
+
+Jako \textit{zdarzenie} będziemy traktowali natrafienie na punkt zaczynający 
+lub kończący jakiś odcinek należący do zbioru $S$.
+
+Przez $X$-strukturę, będziemy rozumieli strukturę danych przechowującą 
+kolejne wydarzenia. Oczekujemy, że 
+\begin{itemize}
+	\item insert(\textit{zdarzenie})  -- wstawienie zdarzenia do struktury,
+	\item findfirst(\textit{zdarzenie})  -- wyznaczenie oraz usunięcie zdarzenia
+	o najmniejszej współrzędnej $x$.
+\end{itemize}
+
+Niech $s_1, s_2 \in S$ to odcinki, które w danym momencie przecinają się 
+z miotłą, wtedy będziemy mówili, że $s_1 > s_2$ na tej miotle,
+jeśli pozycja $y$ punktu przecięcia odcinka $s_1$ z miotłą jest wyższa 
+niż pozycja $y$ punktu przecięcia odcinka $s_2$ z miotłą.
+
+\textbf{Obserwacja 1:} Zauważmy, że jeśli dwa odcinki przecinają się, to istnieje takie położenie
+miotły, w którym te odcinki sąsiadują ze sobą w powyższym liniowym porządku.
+
+Przez $Y$-strukturę, będziemy rozumieli strukturę danych, która w sposób 
+posortowany względem pozycji w osi $Y$, przetrzymuje aktualnie przecinające się 
+z miotłą odcinki. Niech $s \in S$ to odcinek, wtedy
+\begin{itemize}
+	\item insert($s$) -- wstawienie odcinka $s$,
+	\item delete($s$) -- usunięcie odcinka $s$,
+	\item above($s$) -- znalezienie ,,górnego'' sąsiada odcinka $s$,
+	\item below($s$) -- znalezienie ,,dolnego'' sąsiada odcinka $s$,
+	\item interchange($s_1$, $s_2$) -- zmiana uporządkowania odcinków $s_1$ i $s_2$,
+\end{itemize}
+są złożoności $O(log(n))$. Metoda interchange jest potrzebna do drugiego wariantu 
+problemu i zostanie szczegółowo omówiona w dalszej części.
+
+Aby osiągnąć powyższe złożoności możemy skorzystać ze zrównoważonych drzew BST, czyli
+drzewa AVL lub CC.
+
+Algorytm w \textbf{wariancie 1} będzie polegał na sprawdzaniu 
+czy jakieś dwa sąsiadujące odcinki na miotle spełniają założenia 
+\textbf{obserwacji 1}, jeśli tak to stanowią kandydatów na przecinające 
+się wierzchołki i należy sprawdzić czy się przecinają. W taki sposób
+minimalizujemy liczbę sprawdzeń.
+
+Sprawdzenie zostanie wykonane tylko wtedy, gdy dojdzie do \textit{zdarzenia},
+ponieważ każde \textit{zdarzenie} generuje nową parę sąsiedzką (dwie pary w przypadku kiedy zdarzenie dotyczy punktu startowego i jedną w przypadku przeciwnym) w uporządkowanym zbiorze odcinków przecinających się z miotłą.
+
+\begin{algorithm}[H]
+	\caption{Znajdowanie pola sumy prostokątów}
+	\begin{algorithmic}[1]
+		\Procedure{HasIntersectingSegments}{$S$ -- zbiór odcinków spełniający założenia}
+		\State $X \gets$ \textit{zdarzenia} dla każdego punktu $p$ będącego
+		końcem pewnego odcinka ze zbioru $S$
+		\State $Y \gets \emptyset$
+		\While{$X \not = \emptyset$}
+		\State \textit{zdarzenie} = $X.$findfirst()
+		\State przez $s$ i $p$ oznaczamy
+		kolejno odcinek oraz punkt utożsamiony ze \textit{zdarzeniem}
+		\If{$p$ jest początkiem odcinika $s$}
+		\If{$s$ przecina się z $Y$.above($s$) lub z $Y$.below($s$)}
+		\State \Return \textit{True}
+		\EndIf
+		\Else
+		\If{$Y$.above($s$) przecina się z $Y$.below($s$)}
+		\State \Return \textit{True}
+		\EndIf
+		\EndIf
+		\EndWhile
+		\State \Return \textit{False}
+		\EndProcedure
+	\end{algorithmic}
+	\label{HasIntersectingSegments1}
+\end{algorithm}
+
+Złożoność powyższego algorytmu jest rzędu $n\log(n)$, ponieważ mamy liczbę zdarzeń
+rzędu $n$ oraz dla każdego zdarzenia wykonujemy operacje na strukturach $X$ 
+oraz $Y$, które są rzędu $\log(n)$.
+
+Teraz rozważmy \textbf{wariant 2}.
+
+\textbf{Obserwacja 2:} Jeśli w jednym położeniu miotły było $s_1 > s_2$, a w innym 
+jest $s_2 > s_1$, to pomiędzy tymi położeniami nastąpiło przecięcie się
+dwóch odcinków $s_1$ oraz $s_2$.
+
+\subsection{}
 
