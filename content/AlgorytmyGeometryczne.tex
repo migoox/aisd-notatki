@@ -395,46 +395,45 @@ Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzykla
 	\begin{algorithmic}[1]
 		\Procedure{FindIntersectingPoints}{$S$ -- zbiór odcinków spełniający założenia}
 		\State $X \gets$ \textit{zdarzenia} dla każdego punktu $p$ będącego
-		końcem pewnego odcinka ze zbioru $S$
+		końcem pewnego $s \in S$
 		\State $Y \gets \emptyset$
-		\State $c \gets 0$
+		\State Niech $P$ to pusty \textbf{zbiór} punktów
 		\While{$X \not = \emptyset$}
 		\State \textit{zdarzenie} = $X.$findfirst()
 		\State przez $s$ i $p$ oznaczamy
 		kolejno odcinek oraz punkt utożsamiony ze \textit{zdarzeniem} w przypadku,
 		kiedy $p$ jest początkiem lub końcem jakiegoś odcinka
-		\State przez $s_1, s_2$ i $p$ oznaczmy kolejno odcinki przecinające się (kolejno dolny i górny)
-		oraz ich punkt przecięcia utoższamione ze \textit{zdarzeniem} w 
-		przeciwnym przypadku przypadku
+		\State w przeciwnym przypadku przez $s_1, s_2$ i $p$ oznaczmy kolejno odcinki przecinające się (kolejno dolny i górny)
+		oraz ich punkt przecięcia utoższamione ze \textit{zdarzeniem}
 		\If{$p$ jest początkiem odcinika $s$}
 		\If{$s$ przecina się z $Y$.above($s$) lub z $Y$.below($s$)}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.above($s_1$)
-		albo $Y$.below($s_1$) (zawsze będzie tylko jedno z nich z założenia o braku pionowych odcinków) oraz ich punkt przecięcia
-		\State $c \gets c + 1$
+		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s$, $Y$.above($s$)
+		albo $Y$.below($s$) (zawsze będzie tylko jeden z nich z założenia o braku pionowych odcinków) oraz ich punkt przecięcia
 		\EndIf
 		\ElsIf{$p$ jest końcem odcinka $s$}
 		\If{$Y$.above($s$) przecina się z $Y$.below($s$)}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.above($s_1$) oraz $Y$.below($s_1$) 
-		\State $c \gets c + 1$ 
+		\State Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.above($s$), $Y$.below($s$) oraz ich punkt przecięcia  
 		\EndIf
 		\Else
+		\State $P \gets P + \{p\}$
 		\State $Y$.interchange($s_1$, $s_2$)
 		\If{$s_1$ przecina się z $Y$.above($s_1$)}
 		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.above($s_1$) oraz ich punkt przecięcia
-		\State $c \gets c + 1$
 		\EndIf
 		\If{$s_2$ przecina się z $Y$.below($s_2$)}
 		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_2$, $Y$.below($s_2$) oraz ich punkt przecięcia
-		\State $c \gets c + 1$
 		\EndIf
 		\EndIf
 		\EndWhile
-		\State \Return $c$
+		\State \Return $P$
 		\EndProcedure
 	\end{algorithmic}
 	\label{HasIntersectingSegments2}
 \end{algorithm}
 
+Uwaga w algorytmie \ref{HasIntersectingSegments2}, może dojść do sytuacji, w której
+do zbioru $P$ dodamy dwukrotnie ten sam punkt. Z tego powodu należy użyć 
+struktury, która obsłuży taki przypadek.
 
 \subsection{}
 
