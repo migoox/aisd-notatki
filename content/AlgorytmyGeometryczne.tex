@@ -330,7 +330,7 @@ Sprawdzenie zostanie wykonane tylko wtedy, gdy dojdzie do \textit{zdarzenia},
 ponieważ każde \textit{zdarzenie} generuje nową parę sąsiedzką (dwie pary w przypadku kiedy zdarzenie dotyczy punktu startowego i jedną w przypadku przeciwnym) w uporządkowanym zbiorze odcinków przecinających się z miotłą.
 
 \begin{algorithm}[H]
-	\caption{Znajdowanie pola sumy prostokątów}
+	\caption{Sprawdzenie czy w zbiorze $S$ istnieją przecinające się odcinki}
 	\begin{algorithmic}[1]
 		\Procedure{HasIntersectingSegments}{$S$ -- zbiór odcinków spełniający założenia}
 		\State $X \gets$ \textit{zdarzenia} dla każdego punktu $p$ będącego
@@ -362,9 +362,79 @@ oraz $Y$, które są rzędu $\log(n)$.
 
 Teraz rozważmy \textbf{wariant 2}.
 
+Zauważmy, że skoro algorytm w \textbf{wariancie 2} ma kontynuować swoje wykonanie po znalezieniu punktu
+przecięcia, musimy zaktualizować $Y$-strukturę w momencie w którym
+miotła znajduje się w punkcie przecięcia. 
+
 \textbf{Obserwacja 2:} Jeśli w jednym położeniu miotły było $s_1 > s_2$, a w innym 
 jest $s_2 > s_1$, to pomiędzy tymi położeniami nastąpiło przecięcie się
 dwóch odcinków $s_1$ oraz $s_2$.
+
+Powyższa obserwacja pozwala wywioskować, że aktualizacja w momencie 
+natrafienia miotły na punkt przecięcia dwóch odcinków, powinna polegać
+na zamianie miejscami dwóch odcinków w $Y$-strukturze, których punkt przecięcia znaleźliśmy. Dokładnie tym zajmuje się wcześniej wspomniania funkcja interchange.
+
+W tym celu wprowadzimy nowy typ \textit{zdarzenia} - natrafienie na punkt 
+przecięcia. Zdarzenie to będzie przechowywać dwa przecinające się 
+odcinki $s_1$, $s_2$ oraz punkt przecięcia $p$.
+
+Na koniec zauważmy jeszcze, że kiedy dokonamy takiej zamiany, musimy 
+jeszcze sprawdzić czy nowe sąsiedztwo w strukturze $Y$  zamienionych miejscami 
+odcinków przecina się z nimi. Jeżeli tego nie zrobimy pominiemy niektóre przecięcia.
+Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzyklad_wariant2}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{data/zamiatanie_wariant2_kontrprzyklad.png}
+	\caption{  }
+	\label{fig:zamiatanie_kontrprzyklad_wariant2}
+\end{figure}
+
+\begin{algorithm}[H]
+	\caption{Znajdowanie wszystkich punktów przecięcia}
+	\begin{algorithmic}[1]
+		\Procedure{FindIntersectingPoints}{$S$ -- zbiór odcinków spełniający założenia}
+		\State $X \gets$ \textit{zdarzenia} dla każdego punktu $p$ będącego
+		końcem pewnego odcinka ze zbioru $S$
+		\State $Y \gets \emptyset$
+		\State $c \gets 0$
+		\While{$X \not = \emptyset$}
+		\State \textit{zdarzenie} = $X.$findfirst()
+		\State przez $s$ i $p$ oznaczamy
+		kolejno odcinek oraz punkt utożsamiony ze \textit{zdarzeniem} w przypadku,
+		kiedy $p$ jest początkiem lub końcem jakiegoś odcinka
+		\State przez $s_1, s_2$ i $p$ oznaczmy kolejno odcinki przecinające się (kolejno dolny i górny)
+		oraz ich punkt przecięcia utoższamione ze \textit{zdarzeniem} w 
+		przeciwnym przypadku przypadku
+		\If{$p$ jest początkiem odcinika $s$}
+		\If{$s$ przecina się z $Y$.above($s$) lub z $Y$.below($s$)}
+		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.above($s_1$)
+		albo $Y$.below($s_1$) (zawsze będzie tylko jedno z nich z założenia o braku pionowych odcinków) oraz ich punkt przecięcia
+		\State $c \gets c + 1$
+		\EndIf
+		\ElsIf{$p$ jest końcem odcinka $s$}
+		\If{$Y$.above($s$) przecina się z $Y$.below($s$)}
+		\State Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.above($s_1$) oraz $Y$.below($s_1$) 
+		\State $c \gets c + 1$ 
+		\EndIf
+		\Else
+		\State $Y$.interchange($s_1$, $s_2$)
+		\If{$s_1$ przecina się z $Y$.above($s_1$)}
+		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.above($s_1$) oraz ich punkt przecięcia
+		\State $c \gets c + 1$
+		\EndIf
+		\If{$s_2$ przecina się z $Y$.below($s_2$)}
+		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_2$, $Y$.below($s_2$) oraz ich punkt przecięcia
+		\State $c \gets c + 1$
+		\EndIf
+		\EndIf
+		\EndWhile
+		\State \Return $c$
+		\EndProcedure
+	\end{algorithmic}
+	\label{HasIntersectingSegments2}
+\end{algorithm}
+
 
 \subsection{}
 
