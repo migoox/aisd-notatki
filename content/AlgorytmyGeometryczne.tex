@@ -406,21 +406,21 @@ Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzykla
 		\State w przeciwnym przypadku przez $s_1, s_2$ i $p$ oznaczmy kolejno odcinki przecinające się (kolejno dolny i górny)
 		oraz ich punkt przecięcia utoższamione ze \textit{zdarzeniem}
 		\If{$p$ jest początkiem odcinika $s$}
-		\If{$s$ przecina się z $Y$.above($s$) lub z $Y$.below($s$)}
+		\If{$s$ przecina się z $Y$.above($s$) lub z $Y$.below($s$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
 		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s$, $Y$.above($s$)
 		albo $Y$.below($s$) (zawsze będzie tylko jeden z nich z założenia o braku pionowych odcinków) oraz ich punkt przecięcia
 		\EndIf
 		\ElsIf{$p$ jest końcem odcinka $s$}
-		\If{$Y$.above($s$) przecina się z $Y$.below($s$)}
+		\If{$Y$.above($s$) przecina się z $Y$.below($s$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
 		\State Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.above($s$), $Y$.below($s$) oraz ich punkt przecięcia  
 		\EndIf
 		\Else
 		\State $P \gets P + \{p\}$
 		\State $Y$.interchange($s_1$, $s_2$)
-		\If{$s_1$ przecina się z $Y$.above($s_1$)}
+		\If{$s_1$ przecina się z $Y$.above($s_1$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
 		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.above($s_1$) oraz ich punkt przecięcia
 		\EndIf
-		\If{$s_2$ przecina się z $Y$.below($s_2$)}
+		\If{$s_2$ przecina się z $Y$.below($s_2$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
 		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_2$, $Y$.below($s_2$) oraz ich punkt przecięcia
 		\EndIf
 		\EndIf
@@ -431,9 +431,10 @@ Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzykla
 	\label{HasIntersectingSegments2}
 \end{algorithm}
 
-Uwaga w algorytmie \ref{HasIntersectingSegments2}, może dojść do sytuacji, w której
-do zbioru $P$ dodamy dwukrotnie ten sam punkt. Z tego powodu należy użyć 
-struktury, która obsłuży taki przypadek.
+Warto zwrócić uwagę na to, że dodajemy zdarzenie, tylko wtedy, kiedy
+$x$-owa współrzędna tego przecięcia jest większa niż $p_x$, gdybyśmy tego nie zrobili
+pojawią się przypadki, w których będziemy badali dwukrotnie ten sam punkt, co 
+może sprawiać problemy implementacyjne.
 
 \subsection{}
 
