@@ -114,3 +114,72 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 		W algorytmie naiwnym zwiększamy $i$ w każdej iteracji o 1. Algorytm KMP jest modyfikacją algorytmu naiwnego taką, że w określonych przypadkach $i$ zwiększamy o więcej niż 1. Należy pokazać, że przy takiej operacji nie tracimy możliwych wystąpień wzorca. Wynika to bezpośrednio z lematu \ref{lemmakmp}.
 	\end{proof}
 \end{theorem}
+
+\begin{lemma}[Złożoność funkcji \textsc{ComputeP}]
+	\label{zlozonoscComputeP}
+	Niech $m$ to długość wzorca, wtedy pesymistyczna złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
+	\begin{proof}
+		Problematyczną częścią funkcji podczas badania złożoności pesymistycznej jest pętla while w linijce nr. 4, 
+		ze względu na jej niedeterministyczną liczbę wykonań podczas jednej iteracji pętli for z linijki nr. 3. Aby poradzić sobie z tym problemem zliczymy ile razy wykonuje się ta pętla
+		w czasie działania \textbf{całej} funkcji a nie jednej iteracji.
+		 
+		Pokażmy, że podczas działania całego funkcji, operacja $t \gets P[t]$ w linijce nr 5 wykonuje się co najwyżej $m-1$ razy.
+		
+		Zauważmy, że operacja $t\scalebox{0.75}{++}$ wykona się nie więcej niż $m-1$ razy.
+		Ponadto operacja $t \gets P[t]$ może jedynie zmniejszyć $t$. Jako, że $t$ nie może
+		być ujemne, z dwóch poprzednich obserwacji wnioskujemy, że
+		liczba wykonań operacji $t \gets P[t]$ nie może przekroczyć $m-1$.
+		
+		W ten sposób otrzymujemy zamortyzowaną złożoność pętli while w linijce nr. 4,
+		wynoszącą $O(1)$, zatem złożonść funkcji \textsc{ComputeP} wynosi $O(m)$.
+		
+	\end{proof}	
+	\c
+\end{lemma}
+
+
+\begin{theorem}[Złożoność algorytmu KMP]
+	Niech $n$ to długość tekstu, w którym wyszukujemy wzorzec o długości $m \leq n$, wtedy pesymistyczna złożoność algorytmu KMP wynosi $O(n)$.
+	\begin{proof}
+		Przez \textit{porównanie negatywne}, będziemy rozumieli sytuację w algorytmie
+		(nie w pojedyńczej iteracji algorytmu), w której
+		$tekst[i + j] \not = wzorzec[j]$, natomiast przez \textit{porównanie pozytywne}
+		będziemy rozumieli sytuację przeciwną, tzn. $tekst[i + j] = wzorzec[j]$.
+		
+		Zauważmy, że liczba porównań negatywnych w całym algorytmie jest 
+		nie większa niż $n - m + 1$
+		(maksymalna liczba położeń wzorca).
+		
+		Pokażmy, że liczba porównań pozytywnych w całym algorytmie jest nie większa niż $n$.
+		
+		Zauważmy, że wyrażenie $i + j$ nigdy nie maleje w czasie działania algorytmu, ponieważ
+		\begin{itemize}
+			\item[1.] jeśli porównanie jest pozytywne to wykona się 
+			operacja $j\scalebox{0.75}{++}$ (linijka nr. 18), czyli $i + j$ zwiększy się, 
+			\item[2.] jeśli porównanie jest negatywne to wykonają się 
+			operacja $i \mathrel{+{=}} \max\{j - P[j], 1\}}$ (linijka nr. 15) oraz
+			operacja $j = P[j]$ (linijka nr. 16). Oznaczmy przez $i', j'$ kolejno wartości $i$
+			oraz $j$ po wykonaniu się tych dwóch operacji.
+			
+			Wtedy jeśli $j - P[j] > 1$, to 
+			\[ i' + j' = i + j - P[j] + P[j] = i + j,\]
+			a w przeciwnym przypadku
+			\[ i' + j' = i + 1 + j \geq i + j.\]
+		\end{itemize}
+		
+		
+		Jako, że wyrażenie $i + j$ nie maleje, jest nie większe niż $n$ oraz
+		początkowa wartość tego wyrażenia to 0, to operacji $j\scalebox{0.75}{++}$
+		jest nie więcej niż $n$.
+		
+		Zatem z faktu, że operacji $j\scalebox{0.75}{++}$ (linijka nr. 18) w całym algorytmie jest 
+		dokładnie tyle ile wynosi liczba porównań pozytywnych w całym algorytmie, wynika, że
+		liczba porównań pozytywnych w całym algorytmie jest nie większa niż $n$. Otrzymujemy
+		\[\text{liczba porównań} = \text{liczba porównań negatywnych} + \text{liczba porównań pozytywnych}\leq\]
+		\[\leq n - m + 1 + n \leq 2n,\]
+		co w połączeniu z lematem \ref{zlozonoscComputeP}, pozwala wywnioskować, że
+		złożoność algorytmu KMP wynosi $O(n)$.
+		
+		
+	\end{proof}	
+\end{theorem}
