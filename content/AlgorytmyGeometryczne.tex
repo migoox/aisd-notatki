@@ -10,7 +10,7 @@ Na początku omówmy geometryczną interpretację iloczynów skalarnych, którą
 Dane są wektory $\vec{u},\vec{v} \in \mathbb{R}^2$ oraz prosta $L$ prostopadła
 do $\vec{u}$ przechodząca przez punkt $(0,0)$. Wtedy iloczyn skalarny 
 standardowy $\vec{u} \cdot \vec{v}$
-jest 
+jest :
 \begin{itemize}[]
 	\item dodatni jeśli groty $\vec{u}$ oraz $\vec{v}$ są po tej samej stronie płaszczyzny podzielonej przez prostą $L$,
 	\item ujemny jeśli groty $\vec{u}$ oraz $\vec{v}$ są po  przeciwnych stronach płaszczyzny podzielonej przez prostą $L$,
@@ -18,7 +18,7 @@ jest
 	leży na prostej $L$.
 \end{itemize}
 
-Teraz możemy sformuować uogólnienie zasady prawej ręki.
+Teraz możemy sformułować uogólnienie zasady prawej ręki.
 Dane są wektory $\vec{u},\vec{v},\vec{w} \in \mathbb{R}^3$.
 Wtedy jeśli $(\vec{u} \times \vec{v})
 \cdot (\vec{u} \times \vec{w}) > 0$, to bazy
@@ -257,7 +257,7 @@ Ponadto struktura Rectangle tworzona jest przez zmienne MinX, MinY, MaxX, MaxY.
 \subsubsection{Sprawdzenie czy w zbiorze odcinków istnieją przecinające się odcinki}
 Problem ten rozważamy w przestrzeni $\mathbb{R}^2$, bardzo pomocny będzie 
 algorytm \ref{segment_intersection_r2}, który roztrzyga, czy dwa odcinki
-w przestrzeni $R^2$ przecinają się. Ponadto przy drugim wariancie założymy,
+w przestrzeni $\R^2$ przecinają się. Ponadto przy drugim wariancie założymy,
 że dysponujemy funkcją, która znajduje punkt wspólny dwóch 
 przecinających się odcinków. 
 
@@ -314,7 +314,7 @@ z miotłą odcinki. Niech $s \in S$ to odcinek, wtedy
 	\item below($s$) -- znalezienie ,,dolnego'' sąsiada odcinka $s$,
 	\item interchange($s_1$, $s_2$) -- zmiana uporządkowania odcinków $s_1$ i $s_2$,
 \end{itemize}
-są złożoności $O(log(n))$. Metoda interchange jest potrzebna do drugiego wariantu 
+są złożoności $O(\log(n))$. Metoda interchange jest potrzebna do drugiego wariantu 
 problemu i zostanie szczegółowo omówiona w dalszej części.
 
 Aby osiągnąć powyższe złożoności możemy skorzystać ze zrównoważonych drzew BST, czyli
@@ -374,7 +374,7 @@ Powyższa obserwacja pozwala wywioskować, że aktualizacja w momencie
 natrafienia miotły na punkt przecięcia dwóch odcinków, powinna polegać
 na zamianie miejscami dwóch odcinków w $Y$-strukturze, których punkt przecięcia znaleźliśmy. Dokładnie tym zajmuje się wcześniej wspomniania funkcja interchange.
 
-W tym celu wprowadzimy nowy typ \textit{zdarzenia} - natrafienie na punkt 
+W tym celu wprowadzimy nowy typ \textit{zdarzenia} -- natrafienie na punkt 
 przecięcia. Zdarzenie to będzie przechowywać dwa przecinające się 
 odcinki $s_1$, $s_2$ oraz punkt przecięcia $p$.
 
@@ -436,5 +436,99 @@ $x$-owa współrzędna tego przecięcia jest większa niż $p_x$, gdybyśmy tego
 pojawią się przypadki, w których będziemy badali dwukrotnie ten sam punkt, co 
 może sprawiać problemy implementacyjne.
 
-\subsection{}
+\subsection{Znajdowanie otoczki wypukłej}
+
+\subsubsection{Algorytm Grahama}
+
+W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz prawego skrętu.
+
+\begin{defi}
+	Trójkę punktów $(P, Q, R)$ taką, że $(Q-P) \times (R-P) > 0$ nazywamy skrętem w lewo.
+\end{defi}
+\begin{defi}
+	Trójkę punktów $(P, Q, R)$ taką, że $(Q-P) \times (R-P) < 0$ nazywamy skrętem w prawo.
+\end{defi}
+
+TU RYSUNKI + komentarz o kątach -- że skręt w lewo tworzy kąt wypukły, skręt w prawo tworzy kąt wklęsły.
+
+\begin{algorithm}[H]
+	\caption{Algorytm Grahama znajdowania otoczki wypukłej}\label{alg:graham}
+	\begin{algorithmic}[1]
+		\Procedure{SortPoints}{$P$: zbiór punktów}
+			\State $P[0] \gets $ punkt z $P$ o najmniejszej współrzędnej $y$ (w przypadku równości $y$ ten o najmniejszej współrzędnej $x$)
+			\State $P[1 \dots n-1] \gets $ pozostałe punkty posortowane według wzrastających kątów, jakie tworzą odcinki o początku w $P[0]$ i końcu w $P[k]$ z osią $X$ (w przypadku równości kątów, rozważamy tylko punkt skrajny)
+		\EndProcedure
+		\Procedure{Graham}{$P$: zbiór punktów}
+			\State $P \gets \textsc{SortPoints}(P)$
+			\State $S \gets \text{stos}()$
+			\State $S$.Push($P[0]$)
+			\State $S$.Push($P[1]$)
+			\For {$k = 2,3, \dots, n-1$}
+				\While{($S$.BelowTop(), $S$.Top(), $P[k]$) nie jest skrętem w lewo}
+					\State $S$.Pop()
+				\EndWhile
+				\State $S$.Push($P[k]$)
+			\EndFor
+			\State \Return $S$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{fact}[Opis wielokąta wypukłego]
+	\label{fact:wielwypukly}
+	Niech $W$ będzie wielokątem reprezentowanym przez ciąg punktów. Wielokąt nie ma samoprzecięć i każda kolejna (modulo $|W|$) trójka punktów w $W$ tworzy skręt w lewo wtedy i tylko wtedy, gdy $W$ jest wielokątem wypukłym.
+\end{fact}
+
+\begin{theorem}[Poprawność algorytmu Grahama]
+	Algorytm Grahama poprawnie znajduje otoczkę wypukłą danego zbioru punktów.
+	\begin{proof}
+		\phantom{a}
+		\begin{enumerate}
+			\item Pokażemy, że $P[0]$ jest wierzchołkiem otoczki wypukłej $P$. 
+			
+			Załóżmy nie wprost, że $P[0]$ nie jest wierzchołkiem $\operatorname{CH}(P)$. Wtedy istnieje krawędź $\operatorname{CH}(P)$ znajdująca się pod $P[0]$, co oznacza, że istnieje punkt (koniec tej krawędzi) o mniejszej współrzędnej $y$ -- sprzeczność, bo z definicji $P[0]$ jest punktem o najmniejszej współrzędnej $y$.
+			
+			Analogicznie dowodzimy w przypadku, gdy jest kilka punktów o tej samej współrzędnej $y$.
+			
+			\item Jako $S_i$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ (tzn. po $(i-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots P[k]\}$.
+			
+			\begin{itemize}
+				\item Baza indukcji. Przed pętlą \textit{for} ciąg $S_1$ opisuje odcinek $(P[0], P[1])$, który naturalnie jest otoczką wypukłą zbioru  $\{P[0], P[1]\}$.
+				
+				\item Krok indukcyjny. Zakładamy, że dla każdego $k'$, $k'<k$ w $k'$-tej iteracji $S_{k'}$ jest otoczką wypukłą zbioru $\{P[0], P[1], \dots P[k']\}$. 
+				Chcemy pokazać, że $S_k$ opisuje wielokąt wypukły, który jest otoczką zbioru $P$.
+				
+				\begin{enumerate}				
+					\item Po zakończeniu pętli \textit{while} $S$.BelowTop(), $S$.Top() i $P[k]$ tworzą skręt w lewo (z warunku pętli). Również dowolne 3 kolejne elementy $S$ tworzą skręt w lewo ($S$ jest podciągiem $S_{k-1}$, w którym zachodzi to z założenia indukcyjnego oraz faktu \ref{fact:wielwypukly}). Oznacza to, że dowolne 3 kolejne elementy z $S_k = S \cup \{P[k]\}$ tworzą skręt w lewo. 
+					
+					\item Ponadto tablica $P$ jest posortowana według rosnących kątów, więc $P[k]$ znajduje się na lewo od prostej przechodzącej przez punkty $P[0]$ oraz $S$.Top() (rysunek \ref{fig:graham:samoprzeciecie}). Nie powstanie zatem samoprzecięcie.
+					
+					\begin{minipage}{0.47\linewidth}
+						\begin{figure}[H]
+							\centering
+							\includegraphics[width=\textwidth]{data/graham1.png}
+							\caption{\small Samoprzecięcie mogłoby powstać, gdyby dodawany punkt był na prawo od zielonej prostej.}
+							\label{fig:graham:samoprzeciecie}
+						\end{figure}
+					\end{minipage}
+					\hfill
+					\begin{minipage}{0.47\linewidth}
+						\begin{figure}[H]
+							\centering
+							\includegraphics[width=\textwidth]{data/graham2.png}
+							\caption{\small Usuwając punkty z $S$ w pętli \textit{while} mamy pewność, że nie leżą one na brzegu szukanej otoczki wypukłej.}
+							\label{fig:graham:usuwanie}
+						\end{figure}
+					\end{minipage}				
+
+					\item Niech $\bar{S}$ będzie zbiorem punktów zdjętych w ostatnim wykonaniu pętli \textit{while} ze stosu $S_{k-1}$.
+					Weźmy dowolny $Q \in \bar{S}$. Z prawoskrętności trójki ($S$.Top(), $Q$, $P[k]$) wynika, że kąt wyznaczony przez tę trójkę jest wklęsły, zatem $Q$ leży we wnętrzu trójkąta $(P[k], P[0], S.\operatorname{Top}())$ (rysunek \ref{fig:graham:usuwanie}). Z założenia indukcyjnego wszystkie punkty z $\{P[0], \dots, P[k]\} \setminus \bar{S}$ leżą wewnątrz wielokąta opisanego przez $S \setminus \bar{S}$. Zatem $S_k$ stanowi otoczkę zbioru $\{P[0], \dots, P[k]\}$.
+					
+				USUNĄĆ GŁUPOTKI Z COMMITA
+				\end{enumerate}				
+			\end{itemize}
+			Podsumowując, wielokąt opisany przez $S_k$ jest otoczką wypukłą zbioru $\{P[0], \dots, P[k]\}$. Po $n-1$ iteracjach pętli \textit{for} ciąg punktów $S$ opisuje otoczkę wypukłą wszystkich punktów z $P$. \qedhere
+		\end{enumerate}
+	\end{proof}
+\end{theorem}
 
