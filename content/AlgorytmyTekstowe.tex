@@ -23,10 +23,10 @@
 		\State $n \gets |tekst|$
 		\State $m \gets |wzorzec|$
 		\State $j \gets 0$
-		\For{$i = 0; i \leq n - m; i \,+\!= \operatorname{max}(j - P[j], 1)$}
+		\For{$i = 0; i \leq n - m; i \pleq \operatorname{max}(j - P[j], 1)$}
 			\State {$j = P[j]$}
 			\While {$j < m \land y[i+j]=x[j]$}
-				\State $j++$
+				\State $j\pp$
 			\EndWhile
 			\If{$j=m$}
 				\State Dodaj $i$ do listy wyników
