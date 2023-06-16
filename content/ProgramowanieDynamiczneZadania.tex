@@ -31,10 +31,10 @@ $N = 9$. Tablica prezentuje się wtedy tak jak poniżej.
 	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
 		\hline
 		& \multicolumn{1}{l|}{\textbf{0}} & \multicolumn{1}{l|}{\textbf{1}} & \multicolumn{1}{l|}{\textbf{2}} & \multicolumn{1}{l|}{\textbf{3}} & \multicolumn{1}{l|}{\textbf{4}} & \multicolumn{1}{l|}{\textbf{5}} & \multicolumn{1}{l|}{\textbf{6}} & \multicolumn{1}{l|}{\textbf{7}} & \multicolumn{1}{l|}{\textbf{8}} & \multicolumn{1}{l|}{\textbf{9}} \\ \hline
-		\textbf{1 $\{1\}$} & \color{ForestGreen}T                               & \color{ForestGreen}T                                & F                               & F                               & F                               & F                               & F                               & F                               & F                               & F                               \\ \cline{1-1}
-		\textbf{2 $\{1, 3\}$} & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & F                               & F                               & F                               & F                               \\ \cline{1-1}
-		\textbf{3 $\{1, 3, 5\}$} & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                \\ \cline{1-1}
-		\textbf{4 $\{1, 3, 5, 10\}$} & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & \color{ForestGreen}T                                & F                               & \color{ForestGreen}T                                & \color{ForestGreen}T                                 \\ \cline{1-1}
+		\textbf{1 $\{1\}$} & \color{ForestGreen}T & \color{ForestGreen}T & F & F & F & F & F & F & F & F \\ \cline{1-1}
+		\textbf{2 $\{1, 3\}$} & \color{ForestGreen}T & \color{ForestGreen}T & F & \color{ForestGreen}T & \color{ForestGreen}T & F & F & F & F & F \\ \cline{1-1}
+		\textbf{3 $\{1, 3, 5\}$} & \color{ForestGreen}T & \color{ForestGreen}T & F & \color{ForestGreen}T & \color{ForestGreen}T & \color{ForestGreen}T & \color{ForestGreen}T & F & \color{ForestGreen}T & \color{ForestGreen}T \\ \cline{1-1}
+		\textbf{4 $\{1, 3, 5, 10\}$} & \color{ForestGreen}T & \color{ForestGreen}T & F & \color{ForestGreen}T & \color{ForestGreen}T & \color{ForestGreen}T & \color{ForestGreen}T & F & \color{ForestGreen}T & \color{ForestGreen}T  \\ \cline{1-1}
 		\hline
 	\end{tabular}
 	\caption{Elementy $s_1, s_2 \dots, s_k \in S$ nie muszą być posortowane.}
@@ -161,6 +161,92 @@ w wierszu, w żadnym wierszu nie bylo więcej niż $s$ znaków
 oraz suma kwadratów liczb pozostałych wolnych miejsc we
 wszystkich wierszach była jak najmniejsza.
 Zaprojektuj jak najszybszy algorytm rozwiązujący problem łamania tekstu.
+
+\textbf{Rozwiązanie:} Niech wejściem algorytmu będzie ciąg  długości słów $d=d_1,d_2,\dotsc,d_n$ oraz szerokość linii $s$.
+
+Niech $C$ to tablica dwuwymiarowa o wymiarach $n$ na $n$, gdzie w komórce $C[i,j]$ znajdować będzie się koszt umieszczenia słów od $i$ do $j$ w jednej linii, gdzie jako koszt rozumiemy kwadrat liczby pozostałych miejsc. Dla każdej pary $(i,j)$, $i\leq j$ należy więc wyznaczyć ilość dodatkowych spacji. Mamy więc przypadki: \begin{itemize}
+	\item słowa od $i$ do $j$ nie mieszczą się w linii: $C[i,j]=\infty$,
+	\item słowa od $i$ do $j$ mieszczą się, ale $j=n$ (jest to ostatnia linia), więc nie ma kosztu: $C[i,j]=0$,
+	\item w przeciwnym wypadku: $C[i,j]=\textrm{ex}^2$, gdzie $\textrm{ex}$ to liczba dodatkowych spacji w linii.
+\end{itemize}
+
+Przykładowo dla $d=(3,2,2,5)$ i $s=6$ tablica $C$ wygląda jak tabela \ref{tab_zad13_C}.
+\begin{table}[H]
+	\centering
+	\def\arraystretch{1.25}
+	\begin{tabular}{|c|cccc|}
+		\hline \diagbox{$i$}{$j$}
+		& \multicolumn{1}{c|}{$d_1$} & \multicolumn{1}{c|}{$d_2$} & \multicolumn{1}{c|}{$d_3$} & \multicolumn{1}{c|}{$d_4$} \\ \hline
+		$d_1$ & 9 & 0  & $\infty$ & $\infty$ \\ \cline{1-1}
+		$d_2$ &   & 16 &        1 & $\infty$ \\ \cline{1-1}
+		$d_3$ &   &    &       16 & $\infty$ \\ \cline{1-1}
+		$d_4$ &   &    &          &        0 \\ \cline{1-1}
+		\hline
+	\end{tabular}
+	\caption{}
+	\label{tab_zad13_C}
+\end{table}
+
+Mając wyliczone wszystkie koszty możemy znaleźć najmniejszy całkowity koszt. Niech $c$ będzie tablicą długości $n+1$, gdzie wartość $c[j]$ informuje, jaki jest najmniejszy koszt rozmieszczenia słów od $1$ do $j$. Dodatkowo niech $c[0]=0$. Zauważmy, że z definicji $c[j]$ można skonstruować następującą zależność rekurencyjną: \[
+	c[j]=\begin{cases}
+		0, &j=0\\
+		\min\limits_{1 \leq i \leq j}\left(c[i-1]+C[i,j]\right), &j>0
+	\end{cases}
+\]
+Rekurencja ta polega na wykorzystaniu wyliczonych już minimalnych kosztów rozmieszczenia słów i dodaniu nowej linii ze słowami od $i$ do $j$. Koszt takiego nowego łamania linii to właśnie $c[i-1] + C[i,j]$ (minimalny koszt użycia słów od $1$ do $i-1$ plus koszt nowej linii).
+
+Jednocześnie niech $p$ będzie tablicą długości $n+1$, gdzie w $p[j]$ wpisany będzie indeks $i$, dla którego osiągnięto minimum w trakcie wyliczania $c[j]$.
+
+Dla wcześniejszego przykładu $d=(3,2,2,5)$ i $s=6$ tablice $c$ i $p$ wyglądają jak tabela \ref{tab_zad13_c}.
+\begin{table}[H]
+	\centering
+	\def\arraystretch{1.25}
+	\begin{tabular}{|c|ccccc|}
+		\hline & \multicolumn{1}{c|}{0} & \multicolumn{1}{c|}{$d_1$} & \multicolumn{1}{c|}{$d_2$} & \multicolumn{1}{c|}{$d_3$} & \multicolumn{1}{c|}{$d_4$} \\ \hline
+		$c$ & 0 & 9 & 0 & 10 & 10 \\ \cline{1-1}
+		$p$ & 0 & 1 & 1 & 2 & 4 \\ \cline{1-1}
+		\hline
+	\end{tabular}
+	\caption{}
+	\label{tab_zad13_c}
+\end{table}
+
+Zauważmy, że $p[n]$ zawiera informację, od którego słowa zaczyna się linia kończąca się słowem $n$. Na podstawie tablicy $p$ można teraz odtworzyć poszczególne linie: ostatnia linia zawiera słowa od $p[n]$ do $n$, przedostatnia linia zawiera słowa od $p[p[n]-1]$ do $p[n]-1$ itd.
+
+W algorytmie panuje umowa, że $C$ jest indeksowana od 1, a $c,p$ od 0.
+\begin{algorithm}[H]
+	\caption{Rozwiązanie zadania 1.3}\label{Zadanie13}
+	\begin{algorithmic}[1]
+		\Procedure{BreakLines($d = d_1, d_2, \dotsc, d_n$, $s$)}{}
+			\State Utwórz tablicę dwuwymiarową $C$ o $n$ wierszach i $n$ kolumnach.
+			\State Utwórz tablice $c,p$ o $n+1$ kolumnach.
+			\For{$i\in\{1,2,\dotsc,n\}$}
+				\State $\textrm{ex}\gets s+1$\Comment{$+1$, bo pierwsze słowo nie ma spacji}
+				\For{$j\in\{i,i+1,\dotsc,n\}$}
+					\State $\textrm{ex}\gets \textrm{ex} - d_j - 1$
+					\If{$\textrm{ex}<0$}
+						\State $C[i,j]\gets\infty$
+					\ElsIf{$j=n$}
+						\State $C[i,j]\gets0$
+					\Else
+						\State $C[i,j]\gets\textrm{ex}^2$
+					\EndIf
+				\EndFor
+			\EndFor
+			\State $c[0]\gets0$,\quad$p[0]\gets0$
+			\For{$j\in\{1,2,\dotsc,n\}$}
+				\State $c[j]\gets\infty$
+				\For{$i\in{1,2,\dotsc,j}$}
+					\If{$c[i-1]+C[i,j]<c[j]$}
+						\State $c[j]\gets c[i-1]+C[i,j]$,\qquad$p[j]\gets i$
+					\EndIf
+				\EndFor
+			\EndFor
+			\State \Return $p$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
 \subsection{Zadanie 4 -- Szukanie odległości edycyjnej napisów}
 \textbf{Treść:} Przez odległość edycyjną napisów 
 $x$ i $y$ rozumiemy najmniejszą liczbę operacji wstawienia lub usunięcia
@@ -168,52 +254,117 @@ pojedynczego znaku, które pozwalają przekształcić napis $x$ w napis $y$.
 Zaprojektuj algorytm, który znajdzie odległość 
 edycyjną dwóch zadanych napisów.
 
-\textbf{Rozwiązanie:}
-Na początek warto wspomnieć, że dodanie jeszcze jednej operacji - 
-zamiany znaków z dwóch różnych słów powoduje powstanie metryki
-którą nazywamy odległością Levensteina.
 
-Rozważmy najpierw naiwne podejście rekurencyjne: badamy 
+\textbf{Rozwiązanie:}
+Warto wspomnieć, że dodanie jeszcze jednej operacji --
+zamiany znaków z dwóch różnych słów powoduje powstanie metryki
+którą nazywamy odległością Levenshteina.
+
+Przeanalizujmy najpierw naiwne podejście rekurencyjne: badamy 
 oba napisy od tyłu, oznaczmy $m$ jako długość napisu $x$
-oraz $n$ jako długość napisu $y$. 
+oraz $n$ jako długość napisu $y$. Rozważmy dwa przypadki: 
+
 \begin{itemize}
 	\item[1.] Jeśli znaki są takie same to wywołujemy rekurencyjnie
 	nasz algorytm dla napisu $x$ skróconego do $m - 1$ oraz 
 	napisu $y$ skróconego do $n - 1$.
-	\item[2.] Jeśli znaki są różne to robimy dwa wywołania 
-	rekurencyjne - jedno dla usunięcia znaku z napisu $x$ 
-	a drugie dla dodania znaku z napisu $x$, po 
-	to by wybrać z tych dwóch wywołań mniejszy koszt.
+	\item[2.] Jeśli znaki są różne to potrzebujemy dwóch wywołań rekurencyjnych
+	\begin{itemize}
+		\item wywołanie dla $m - 1$ oraz $n$, które interpretujemy jako operację usunięcia znaku $x[m]$,
+		\item wywołanie dla $m$ oraz $n - 1$, które
+		interpretujemy jako operację wstawienia znaku $y[m]$ do napisu $x$,
+		po znaku $x[m]$.
+	\end{itemize} 
 \end{itemize}
 
+W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania npaisów od 1.
+\begin{algorithm}[H]
+	\caption{Odległość edycyjna -- naiwny algorytm rekurencyjny}
+	\begin{algorithmic}[1]
+		\Procedure{NaiveEditDistance($x$, $m$, $y$, $n$)}{}
+		\If{$m=0$}
+		\Comment $x$ jest puste, więc możemy jedynie dodać wszystkie znaki z napisu $y$ do napisu $x$
+		\State \Return $n$ 
+		\EndIf
+		\If{$n=0$}
+		\Comment $y$ jest puste, więc możemy jedynie usunąć wszystkie znaki z napisu $x$
+		\State \Return $m$ 
+		\EndIf
+		\If{$x[m] = y[n]$}
+		\State \Return NaiveEditDistance($x$, $m - 1$, $y$, $n - 1$)
+		\Else
+		\State DeleteCost = NaiveEditDistance($x$, $m - 1$, $y$, $n$)
+		\State InsertCost = NaiveEditDistance($x$, $m$, $y$, $n - 1$)
+		\State \Return 1 + min(DeleteCost, InsertCost) \Comment +1, bo musimy wliczyć koszt wykonania aktualnej operacji
+		\EndIf
+		\EndProcedure 
+	\end{algorithmic}
+	\label{Zadanie14-naive}
+\end{algorithm}
 
-Podejście programowania dynamicznego: Tworzymy tablicę $T[\,,]$ o
-$m + 1$ kolumnach oraz $n + 1$ wierszach,
-gdzie kolumny oznaczają kolejne litery napisu $x$, a
-wiersze kolejne litery napisu $y$. 
-$T[i, j]$ będzie oznaczało odległość podnapisów:
-$i$-elementowego podnapisu $x$ licząc od początku oraz 
-$j$-elementowego podnapisu $y$ licząc od początku.
+Teraz zajmijmy się podejściem programowania dynamicznego.
+Niech $T$ to tablica dwuwymiarowa o
+$n + 1$ wierszach oraz $m + 1$ kolumnach
+gdzie kolumny oznaczają kolejne litery napisu $x$ a
+wiersze kolejne litery napisu $y$. Komórka
+$T[i, j]$ ($i \in [0, n+1], j \in [0, m+1]$), będzie 
+oznaczała odległość 
+podnapisu $x$ składającego się z indeksów $1,2 \ldots j$ od 
+podnapisu $y$ składającego się z indeksów $1,2 \ldots i$.
 
-Wtedy możemy wypełniać od lewego górnego rogu tablicy.. \textbf{TO DO}
-
+Przyjmijmy, że $i \in [1, n+1]$ i $ j \in [1, m+1]$ oraz 
+zaobserwujmy następującą relację: 
+\begin{itemize}
+	\item jeśli $x[j]=y[i]$, to $T[i, j] = T[i - 1, j - 1]$,
+	\item w przeciwnym przypadku $T[i, j] = 1 + \min(T[i - 1, j], T[i, j - 1])$, gdzie
+	$+1$ wynika, z potrzeby wykonania operacji dodawania lub usuwania znaku
+	(w zależności od tego, czy $T[i - 1, j] > T[i, j - 1]$).
+\end{itemize}
 
 Przykład: rozważmy dwa napisy $x =$ \textit{piesek} oraz $y =$ \textit{kotek}.
-
 
 \begin{table}[H]
 	\center
 	\begin{tabular}{|l|lllllll|}
-		\hline
+		\hline \diagbox{$y$}{$x$}
 		& \multicolumn{1}{l|}{\textbf{""}} & \multicolumn{1}{l|}{\textbf{p}} & \multicolumn{1}{l|}{\textbf{i}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{s}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{k}} \\ \hline
-		\textbf{""} & 0                                & 1                               & 2                               & 3                               & 4                               & 5                               & 6                               \\ \cline{1-1}
-		\textbf{k}  & 1                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{o}  & 2                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{t}  & 3                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{e}  & 4                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
-		\textbf{k}  & 5                                & 0                               & 0                               & 0                               & 0                               & 0                               & 0                               \\ \cline{1-1}
+		\textbf{""} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-1}
+		\textbf{k}  & 1 & 2 & 3 & 4 & 5 & 6 & 5 \\ \cline{1-1}
+		\textbf{o}  & 2 & 3 & 4 & 5 & 6 & 7 & 6 \\ \cline{1-1}
+		\textbf{t}  & 3 & 4 & 5 & 6 & 7 & 8 & 7 \\ \cline{1-1}
+		\textbf{e}  & 4 & 5 & 6 & 5 & 6 & 7 & 8 \\ \cline{1-1}
+		\textbf{k}  & 5 & 6 & 7 & 6 & 7 & 8 & 7 \\ \cline{1-1}
 		\hline
 	\end{tabular}
 	\caption{}
 	\label{tab_zad14}
 \end{table}
+
+Na podstawie tabeli \ref{tab_zad14}, wiemy, że szukana odległość wynosi 7.
+
+\begin{algorithm}[H]
+	\caption{Rozwiązanie zadania 1.4}
+	\begin{algorithmic}[1]
+		\Procedure{EditDistance($x$, $m$, $y$, $n$)}{}
+		\State Utwórz tablicę $T$ o $n + 1$ wierszach i $m + 1$ kolumnach
+		\For{$i=0,1\ldots n$}
+		\State $T[i, 0] = i$
+		\EndFor		
+		\For{$j=0,1\ldots m$}
+		\State $T[0, j] = j$
+		\EndFor
+		\For{$i=1,2\ldots n$}
+		\For{$j=1,2\ldots m$}
+		\If{$x[j] = y[i]$}
+		\State $T[i, j] = T[i - 1, j - 1]$
+		\Else
+		\State $T[i, j] = 1 + \min(T[i - 1, j], T[i, j - 1])$
+		\EndIf
+		\EndFor
+		\EndFor
+		\State \Return $T[n, m]$
+		\EndProcedure 
+	\end{algorithmic}
+	\label{Zadanie14}
+\end{algorithm}
+
