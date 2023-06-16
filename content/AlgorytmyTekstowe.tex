@@ -1,0 +1,116 @@
+\subsection{Algorytm Knutha-Morrisa-Pratta}
+
+\begin{algorithm}[H]
+	\caption{Algorytm Knutha-Morrisa-Pratta}
+	\label{KMP}
+	\begin{algorithmic}[1]
+		\Procedure{ComputeP}{$x$: napis}
+		\State $P[0], P[1], t \gets 0$
+		\For{$j = 2, \dots, |x|$}
+		\While{$ t> 0 \land x[t] \neq x[j-1]$}
+		\State $t \gets P[t]$
+		\EndWhile
+		\If {$x[t]=x[j-1]$}
+		\State $t++$
+		\EndIf
+		\State $P[j] \gets t$
+		\EndFor
+		\State Zwróć $P$
+		\EndProcedure
+		
+		\Procedure{KMP}{$tekst$: napis, $wzorzec$: napis}
+		\State $P \gets \textsc{ComputeP}(wzorzec)$
+		\State $n \gets |tekst|$
+		\State $m \gets |wzorzec|$
+		\State $j \gets 0$
+		\For{$i = 0; i \leq n - m; i \,+\!= \operatorname{max}(j - P[j], 1)$}
+			\State {$j = P[j]$}
+			\While {$j < m \land y[i+j]=x[j]$}
+				\State $j++$
+			\EndWhile
+			\If{$j=m$}
+				\State Dodaj $i$ do listy wyników
+			\EndIf
+		\EndFor
+		\State Zwróć listę wyników
+		\EndProcedure		
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{fact}
+	\label{prefiksosufiks}
+	Każdy prefiks prefikso-sufiksu słowa $x$ jest też prefikso-sufiksem słowa $x$.
+	\begin{proof}
+		Pozostawiamy czytelnikowi.
+	\end{proof}
+\end{fact}
+
+Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
+
+\begin{theorem}[Poprawność algorytmu \textsc{ComputeP}]
+	W $j$-tej komórce tablicy $P$ znajduje się długość NWPS $j$ pierwszych znaków napisu $x$.
+	\begin{proof}
+		Indukcja po $j$.
+		\begin{itemize}
+			\item Baza indukcji. Długość NWPS wynosi 0 dla napisu długości 0 (oczywiste) oraz napisu długości 1 (bo prefikso-sufiks będący całym napisem nie jest właściwy). $P[0]=P[1]=0$.
+			\item Krok indukcyjny. Załóżmy, że $P[j-1]$ jest długością NWPS $j-1$ pierwszych znaków napisu. Pokażemy, że wtedy $P[j]$ jest długością NWPS $j$ pierwszych znaków $x$.
+			
+			Oznaczmy $x' = x[0\dots j-2]$, $T = \operatorname{NWPS}(x')$ oraz $c = x[j-1]$. W pętli \textit{while} iterujemy po kolejnych (w kolejności malejącej długości) prefikso-sufiksach $x'$. Po jej skończeniu zatrzymujemy się na prefikso-sufiksie $T'$. Rozważmy przypadki:
+			\begin{itemize}
+				\item $T'$ jest napisem pustym. Wtedy $t=0$ i:
+				\begin{gather*}
+					P[j] = 
+					\begin{cases}
+						1, & \text{gdy } x[0]=c, \\
+						0, & \text{wpp}.
+					\end{cases}
+				\end{gather*}
+				\item $T':=x[0 \dots t-1], t > 0$. Z warunku pętli wynika, że wtedy $x[t]=c$ i z faktu $\ref{prefiksosufiks}$ napis $T'c$ jest prefikso-sufiksem napisu $x'c$ o długości $|T'|+1=P[t]+1$. Ponieważ prefikso-sufiksy rozpatrywaliśmy od najdłuższego, jest to NWPS napisu $x'c$. Wartość wpisana w komórkę $P[j]$ to $P[t]+1$, czyli długość NWPS pierwszych $j$ znaków napisu $x$. \qedhere
+			\end{itemize}		 
+		\end{itemize}
+	\end{proof}
+\end{theorem}
+
+\begin{lemma}
+	\label{lemmakmp}
+	Jeżeli $tekst[i\dots i+j-1] \mathrel{\overset{(\ast)}{=}} wzorzec[0 \dots j-1]$ oraz $tekst[i + j] \neq wzorzec[j]$, wówczas dla każdego $k$, takiego że $i \leq k < i + j - P[j]$, zachodzi $tekst[k \dots k + m - 1] \neq wzorzec$.
+	\begin{proof}
+		Oznaczmy jako $T$ najdłuższy właściwy prefikso-sufiks pierwszych $j$ znaków wzorca. Z definicji tablicy $P$ wiemy, że $|T|=P[j]$.
+		
+		Przypuśćmy nie wprost, że istnieje takie $k \in [i, i + j - P[j])$, że 
+		\begin{gather}
+			\label{zal1}
+			tekst[k\dots k+m-1] = wzorzec.				
+		\end{gather}
+
+		Oznacza to, że na pozycji $k' := k - i$ istnieje pewien fragment ciągu $wzorzec[{1 \dots j - P[j]}]$\footnote{Pomijamy $k'=0$, ponieważ z $tekst[i+j] \neq wzorzec[j]$ nie znajdziemy tam wzorca.} równy $T$ (nieformalnie: podciąg równy $T$ występuje we wzorcu przed sufiksem).
+		Pokażemy, że na pozycji $k'$ we wzorcu znajdziemy nowy, dłuższy niż $T$, prefikso-sufiks. 
+		
+		\begin{enumerate}
+			\item Skoro w tekście na pozycji $k$ znajduje się wzorzec, to z $(\ref{zal1})$:
+			 
+			 $$tekst[k\dots i+j-1]=wzorzec[0\dots j-1-k'].$$ 
+			 
+			 Z drugiej strony te znaki zostały już dopasowane, gdy porównywaliśmy wzorzec z tekstem począwszy od pozycji $i$ w tekście, tzn. z $(\ast)$ mamy:
+			 
+			 $$tekst[k\dots i+j-1] = wzorzec[k' \dots j-1].$$
+			 
+			 Razem $S:=wzorzec[0\dots j-1-k']=wzorzec[k' \dots j-1]$, zatem $S$ jest prefikso-sufiksem pierwszych $j$ znaków wzorca.
+			\item $|T|=P[j], |S| = j-1-k'+1=j-k'$. Z założenia: 
+			\begin{gather*}
+				k < i + j - P[j], \\
+				P[j] < i + j - k = j - k', \\
+				|T|<|S|.
+			\end{gather*}
+		\end{enumerate}
+	
+		Znaleźliśmy zatem dłuższy prefikso-sufiks $j$ pierwszych znaków wzorca dłuższy niż $T$, co stoi w sprzeczności z poprawnością algorytmu \textsc{ComputeP}. 
+	\end{proof}
+\end{lemma}
+
+\begin{theorem}[Poprawność algorytmu KMP]
+	Algorytm Knutha-Morrisa-Pratta (\ref{KMP}) poprawnie znajduje wszystkie pozycje wystąpienia wzorca w tekście. 
+	\begin{proof}
+		W algorytmie naiwnym zwiększamy $i$ w każdej iteracji o 1. Algorytm KMP jest modyfikacją algorytmu naiwnego taką, że w określonych przypadkach $i$ zwiększamy o więcej niż 1. Należy pokazać, że przy takiej operacji nie tracimy możliwych wystąpień wzorca. Wynika to bezpośrednio z lematu \ref{lemmakmp}.
+	\end{proof}
+\end{theorem}
