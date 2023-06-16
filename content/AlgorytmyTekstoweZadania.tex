@@ -1,94 +1,67 @@
 \subsection{Zadanie 1 -- najdłuższy prefiks}
-Korzystamy z KMP. W momencie kiedy dopasowujemy wzorce, zapisujemy maksymalną długość prefiksu, którą uzyskaliśmy.
+\paragraph{Treść:}
+Dany jest wzorzec $x$ oraz napis $y$. Zaprojektuj algorytm, który znajdzie najdłuższy prefiks $x$ zawarty w napisie $y$ w czasie $O(|x|+|y|)$.
 
-% Na razie pomijamy 8.2 (dużo trudneijsze niż sie wydaje) i 8.3 (powtórzenie z labów)
+\paragraph{Rozwiązanie:}
+W zadaniu tym można wykorzystać modyfikację algorytmu KMP (\ref{KMP}), która zapamiętuje pozycję i długość najdłuższego znalezionego prefiksu.
+
+\begin{algorithm}[H]
+	\caption{Algorytm \emph{LongestMatchingPrefix}}
+	\begin{algorithmic}[1]
+		\Procedure{LongestMatchingPrefix}{$tekst$: napis, $wzorzec$: napis}
+		\State $P \gets \textsc{ComputeP}(wzorzec)$
+		\State $n \gets |tekst|$
+		\State $m \gets |wzorzec|$
+		\State $j \gets 0$
+		\State $maxLen\gets-1$
+		\State $maxPos\gets-1$ 
+		\For{$i = 0;\ i \leq n - m;\ i \pleq \operatorname{max}(j - P[j], 1)$}
+			\State {$j = P[j]$}
+			\While {$j < m \land y[i+j]=x[j]$}
+				\State $j\pp$
+			\EndWhile
+			\If{$j=m$}
+				\State\Return $(maxPos, maxLen)$
+			\ElsIf{$j>maxLen$}
+				\State $maxLen\gets j$
+				\State $maxPos\gets i$
+			\EndIf
+		\EndFor
+		\State\Return $(maxPos, maxLen)$
+		\EndProcedure		
+	\end{algorithmic}
+\end{algorithm}
 
 \subsection{Zadanie 2 -- szukanie przynajmniej połowy wzorca}
-\subsubsection{Dyskusja}
 
-Mamy wzorzec który jest słowem - duh. Przynajmniej połowę wzorca. Połowa wzorca to ma być oczywiście spójny fragment.
-Haszujący słownik, no jakiś logarytm, ale nie słuchałem algorytmu. Ale przynajmniej Dębski mówi że jest kreatywny :)
+\subsection{Zadanie 4 -- dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{?}'}
+\label{zadanie8.4}
+\paragraph{Treść:}
+Problem dopasowania wzorca ze znakami nieznaczącymi różni się od problemu wyszukiwania wzorca w tekście tylko tym, że wzorzec może zawierać specjalny znak '\texttt{?}', który pasuje do każdego znaku.
 
-Kluczowe jest podejście, że szuakmy dokłądnie połowy -- znamy długość d. Mamy wzorzec $y$. Algorytm Karp-Rabin. Modyfikacja: wrzucamy do słownika wszystkie hasze które policzyliśmy (spójnych podsłów długości $d$). Przechodzimy po $x$. Haszujemy, sprawdzamy czy hasz występuje w słowniku. Ale jest problem niejednoznaczności haszu. Pesymistycznie wciąż patrzymy wszystkie połowy i złożoność $O(n^2)$. No dobra ale przestańcie hejtować haszowanie, jezuu:(. 
+Zaprojektuj algorytm rozwiązujący ten problem w czasie $O(nk)$, gdzie $n$ jest długością tekstu, a $k$ -- liczbą znaków nieznaczących we wzorcu.
+\paragraph{Rozwiązanie:}
+Dzielimy wzorzec wg. znaku '\texttt{?}' na $k+1$ podwzorców (być może niektóre są puste, bo kilka '\texttt{?}' stoi obok siebie, ale nie szkodzi). Tworzymy tablicę $n\times(k+1)$, gdzie na pozycji $(i,j)$ znajduje się informacja, czy na $i$-tej pozycji tekstu znajduje się $j$-ty podwzorzec. Korzystając z KMP, wyszukujemy każdy podwzorzec w tekście i zapisujemy w tablicy odpowiednią informację o jego obecności. Dla pustych podwzorców wypełniamy cały wiersz informacją o jego znalezieniu, żeby zapewnić sobie poprawne działanie dalszej części algorytmu.
 
-Dębskiemu się podoba. Pesymistycznie no wyjdzie kwadratowo no ale chuj! Bo hasze się często mogą zgadzać. Jezu weźcie się ludzie przejdzie na rpiesm bo widać po was.
+Następnie przeglądamy wygenerowaną tablicę w celu znalezienia wystąpienia całego wzorca. Po znalezieniu wystąpienia pierwszego podwzorca, tj. na pozycji $(i_0, 0)$, przesuwamy się o jeden wiersz w dół i długość podwzorca plus jeden w prawo, to znaczy w miejsce, gdzie spodziewamy się dopasowania kolejnego podwzorca. Robimy tak, aż do znalezienia ostatniego podwzorca, gdyż wtedy dopasowaliśmy cały wzorzec. Jeśli którykolwiek podwzorzec po drodze nie został znaleziony, to przerywamy operację i przechodzimy do kolejnego wystąpienia pierwszego podwzorca, tj. $(i_1,0)$ i powtarzamy szukanie.\daggerfootnote{Możemy usprawnić ten algorytm zauważając następujący niezmiennik: kolejne podwzorce będą znajdować się w tekście dalej, niż poprzednie. Co za tym idzie, możemy wywołać KMP dopiero od pierwszego dopasowania poprzedniego podwzorca.}
 
-Wzorce długości 1GB? O czym wy gadacie. Nie ma takich. Przestańcie się oszukiwać
+Załóżmy, że szukamy wzorca ,,\texttt{AAB?XYZ}'' w tekście ,,\texttt{XYZAABAABCXYZA}''.
+\begin{table}[H]
 
-Rozbieżność między światem matematyka i inżyniera!
+\centering
+\begin{NiceTabular}{c|cccccccccccccc}[cell-space-limits=1.5mm]
+tekst&X&Y&Z&A&A&B&A&A&B&C&X&Y&Z&A\\\hline
+podwzorzec $0$\RowStyle{\color{ForestGreen}}&&&&A&A&B&A&A&B&&&&&\\
+podwzorzec $1$\RowStyle{\color{ForestGreen}}&X&Y&Z&&&&&\color{red}X&&&X&Y&Z&\\
+\CodeAfter
+  \tikz \draw[ForestGreen] (1-|8) |- (3-|12) |- (4-|15) -- (1-|15); 
+  \tikz \draw[red,dashed] (1-|5) |- (3-|9) |- (4-|10); 
+\end{NiceTabular}
+\caption{Przebieg algorytmu dla przytoczonego wyżej wzorca i tekstu. Najpierw wyszukiwane są położenia podwzorca ,,\texttt{AAB}'' (pozycje 3 i 6), a następnie podwzorca ,,\texttt{XYZ}'' (pozycje 0 i 10). Dla dopasowania podwzorca ,,\texttt{AAB}'' na pozycji 3, brakuje dopasowania wzorca ,,\texttt{XYZ}'' na pozycji $3+3+1=7$, zatem szukamy innego dopasowania podwzorca ,,\texttt{AAB}''. Kolejne takie dopasowanie znajduje się na pozycji 6, a na pozycji $6+3+1=10$ znajduje się dopasowanie podwzorca ,,\texttt{XYZ}'', zatem dopasowaliśmy cały wzorzec.}
+\end{table}
 
-Alternatywny pomysł! Krowa została wydojona. Sprawdziliśmy dla pierwszej połowy. Jak szybko policzyć połowę przesuniętą o 1? Mamy tablicę wystąpień. Przechoj się zastanawia. Gdy w tablicy wystąpień wartości spadają o 1, to...
-yyyyy nie wiem coś tam gada ale to się chyba kupy nie trzyma.
+Algorytm ten wywołuje KMP $k+1$ razy, zatem jego złożoność to $O(nk)$.
 
-Zapadła cisza. Zosia poprosiła o podpowiedź. Brzmi ona: można ... ... ... .. .w jakiś sprytny sposób użyć znajdowania najdłuższego prefiksu zaczynajacego sie w kazdej pozycji tekstu. (Detour z zadania 8.1). 
-
-\subsubsection{Zosia i Julka}
-Jeżeli weźmiemy na pół tekst, to na pewno wzorzec będzie dotykał barierę między połowami tekstu. Dzielimy wzorzec na pół. Dzielimy wzorzec na sufiks i prefiks
-
-Przykład
-wzorzec: xxcdefxx
-tekst: abcdfghij
-Dzielimy wzorzec na pół. xxcd | efxx. Szukamy sufiksu i prefiksu (KMP + KMP (na odwróconym tekście i wzorcu))
-
-dla drugiej połowy:
-abcd(ef)ghij
-0000(20)0000
-
-dla pierwszej:
-ab(cd)efghij
-00(02)000000
-
-Przechodzimy przez obie tablice, jeżeli obok siebie w tablicy są niezerowe wartości, i sumują się do >= niż połowy, to możemy skleić z lewej sufiks i z prawej prefiks, i mamy znalezioną połowę wzorca. Tak w ogóle to wybieramy największą sumę.
-slay!!
-
-Dla każdej pozycji w tekście znajdujemy najdłuższy prefiks (afiks?) wzorca zaczynający się na tej pozycji. 
-
-Jak wyznaczać tablicę? Jak KMP. 
-
-Oho, Dębski przedstawia przykład który może nie działać.
-
-wzorzec = abc1abcxabc
-Szukamy prefiksów tego wzorca w tekście: abc1abcxabc1
-Algorytm KMP powie, że 11 pierwszych znaków się zgadza. Potem jedynka się nie zgadza, i KMP szuka największego p-s tego kawałka. Najdłuższy yyy nie no zgubiłem się
-
-Ok, rozumiem, może być tak, że podczas tworzenia tablicy nie zarejestrujemy jakiegoś krótszego fragmentu który później może być optymalny.
-
-Teraz Patryk pokazuje swój przykład.
-
-w: xxx c ccc cab | abd abd ab c x
-t:           cab | abd abd ab c
-
-Nooo i coś tam..\\
-Popsuło:(((((\\
-:OOO Jednak działa
-
-\subsubsection{Dębski}
-Jak by chciał poprawiać: Wystarczyłoby dla wzorca na każdym miejscu wzorca napisać jak długi prefiks wzorca na danej pozycji się zaczyna (De facto robimy tę samą tablicę ale dla wzorca). Jeżeli tak przetworzymy, to w KMP przy chodzeniu po tekście będzie można w momencie, gdy doszliśmy do niezgodności, i przestawiamy $i$ o ileś pozycji, to zamiast $i$ zwiększać jednym krokiem, to można przejść po pozycjach pomiędzy i przepisać na pozycje wartości z wzorca... Ja pierdole
-
-Tylko jak we wzorcu to zrobić... Modyfikacja \texttt{ComputeP}. Jak chodzimy po prefikso-sufiksach, to dopóki się zwiększają (mamy zgodność), to nic się nie dzieje (przedłużamy p-s), a gdy mamy niezgodność i trzeba p-s skrócić, to (może się okazać że p-s nowego kawałka to będzie mniejszy kawałek), to zanim to po prostu skrócimy, będziemy musieli w tym miejscu (stary prefikso-sufiks, jego prawa część, bez nowego p-s) przepisać z tablicy wynikowej dla tego fragmentu (dla starego p-s lewej części). Przy przepisywaniu ograniczamy maksymalnie do długości czegoś..? Na miejscu $i$ nie może się znaleźć liczba dłuższa niż fragment od $i$ do końca kawałka który rozważamy
-
-Ja pierdolę! Dużo słów.
-
-
-
-\subsection{Zadanie 4 -- dopasowanie wzorca ze znakami nieznaczącymi \texttt{\$}}
-Znaków nieznaczących jest $k>0$. Chcemy złożoność $O(nk)$.
-
-Podpowiedź Dębskiego: wyszukanie wzorca $x$ "abc?xyz" w napisie $y$. Padło jakieś podzielenie wzorca: poszukanie pierwszej części, później drugiej?? \\
-Łojek: Dzielimy $x$ rozdzielając wildcharami. Dla każdego fragmentu szukamy wystąpienia w $y$ -- robimy to k+1 razy. W tablicy zapisujemy indeksy wystąpień. Coś tam robimy dla każdego indeksu co najwyżej $k$ razy:(
-
-\subsection{Zadanie 5 -- dopasowanie wzorca ze znakami nieznaczącymi \texttt{*}}
-Tak jak w 8.4, wypełniamy tablicę, coś tam trafiamy na dopasowanie, jak trafimy to schodzimy w tablicy niżej, i  coś tam. O kurwa backtracking!! Nie rozumiem!! I coś tam tak sobie przeszukuję w dół, jak się nie uda to wracam. Algorytm wykładniczy, nie slay. Oho, jednak nie wykładniczy? Nie, jednak wykładniczy. $O(n^k)$.
-
-W każdej tablicy zachowujemy jakieś indeksy gdzie ostatnio zeszliśmy? I tak obcinamy sobie trochę przypadków. Przechoj twierdzi że dużo pamięci. Nie, jednak nie. Do każdej komórki wchodzimy $\leq 1$ raz. No to nie jest już wykładniczy.
-
-Przechoj podchodzi do tablicy. Let's go. Zaczyanmy od ostatniego. Idziemy do góry od dołu. Jak wiemy że ostatni fragment znaleziony się zaczyna na dole, to wiemy że na górze już później nic nie znajdziemy. Wychodzą takie schodki.
-Ooo przechojowi się skończył pomysł;/ Szuakmy jakiegoś podzbioru.
-
-Oho Łojek podchodzi do tablicy. Był problem że wiele razy mogliśmy trafić na jeden fragment tekstu. On idzie do dołu. 
-Zasłaniał tablicę więc musi pokazać jeszcze raz:( Co to jest tablica dopasowań? Mówi nam czy w danej komórce zaczyna się dopasowanie danego wzorca. Jeżeli tu sie zaczyna, przechodzim y w prawo odpowiednią długosć. Schodzimy w dół. Przeszukujemy tablicę o długości d. Jeżeli znajdziemy w dół to super. Jak nie to nie ma co z tego miejsca schodzić w dół. Następne zejście, gdziekolwiek by ono nie było, możemy zacząć od *tego* punktu. (jakiego? chyba uzależnionego od tego co się stało na dole).
-
-tak wyjaśniając: góra - dół tzn. na górze pierwszy fragment $x$ na dole ostatni
-
- 
-
+\subsection{Zadanie 5 -- dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{*}'}
+\paragraph{Treść:}
+Rozwiąż zadanie \ref{zadanie8.4} w wersji ogólniejszej, ze znakiem '\texttt{*}' we wzorcu, który pasuje do każdego ciągu znaków o długości nie większej niż $d$, dla zadanej stałej $d$.
