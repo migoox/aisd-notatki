@@ -538,8 +538,6 @@ TU RYSUNKI + komentarz o kątach -- że skręt w lewo tworzy kąt wypukły, skr�
 
 					\item Niech $\bar{S}$ będzie zbiorem punktów zdjętych w ostatnim wykonaniu pętli \textit{while} ze stosu $S_{k-1}$.
 					Weźmy dowolny $Q \in \bar{S}$. Z prawoskrętności trójki ($S$.Top(), $Q$, $P[k]$) wynika, że kąt wyznaczony przez tę trójkę jest wklęsły, zatem $Q$ leży we wnętrzu trójkąta $(P[k], P[0], S.\operatorname{Top}())$ (rysunek \ref{fig:graham:usuwanie}). Z założenia indukcyjnego wszystkie punkty z $\{P[0], \dots, P[k]\} \setminus \bar{S}$ leżą wewnątrz wielokąta opisanego przez $S \setminus \bar{S}$. Zatem $S_k$ stanowi otoczkę zbioru $\{P[0], \dots, P[k]\}$.
-					
-				USUNĄĆ GŁUPOTKI Z COMMITA
 				\end{enumerate}				
 			\end{itemize}
 			Podsumowując, wielokąt opisany przez $S_k$ jest otoczką wypukłą zbioru $\{P[0], \dots, P[k]\}$. Po $n-1$ iteracjach pętli \textit{for} ciąg punktów $S$ opisuje otoczkę wypukłą wszystkich punktów z $P$. \qedhere
