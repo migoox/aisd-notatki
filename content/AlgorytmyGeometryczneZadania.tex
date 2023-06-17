@@ -1,0 +1,46 @@
+\subsection{Zadanie 4 -- Otoczka wypukła punktu i wielokątu wypukłego}
+\paragraph{Treść:} Dany jest wielokąt wypukły o zbiorze wierzcholków $Z$ oraz punkt $p$. Znajdź otoczkę wypukłą zbioru $Z \cup {p}$ w czasie $O(|Z|)$.
+\paragraph{Rozwiązanie:}
+Przyjmijmy, że $Z = \{z_1, z_2, \ldots, z_n\}$ to lista, która przechowuje wierzchołki
+wielokąta wypukłego $W$, w kolejności przeciwnej do ruchu wskazówek zegara.
+Rozważmy dwa przypadki
+\begin{enumerate}
+	\item Wierzchołek $p$ znajduje się wewnątrz wielokąta $W$. Iterując po odcinkach
+	wielokąta $W$, w kolejności przeciwnej do ruchu wskazówek zegara, wierzchołki
+	$z_{i-1}$, $z_i$ ($i \in [n]$) tworzące aktualny odcinek oraz wierzchołek $p$, w dokładnie takiej kolejności, zawsze utworzą skręt w lewo. W takiej sytuacji obwódka wypukła jest zbiorem $Z$.
+	
+	\item Wierzchołek $p$ znajduje się na zewnątrz wielokąta $W$. Iterując po odcinkach
+	wielokąta $W$, w kolejności przeciwnej do ruchu wskazówek zegara, musi zaistnieć sytuacja, w której wierzchołki
+	$z_{i-1}$, $z_i$ ($i \in [n]$) tworzące aktualny odcinek oraz wierzchołek $p$, w dokładnie takiej kolejności, utworzą skręt w prawo.
+	
+	W takiej sytuacji zastąpimy wierzchołek $z_i$ wierzchołkiem $p$ i zaczniemy 
+	sprawdzać skręt kolejnych trójek $z_{j-1}$, $z_j$ oraz $z_{j+1}$
+	($j = i + 1, i + 2, \dots n - 1$). Tak długo
+	jak skręt będzie w prawo, usuwamy $z_i$, w przeciwnym przypadku kończymy i zwracamy zmodyfikowane $Z$.
+\end{enumerate}
+
+\begin{algorithm}[H]
+	\caption{Algorytm }
+	\begin{algorithmic}[1]
+		\Procedure{FindCHForPointAndConvexPolygon}{$Z$: zbiór wierzchołków, $p$: punkt}
+		\For{$i \gets 2, 3, \dots n$}
+		\If{$Z[i-1]$, $Z[i]$ oraz $p$ nie są skrętem w lewo}
+		\State \Return \textsc{NewConvexHull}($Z$, $p$, $i$)
+		\EndIf
+		\EndFor
+		\State \Return $Z$
+		\EndProcedure		
+		\Procedure{NewConvexHull}{$Z$: zbiór wierzchołków, $p$: punkt, $i$: indeks}
+		\State $Z[i] \gets p$
+		\For{$j \gets i + 1, i + 2, \dots n - 1$}
+		\If{$Z[j-1]$, $Z[j]$ oraz $Z[j + 1]$ nie są skrętem w lewo}
+		\State Usuń $Z[j]$
+		\State $j--$ 
+		\Else
+		\State \textbf{break}
+		\EndIf
+		\EndFor
+		\State \Return $Z$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
