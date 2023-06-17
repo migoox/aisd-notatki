@@ -11,7 +11,7 @@
 		\State $t \gets P[t]$
 		\EndWhile
 		\If {$x[t]=x[j-1]$}
-		\State $t++$
+		\State $t\pp$
 		\EndIf
 		\State $P[j] \gets t$
 		\EndFor
@@ -39,7 +39,7 @@
 
 \begin{fact}
 	\label{prefiksosufiks}
-	Każdy prefiks prefikso-sufiksu słowa $x$ jest też prefikso-sufiksem słowa $x$.
+	Każdy prefikso-sufiks prefikso-sufiksu słowa $x$ jest też prefikso-sufiksem słowa $x$.
 	\begin{proof}
 		Pozostawiamy czytelnikowi.
 	\end{proof}
@@ -48,6 +48,7 @@
 Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 
 \begin{theorem}[Poprawność algorytmu \textsc{ComputeP}]
+	\label{thrm:computeP}
 	W $j$-tej komórce tablicy $P$ znajduje się długość NWPS $j$ pierwszych znaków napisu $x$.
 	\begin{proof}
 		Indukcja po $j$.
@@ -83,7 +84,8 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 			tekst[k\dots k+m-1] = wzorzec.				
 		\end{gather}
 
-		Oznacza to, że na pozycji $k' := k - i$ istnieje pewien fragment ciągu $wzorzec[{1 \dots j - P[j]}]$\footnote{Pomijamy $k'=0$, ponieważ z $tekst[i+j] \neq wzorzec[j]$ nie znajdziemy tam wzorca.} równy $T$ (nieformalnie: podciąg równy $T$ występuje we wzorcu przed sufiksem).
+		Oznacza to, że we wzorcu na pozycji $k' := k - i$ istnieje pewien fragment ciągu \linebreak
+		$wzorzec[{1 \dots j - P[j]}]$\daggerfootnote{Pomijamy $k'=0$, ponieważ skoro $tekst[i+j] \neq wzorzec[j]$, to nie znajdziemy tam wzorca.} równy $T$ (nieformalnie: podciąg równy $T$ występuje we wzorcu przed sufiksem).
 		Pokażemy, że na pozycji $k'$ we wzorcu znajdziemy nowy, dłuższy niż $T$, prefikso-sufiks. 
 		
 		\begin{enumerate}
@@ -104,7 +106,7 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 			\end{gather*}
 		\end{enumerate}
 	
-		Znaleźliśmy zatem dłuższy prefikso-sufiks $j$ pierwszych znaków wzorca dłuższy niż $T$, co stoi w sprzeczności z poprawnością algorytmu \textsc{ComputeP}. 
+		Znaleźliśmy zatem dłuższy prefikso-sufiks $j$ pierwszych znaków wzorca dłuższy niż $T$, co stoi w sprzeczności z poprawnością algorytmu \textsc{ComputeP} (twierdzenie \ref{thrm:computeP}). 
 	\end{proof}
 \end{lemma}
 
