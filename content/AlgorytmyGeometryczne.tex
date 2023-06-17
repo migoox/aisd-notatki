@@ -464,7 +464,21 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 	Trójkę punktów $(P, Q, R)$ taką, że $(Q-P) \times (R-P) < 0$ nazywamy skrętem w prawo.
 \end{defi}
 
-TU RYSUNKI + komentarz o kątach -- że skręt w lewo tworzy kąt wypukły, skręt w prawo tworzy kąt wklęsły.
+\begin{minipage}{0.45\linewidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=0.45\linewidth]{data/skretwlewo.png}
+		\caption{\small Skręt w lewo. Kąt $\angle PQR$ jest wypukły.}
+	\end{figure}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\linewidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=0.45\linewidth]{data/skretwprawo.png}
+		\caption{\small Skręt w prawo. Kąt $\angle PQR$ jest wklęsły.}	
+	\end{figure}
+\end{minipage}
 
 \begin{algorithm}[H]
 	\caption{Algorytm Grahama znajdowania otoczki wypukłej}\label{alg:graham}
@@ -505,7 +519,7 @@ TU RYSUNKI + komentarz o kątach -- że skręt w lewo tworzy kąt wypukły, skr�
 			
 			Analogicznie dowodzimy w przypadku, gdy jest kilka punktów o tej samej współrzędnej $y$.
 			
-			\item Jako $S_i$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ (tzn. po $(i-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots P[k]\}$.
+			\item Jako $S_k$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ (tzn. po $(k-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots P[k]\}$.
 			
 			\begin{itemize}
 				\item Baza indukcji. Przed pętlą \textit{for} ciąg $S_1$ opisuje odcinek $(P[0], P[1])$, który naturalnie jest otoczką wypukłą zbioru  $\{P[0], P[1]\}$.
