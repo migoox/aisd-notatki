@@ -1,0 +1,41 @@
+\subsection{Zadanie 3 -- Kolorowanie grafu z list o rozmiarze nie większym niż 2}
+\paragraph{Treść:} W problemie kolorowania grafu $G$ z list dla każdego wierzchołka 
+$v \in V(G)$ mamy daną listę $L_v$ i
+szukamy poprawnego kolorowania grafu $G$, w którym kolor każdego wierzchołka $v$ należy do $L_v$.
+Zaprojektuj algorytm, który rozwiąże problem kolorowania grafu z list w czasie wielomianowym w przypadku, gdy
+wszystkie listy mają rozmiar nie większy niż $2$.
+
+\paragraph{Rozwiązanie:} 
+
+Niech graf $G$ to graf wejściowy w naszym algorytmie, taki, że
+$V(G) = \{v_1, v_2, \ldots, v_n\}$. 
+Niech $\chi = \bigcup_{i = 1}^n L_{v_i}$.
+Utwórzmy zbiór wierzchołków
+\[V' = \{v_{ij} : j \in L_{v_i} \land i \in [n] \land j \in \chi\},\]
+
+oraz zbiór krawędzi 
+\[E' = \{v_{ij}v_{kl} : i = k \land i,k \in [n] \land j, l \in \chi\} \cup 
+\]
+\[\cup
+\{v_{ij}v_{kl} : j = l \land v_iv_k \in E(G) \land i,k \in [n] \land j, l \in \chi\}.\]
+
+Niech graf $G' = (V', E')$. 
+
+Prostrzymi słowami, każdy wierzchołek z $V(G)$ rozbijamy na dwa wierzchołki odpowiadające kolorom z listy (lub jeden, jeśli na liście znajduje się tylko jeden kolor) i tworzymy pomiędzy 
+nimi krawędź. Pozostałe krawędzie pomiędzy dwoma wierzchołkami
+$u$ i $v$ z $G'$ tworzymy wtedy kiedy wierzchołki 
+z których $u$ i $v$ zostały rozbite sąsiadują ze sobą
+w grafie $G$ oraz $u$ i $v$ odpowiadają temu samemu kolorowi.
+
+Wystarczy roztrzygnąć dwudzielność 
+grafu $G'$, przy pomocy algorytmu, który zastosowaliśmy w zadaniu 5 z tematu ,,Przeszukiwanie grafów''. Jeśli graf $G'$ jest dwudzielny
+to możemy pokolorować go listowo.
+
+Dzieje się tak, dlatego, że w klasie dwudzielności nigdy
+nie znajdą się dwa wierzchołki $u, v \in V'$ rozbite z tego samego wierzchołka, bo z definicji połączyliśmy je krawędzią.
+
+Oznacza to, że dla każdego wierzchołka $x \in V(G)$ musi
+istnieć dokładnie jeden wierzchołek z niego rozbity znajdujący się w takiej klasie dwudzielności. Jako, że w grafie $V(G')$
+mogą sąsiadować tylko te wierzchołki, które odpowiadają temu samemu kolorowi, to żaden kolor w takiej klasie dwudzielności nie może się powtórzyć.
+
+Utworzenie zbiorów jak i algorytm roztrzygania dwudzielności wymagają czasu wielomianowego, więc rozwiązanie spełnia wymagania czasowe.
