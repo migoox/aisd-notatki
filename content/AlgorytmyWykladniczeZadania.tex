@@ -31,7 +31,7 @@ wierzchołków, który początkowo jest pusty.
 \begin{algorithm}[H]
 	\caption{Algorytm znajdowania najmniejszego zbioru dominującego}
 	\begin{algorithmic}[1]
-		\Procedure{DominatingSet}{$G$:graf, $D$:zbiór, $X$:zbiór}
+		\Procedure{DominatingSet}{$G$: graf, $D$: zbiór, $X$: zbiór}
 		\If{$|D| > |D_{min}| \land |D_{min}| \not = \emptyset$}
 		\State \Return
 		\State Niech $Y$ to zbiór wierzchołków niezdominowanych, tzn. takich, które nie mają żadnego sąsiada w zbiorze $D$ (żaden
