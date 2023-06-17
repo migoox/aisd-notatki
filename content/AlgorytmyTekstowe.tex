@@ -83,7 +83,7 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 			tekst[k\dots k+m-1] = wzorzec.				
 		\end{gather}
 
-		Oznacza to, że na pozycji $k' := k - i$ istnieje pewien fragment ciągu $wzorzec[{1 \dots j - P[j]}]$\footnote{Pomijamy $k'=0$, ponieważ z $tekst[i+j] \neq wzorzec[j]$ nie znajdziemy tam wzorca.} równy $T$ (nieformalnie: podciąg równy $T$ występuje we wzorcu przed sufiksem).
+		Oznacza to, że na pozycji $k' := k - i$ istnieje pewien fragment ciągu $wzorzec[{1 \dots j - P[j]}]$\footnote{Pomijamy $k'=0$, ponieważ skoro $tekst[i+j] \neq wzorzec[j]$, to nie znajdziemy tam wzorca.} równy $T$ (nieformalnie: podciąg równy $T$ występuje we wzorcu przed sufiksem).
 		Pokażemy, że na pozycji $k'$ we wzorcu znajdziemy nowy, dłuższy niż $T$, prefikso-sufiks. 
 		
 		\begin{enumerate}
