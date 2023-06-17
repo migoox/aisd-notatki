@@ -34,9 +34,10 @@ wierzchołków, który początkowo jest pusty.
 		\Procedure{DominatingSet}{$G$: graf, $D$: zbiór, $X$: zbiór}
 		\If{$|D| > |D_{min}| \land |D_{min}| \not = \emptyset$}
 		\State \Return
+		\EndIf
 		\State Niech $Y$ to zbiór wierzchołków niezdominowanych, tzn. takich, które nie mają żadnego sąsiada w zbiorze $D$ (żaden
-		wierzchołek z $Y$ nie należy do $X$ ani $D$)
-		\EndIf		
+		wierzchołek z $Y$ nie należy do $X$ ani $D$)		
+
 		\If{$Y = \emptyset$}
 		\If{Każdy wierzchołek z $X$ jest zdominowany}
 		\State $D_{\min} = D$
