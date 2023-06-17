@@ -32,15 +32,17 @@ wierzchołków, który początkowo jest pusty.
 	\caption{Algorytm znajdowania najmniejszego zbioru dominującego}
 	\begin{algorithmic}[1]
 		\Procedure{DominatingSet}{$G$:graf, $D$:zbiór, $X$:zbiór}
-		\If{$|D| < |D_{min}| \land |D_{min}| \not = \emptyset$}
+		\If{$|D| > |D_{min}| \land |D_{min}| \not = \emptyset$}
 		\State \Return
-		\EndIf		
-		\If{$|D| + |X| = |V(G)|$}
-		\State $D_{\min} = D$
-		\State \Return
-		\EndIf
 		\State Niech $Y$ to zbiór wierzchołków niezdominowanych, tzn. takich, które nie mają żadnego sąsiada w zbiorze $D$ (żaden
 		wierzchołek z $Y$ nie należy do $X$ ani $D$)
+		\EndIf		
+		\If{$Y = \emptyset$}
+		\If{Każdy wierzchołek z $X$ jest zdominowany}
+		\State $D_{\min} = D$
+		\EndIf
+		\State \Return
+		\EndIf
 		\State Niech $u$ to dowolny wierzchołek z $Y$
 		\State DominatingSet($G$, $D \cup \{u\}$, $X$, $D_{\min}$)
 		\If{$|N(u)| \geq 1$}
@@ -52,13 +54,13 @@ wierzchołków, który początkowo jest pusty.
 		\If{$|N(u)| \geq 2$}
 		\State Niech $v_2 \in N(X) \setminus \{v_1\}$
 		\If{$v_2 \not \in D \land v_2 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
+		\State DominatingSet($G$, $D \cup \{v_2\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
 		\EndIf
 		\EndIf
 		\If{$|N(u)| = 3$}
 		\State Niech $v_3 \in N(X) \setminus \{v_1, v_2\}$
 		\If{$v_3 \not \in D \land v_3 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
+		\State DominatingSet($G$, $D \cup \{v_3\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
 		\EndIf
 		\EndIf
 		\EndProcedure		
@@ -69,10 +71,10 @@ Aby oszacować złożoność powyższego algorytmu skorzystamy z
 twierdzenia o rozwiązywaniu rekurencji. Przez $f(n)$
 oznaczmy pesymistyczny czas działania funkcji \textsc{DominatingSet},
 wtedy prawdą jest, że
-\[f(n) \leq f(n-1) + f(n-1) + f(n-2) + f(n-3) + O(n),\]
+\[f(n) \leq f(n-1) + f(n-1) + f(n-2) + f(n-3) + f(n-4) + O(n),\]
 gdzie $O(n)$ to złożoność znajdowania zbioru $Y$. 
 Szukamy pierwiastka poniższego równania
-\[x^3 = x^2 + x,\]
+\[x^4 = x^3 + x^2 + x + 1,\]
 po rozwiązaniu powyższego równania, otrzymamy największy
-pierwiastek $x \approx 1.618$. Zatem na mocy twierdzenia
-o rozwiązywaniu rekurencji złożoność algorytmu wynosi $O^*(n1.618^n) = O^*(1.618^n)$.
+pierwiastek $x \approx 1.9276$. Zatem na mocy twierdzenia
+o rozwiązywaniu rekurencji złożoność algorytmu wynosi $O^(n1.9276^n) = O^*(1.9276^n)$.
