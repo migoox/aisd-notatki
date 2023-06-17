@@ -1,0 +1,78 @@
+\subsection{Zadanie 1 -- Najmniejszy zbiór dominujący}
+\paragraph{Treść:}
+\textit{Zbiór dominujący} w grafie $G$ to podzbiór wierzchołków 
+$D \subset V(G)$ taki, że każdy wierzchołek grafu $G$
+należy do $D$ lub ma przynajmniej jednego sąsiada w $D$.
+
+Zaprojektuj jak najwydajniejszy algorytm, który znajdzie rozmiar najmniejszego zbioru dominującego w zadanym
+grafie o $n$ wierzchołkach i maksymalnym stopniu nie większym niż 3. Oszacuj złożoność tego algorytmu.
+
+\paragraph{Rozwiązanie:}
+Aby rozwiązać to zadanie zastosujemy algorytm z nawrotami.
+
+Wprowadźmy oznaczenia, które zostaną wykorzystane w algorytmie.
+Niech $D_{\min}$ to najmniejszy zbiór dominujący jaki udało 
+nam się dotychczas znaleźć.
+Niech $D$ to aktualny stan zbioru dominującego, oraz
+niech $X$ to zbiór wierzchołków, które na pewno nie znajdą się 
+w zbiorze dominującym $D$ na następnych poziomach rekurencji.
+Warunkiem stopu będzie sytuacja, w której $|D| + |X| = |V(G)|$.
+
+Możemy wprowadzić optymalizację polegająca na tym, że 
+przestaniemy badać daną gałąź wykonań rekurencyjnych,
+w przypadku, kiedy $|D| < |D_{\min}|$. Optymalizacji tej nie będziemy
+stosowali w przypadku kiedy $D_{\min}$ nie zostało jeszcze znalezione,
+w tym celu skorzystamy z faktu, że jeśli graf $G$, jest 
+taki, że $V(G) \not = \emptyset$,
+to każdy zbiór dominujący dla tego grafu nie jest pusty.
+
+W poniższym algorytmie, przyjmujemy, że $D_{\min}$ to globalny zbiór
+wierzchołków, który początkowo jest pusty.
+\begin{algorithm}[H]
+	\caption{Algorytm znajdowania najmniejszego zbioru dominującego}
+	\begin{algorithmic}[1]
+		\Procedure{DominatingSet}{$G$:graf, $D$:zbiór, $X$:zbiór}
+		\If{$|D| < |D_{min}| \land |D_{min}| \not = \emptyset$}
+		\State \Return
+		\EndIf		
+		\If{$|D| + |X| = |V(G)|$}
+		\State $D_{\min} = D$
+		\State \Return
+		\EndIf
+		\State Niech $Y$ to zbiór wierzchołków niezdominowanych, tzn. takich, które nie mają żadnego sąsiada w zbiorze $D$ (żaden
+		wierzchołek z $Y$ nie należy do $X$ ani $D$)
+		\State Niech $u$ to dowolny wierzchołek z $Y$
+		\State DominatingSet($G$, $D \cup \{u\}$, $X$, $D_{\min}$)
+		\If{$|N(u)| \geq 1$}
+		\State Niech $v_1 \in N(X)$
+		\If{$v_1 \not \in D \land v_1 \not \in X$}
+		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u\}$, $D_{\min}$)
+		\EndIf
+		\EndIf
+		\If{$|N(u)| \geq 2$}
+		\State Niech $v_2 \in N(X) \setminus \{v_1\}$
+		\If{$v_2 \not \in D \land v_2 \not \in X$}
+		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
+		\EndIf
+		\EndIf
+		\If{$|N(u)| = 3$}
+		\State Niech $v_3 \in N(X) \setminus \{v_1, v_2\}$
+		\If{$v_3 \not \in D \land v_3 \not \in X$}
+		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
+		\EndIf
+		\EndIf
+		\EndProcedure		
+	\end{algorithmic}
+\end{algorithm}
+
+Aby oszacować złożoność powyższego algorytmu skorzystamy z 
+twierdzenia o rozwiązywaniu rekurencji. Przez $f(n)$
+oznaczmy pesymistyczny czas działania funkcji \textsc{DominatingSet},
+wtedy prawdą jest, że
+\[f(n) \leq f(n-1) + f(n-1) + f(n-2) + f(n-3) + O(n),\]
+gdzie $O(n)$ to złożoność znajdowania zbioru $Y$. 
+Szukamy pierwiastka poniższego równania
+\[x^3 = x^2 + x,\]
+po rozwiązaniu powyższego równania, otrzymamy największy
+pierwiastek $x \approx 1.618$. Zatem na mocy twierdzenia
+o rozwiązywaniu rekurencji złożoność algorytmu wynosi $O^*(n1.618^n) = O^*(1.618^n)$.
