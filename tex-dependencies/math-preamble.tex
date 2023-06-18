@@ -64,6 +64,10 @@
 \def\BState{\State\hskip-\ALG@thistlm}
 \makeatother
 
+\makeatletter
+\algnewcommand{\LineComment}[1]{\Statex \hskip\ALG@thistlm \(\triangleright\) #1}
+\makeatother
+
 % equations and figures counted by sections
 \counterwithin{equation}{section}
 \counterwithin{figure}{section}

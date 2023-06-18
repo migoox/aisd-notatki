@@ -100,30 +100,29 @@ Złożoność algorytmu sprawdzania przynależności jest logarytmiczna (nie lic
 	\begin{algorithmic}[1]
 		\Procedure{IsPointInsidePolygon}{$X$: tablica zdarzeń, $P$: punkt}
 			\State $A \gets \text{najbardziej wysunięty w prawo punkt położonym na lewo od $P$ (\textit{binary search})}$	
-			\State $Y \gets \text{tablica odcinków przechowywana w zdarzeniu napotkania punktu $A$}$
+			\State $Y \gets \text{tablica odcinków przechowywana w zdarzeniu napotkania punktu $A$. }$Za początek odcinka przyjmujemy punkt o mniejszej współrzędnej $x$, w przypadku równości o mniejszej współrzędnej $y$.
 			\State $a \gets 0$
 			\State $b \gets |Y|-1$
-			\State
+			\State 
+			
 			% Szczerze to nie jestem pewny czy to indeksowanie tutaj działa, chyba tak, ale nie mam siły żeby sprawdzić dokładnie
-			\While{$b-a=1$}
+			\While{$b-a\neq1$}
 				\State $i \gets \left\lfloor \frac{a+b}{2} \right\rfloor$
-				\If{$(Y[i].\text{start}, Y[i].\text{end}, P)$ jest skrętem w lewo ($\Leftrightarrow$ $P$ jest nad $Y[i]$)}
+				\State $S \gets \text{początek } Y[i]$ 
+				\State $E \gets \text{koniec } Y[i]$ 
+				\If{$(S, E, P)$ jest skrętem w lewo} \Comment{$\Leftrightarrow$ $P$ jest nad $Y[i]$}
 					\State $b \gets i$
-				\ElsIf{$(Y[i].\text{start}, Y[i].\text{end}, P)$ jest skrętem w prawo ($\Leftrightarrow$ $P$ jest pod $Y[i]$)}
+				\ElsIf{$(S, E, P)$ jest skrętem w prawo} \Comment{$\Leftrightarrow$ $P$ jest pod $Y[i]$}
 					\State $a \gets i$
-				\Else
-					\If {$y_{Y[i].\text{start}} \neq y_{Y[i].\text{end}}$}
-						\State \Return true \Comment{$P$ leży na boku wierzchołka}
-					\EndIf
-				 
-					\If{$y_{Y[i].\text{start}} < y_P < y_{Y[i].\text{end}}$} 
-						\State \Return true \Comment{$P$ leży na boku wierzchołka równoległym do $OY$}
-					\EndIf
-					
-					\If{$y_{Y[i].\text{end}} < y_P$ ($\Leftrightarrow$ $P$ jest nad $Y[i]$)}
+				\Else { $S, E, P$ leżą na jednej prostej}
+					\If {$y_{S} \neq y_{E}$} \Comment{$P$ leży na boku wierzchołka}
+						\State \Return true 
+					\ElsIf{$y_{S} < y_P$} \Comment{$\Leftrightarrow$ $P$ jest nad $Y[i]$}
 						\State $b \gets i$
-					\ElsIf{$y_{Y[i].\text{start}} > y_P$ ($\Leftrightarrow$ $P$ jest pod $Y[i]$)}
+					\ElsIf{$y_{E} > y_P$ } \Comment{$\Leftrightarrow$ $P$ jest pod $Y[i]$}
 						\State $a \gets i$
+					\Else \Comment{$P$ leży na boku wierzchołka równoległym do $OY$}
+						\State \Return true 
 					\EndIf
 				
 				\EndIf    
