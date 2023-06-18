@@ -1,3 +1,75 @@
+
+\subsection{Zadanie 1 -- Sprawdzenie czy wielokąty wypukłe z użyciem zamiatania} 
+\paragraph{Treść:} Zaprojektuj algorytm, który w 
+czasie $O(n)$ sprawdzi, czy dwa zadane wielokąty wypukłe o nie więcej
+niż $n$ wierzchołkach się przecinają. 
+
+\paragraph{Rozwiązanie:}
+Stosujemy metodę zamiatania. Zdefiniujmy \textit{zdarzenie},
+jako typ danych, który przechowuje wierzchołek $p$, dwa
+odcinki $s_1$, $s_2$, których końcem jest $p$ oraz informację 
+do którego wielokątu należy ten wierzchołek.
+
+Przyjmujemy, że na wejściu oba wielokąty będą
+reprezentowane przez listę zdarzeń posortowanych
+względem współrzędnej x wierzchołka $p$. 
+
+Stosujemy zmodyfikowaną wersję algorytmu \ref{HasIntersectingSegments1}, który za 
+pomocą metody zamiatania stwierdza, czy w podanym
+zbiorze odcinków, istnieją dwa, które się przecinają.  
+
+Aby zescalać dwie wejściowe listy reprezentujące wierzchołki pierwszego
+i drugiego wielokątu możemy zastosować liniową metodę scalania
+znaną z algorytmu MergeSort. Taka uporządkowana lista
+będzie stanowiła X-strukturę.
+
+Jako Y-strukturę możemy przyjąć dowolną strukturę danych, która
+zapewni możliwość wykonania wymaganych operacji. Ze względu 
+na to, że w Y-strukturze nie może znaleźć się więcej niż 
+4 odcinki jednocześnie (bo każdy wierzchołek jest jednocześnie
+końcem jednej krawędzi i początkiem drugiej oraz mamy 
+2 wielokąty), możemy przyjąć, że operacje na Y-strukutrze wykonują się w czasie $O(1)$.
+
+Jako, że sytuację w której jeden wielokąt znajduje się wewnątrz drugiego
+wielokątu, również traktujemy jako przecięcie wielokątów, musimy nanieść modyfikację
+na algorytm \ref{HasIntersectingSegments1}. Modyfikacja polega na tym, by 
+sprawdzić, czy występuje sytuacja, w której dodany odcinek $s$
+jednego wielokąta znajduje się nad odcinkiem $s_1$ oraz pod odcinkeim $s_2$,
+które należą do drugiego wielokąta. Z wypukłości wielokątów wiemy, że 
+taka sytuacja wystąpi tylko wtedy gdy wielokąty na siebie nachodzą, lub
+jeden jest w drugim.
+ 
+\begin{algorithm}[H]
+	\caption{Sprawdzenie czy wielokąty się przecinają}
+	\begin{algorithmic}[1]
+		\Procedure{HasIntersectingSegments}{$S$: zbiór odcinków spełniający założenia}
+		\State $X \gets \text{Merge}(L_1, L_2)$ 
+		\State $Y \gets \emptyset$
+		\While{$X \not = \emptyset$}
+		\State \textit{zdarzenie} = $X.$DetachHead()
+		\State $s_1, s_2 \gets \text{odcinki odpowiadające \textit{zdarzeniu}}$
+		\State $p \gets \text{punkt odpowiadający \textit{zdarzeniu}}$
+		\If{$p$ jest początkiem odcinika $s$}
+		\State Dodaj $s$ do $Y$-Struktury
+		\If {$s$ należy do jednego wielokąta oraz $Y$.Above($s$) lub z $Y$.Below($s$)
+		należą do drugiego}
+		\State \Return true
+		\EndIf
+		\If{$s$ przecina się z $Y$.Above($s$) lub z $Y$.Below($s$)}
+		\State \Return true
+		\EndIf
+		\Else
+		\If{$Y$.Above($s$) przecina się z $Y$.Below($s$)}
+		\State \Return true
+		\EndIf
+		\EndIf
+		\EndWhile
+		\State \Return false
+		\EndProcedure
+	\end{algorithmic}
+	\label{algZadanie7_1}
+\end{algorithm}
+
 \subsection{Zadanie 3 -- }
 Zaprojektuj strukturę danych, która dla zadanego wielokąta bez samoprzecięć o 
 $n$ wierzchołkach pozwoli
@@ -50,4 +122,3 @@ Rozważmy dwa przypadki
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
-
