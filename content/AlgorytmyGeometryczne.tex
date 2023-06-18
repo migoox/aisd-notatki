@@ -346,6 +346,7 @@ w uporządkowanym zbiorze odcinków przecinających się z miotłą.
 		\State $s \gets \text{odcinek odpowiadający \textit{zdarzeniu}}$
 		\State $p \gets \text{punkt odpowiadający \textit{zdarzeniu}}$
 		\If{$p$ jest początkiem odcinika $s$}
+		\State Dodaj $s$ do $Y$-Struktury
 		\If{$s$ przecina się z $Y$.Above($s$) lub z $Y$.Below($s$)}
 		\State \Return true
 		\EndIf
@@ -353,6 +354,7 @@ w uporządkowanym zbiorze odcinków przecinających się z miotłą.
 		\If{$Y$.Above($s$) przecina się z $Y$.Below($s$)}
 		\State \Return true
 		\EndIf
+		\State Usuń $s$ z $Y$-Struktury
 		\EndIf
 		\EndWhile
 		\State \Return false

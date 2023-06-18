@@ -1,0 +1,124 @@
+\subsection{Zadanie 1 -- Najmniejszy zbiór dominujący}
+\paragraph{Treść:}
+\textit{Zbiór dominujący} w grafie $G$ to podzbiór wierzchołków 
+$D \subset V(G)$ taki, że każdy wierzchołek grafu $G$
+należy do $D$ lub ma przynajmniej jednego sąsiada w $D$.
+
+Zaprojektuj jak najwydajniejszy algorytm, który znajdzie rozmiar najmniejszego zbioru dominującego w zadanym
+grafie o $n$ wierzchołkach i maksymalnym stopniu nie większym niż 3. Oszacuj złożoność tego algorytmu.
+
+\paragraph{Rozwiązanie:}
+Aby rozwiązać to zadanie zastosujemy algorytm z nawrotami.
+
+Wprowadźmy oznaczenia, które zostaną wykorzystane w algorytmie.
+Niech $D_{\min}$ to najmniejszy zbiór dominujący jaki udało 
+nam się dotychczas znaleźć.
+Niech $D$ to aktualny stan zbioru dominującego, oraz
+niech $X$ to zbiór wierzchołków, które na pewno nie znajdą się 
+w zbiorze dominującym $D$ na następnych poziomach rekurencji.
+Warunkiem stopu będzie sytuacja, w której $|D| + |X| = |V(G)|$.
+
+Możemy wprowadzić optymalizację polegająca na tym, że 
+przestaniemy badać daną gałąź wykonań rekurencyjnych,
+w przypadku, kiedy $|D| < |D_{\min}|$. Optymalizacji tej nie będziemy
+stosowali w przypadku kiedy $D_{\min}$ nie zostało jeszcze znalezione,
+w tym celu skorzystamy z faktu, że jeśli graf $G$, jest 
+taki, że $V(G) \not = \emptyset$,
+to każdy zbiór dominujący dla tego grafu nie jest pusty.
+
+W poniższym algorytmie, przyjmujemy, że $D_{\min}$ to globalny zbiór
+wierzchołków, który początkowo jest pusty.
+\begin{algorithm}[H]
+	\caption{Algorytm znajdowania najmniejszego zbioru dominującego}
+	\begin{algorithmic}[1]
+		\Procedure{DominatingSet}{$G$: graf, $D$: zbiór, $X$: zbiór}
+		\If{$|D| > |D_{min}| \land |D_{min}| \not = \emptyset$}
+		\State \Return
+		\EndIf
+		\State Niech $Y$ to zbiór wierzchołków niezdominowanych, tzn. takich, które nie mają żadnego sąsiada w zbiorze $D$ (żaden
+		wierzchołek z $Y$ nie należy do $X$ ani $D$)		
+
+		\If{$Y = \emptyset$}
+		\If{Każdy wierzchołek z $X$ jest zdominowany}
+		\State $D_{\min} = D$
+		\EndIf
+		\State \Return
+		\EndIf
+		\State Niech $u$ to dowolny wierzchołek z $Y$
+		\State DominatingSet($G$, $D \cup \{u\}$, $X$, $D_{\min}$)
+		\If{$|N(u)| \geq 1$}
+		\State Niech $v_1 \in N(X)$
+		\If{$v_1 \not \in D \land v_1 \not \in X$}
+		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u\}$, $D_{\min}$)
+		\EndIf
+		\EndIf
+		\If{$|N(u)| \geq 2$}
+		\State Niech $v_2 \in N(X) \setminus \{v_1\}$
+		\If{$v_2 \not \in D \land v_2 \not \in X$}
+		\State DominatingSet($G$, $D \cup \{v_2\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
+		\EndIf
+		\EndIf
+		\If{$|N(u)| = 3$}
+		\State Niech $v_3 \in N(X) \setminus \{v_1, v_2\}$
+		\If{$v_3 \not \in D \land v_3 \not \in X$}
+		\State DominatingSet($G$, $D \cup \{v_3\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
+		\EndIf
+		\EndIf
+		\EndProcedure		
+	\end{algorithmic}
+\end{algorithm}
+
+Aby oszacować złożoność powyższego algorytmu skorzystamy z 
+twierdzenia o rozwiązywaniu rekurencji. Przez $f(n)$
+oznaczmy pesymistyczny czas działania funkcji \textsc{DominatingSet},
+wtedy prawdą jest, że
+\[f(n) \leq f(n-1) + f(n-1) + f(n-2) + f(n-3) + f(n-4) + O(n),\]
+gdzie $O(n)$ to złożoność znajdowania zbioru $Y$. 
+Szukamy pierwiastka poniższego równania
+\[x^4 = x^3 + x^2 + x + 1,\]
+po rozwiązaniu powyższego równania, otrzymamy największy
+pierwiastek $x \approx 1.9276$. Zatem na mocy twierdzenia
+o rozwiązywaniu rekurencji złożoność algorytmu wynosi $O(n1.9276^n) = O^*(1.9276^n)$.
+
+\subsection{Zadanie 3 -- Kolorowanie grafu z list o rozmiarze nie większym niż 2}
+\paragraph{Treść:} W problemie kolorowania grafu $G$ z list dla każdego wierzchołka 
+$v \in V(G)$ mamy daną listę $L_v$ i
+szukamy poprawnego kolorowania grafu $G$, w którym kolor każdego wierzchołka $v$ należy do $L_v$.
+Zaprojektuj algorytm, który rozwiąże problem kolorowania grafu z list w czasie wielomianowym w przypadku, gdy
+wszystkie listy mają rozmiar nie większy niż $2$.
+
+\paragraph{Rozwiązanie:} 
+
+Niech graf $G$ to graf wejściowy w naszym algorytmie, taki, że
+$V(G) = \{v_1, v_2, \ldots, v_n\}$. 
+Niech $\chi = \bigcup_{i = 1}^n L_{v_i}$.
+Utwórzmy zbiór wierzchołków
+\[V' = \{v_{ij} : j \in L_{v_i} \land i \in [n] \land j \in \chi\},\]
+
+oraz zbiór krawędzi 
+\[E' = \{v_{ij}v_{kl} : i = k \land i,k \in [n] \land j, l \in \chi\} \cup 
+\]
+\[\cup
+\{v_{ij}v_{kl} : j = l \land v_iv_k \in E(G) \land i,k \in [n] \land j, l \in \chi\}.\]
+
+Niech graf $G' = (V', E')$. 
+
+Prostrzymi słowami, każdy wierzchołek z $V(G)$ rozbijamy na dwa wierzchołki odpowiadające kolorom z listy (lub jeden, jeśli na liście znajduje się tylko jeden kolor) i tworzymy pomiędzy 
+nimi krawędź. Pozostałe krawędzie pomiędzy dwoma wierzchołkami
+$u$ i $v$ z $G'$ tworzymy wtedy kiedy wierzchołki 
+z których $u$ i $v$ zostały rozbite sąsiadują ze sobą
+w grafie $G$ oraz $u$ i $v$ odpowiadają temu samemu kolorowi.
+
+Wystarczy roztrzygnąć dwudzielność 
+grafu $G'$, przy pomocy algorytmu, który zastosowaliśmy w zadaniu 5 z tematu ,,Przeszukiwanie grafów''. Jeśli graf $G'$ jest dwudzielny
+to możemy pokolorować go listowo.
+
+Dzieje się tak, dlatego, że w klasie dwudzielności nigdy
+nie znajdą się dwa wierzchołki $u, v \in V'$ rozbite z tego samego wierzchołka, bo z definicji połączyliśmy je krawędzią.
+
+Oznacza to, że dla każdego wierzchołka $x \in V(G)$ musi
+istnieć dokładnie jeden wierzchołek z niego rozbity znajdujący się w takiej klasie dwudzielności. Jako, że w grafie $V(G')$
+mogą sąsiadować tylko te wierzchołki, które odpowiadają temu samemu kolorowi, to żaden kolor w takiej klasie dwudzielności nie może się powtórzyć.
+
+Utworzenie zbiorów jak i algorytm roztrzygania dwudzielności wymagają czasu wielomianowego, więc rozwiązanie spełnia wymagania czasowe.
+
