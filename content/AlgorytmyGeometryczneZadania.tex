@@ -46,11 +46,11 @@ jeden jest w drugim.
 		\State $X \gets \text{Merge}(L_1, L_2)$ 
 		\State $Y \gets \emptyset$
 		\While{$X \not = \emptyset$}
-		\State \textit{zdarzenie} = $X.$DetachHead()
+		\State \textit{zdarzenie} $\gets$ $X.$DetachHead()
 		\State $s_1, s_2 \gets \text{odcinki odpowiadające \textit{zdarzeniu}}$
 		\State $p \gets \text{punkt odpowiadający \textit{zdarzeniu}}$
 		\If{$p$ jest początkiem odcinika $s$}
-		\State Dodaj $s$ do $Y$-Struktury
+		\State Dodaj $s$ do $Y$-struktury
 		\If {$s$ należy do jednego wielokąta oraz $Y$.Above($s$) lub z $Y$.Below($s$)
 		należą do drugiego}
 		\State \Return true
@@ -70,11 +70,76 @@ jeden jest w drugim.
 	\label{algZadanie7_1}
 \end{algorithm}
 
-\subsection{Zadanie 3 -- }
-Zaprojektuj strukturę danych, która dla zadanego wielokąta bez samoprzecięć o 
+\subsection{Zadanie 3 -- sprawdzenie przynależności punktu do wielokąta}
+\paragraph{Treść:} Zaprojektuj strukturę danych, która dla zadanego wielokąta bez samoprzecięć o 
 $n$ wierzchołkach pozwoli
-na sprawdzenie przynależności punktów do tego wielokąta w czasie $O(log n)$.
+na sprawdzenie przynależności punktów do tego wielokąta w czasie $O(\log n)$.
 Wskazówka: wykorzystaj metodę zamiatania.
+\paragraph{Rozwiązanie:} 
+Wielokąt opisany jest przez ciąg punktów posortowanych przeciwnie do ruchu wskazówek zegara. W preprocessingu przygotowujemy przechowywanie wierzchołków wielokąta tak, że dla każdego z nich w czasie stałym jesteśmy w stanie określić dwa odcinki, których dany wierzchołek jest krańcem.
+
+Zamiatamy od lewej do prawej. Zdarzenia przechowujemy w tablicy $X$ posortowanej po współrzędnej $x$-owej. W każdym zdarzeniu (napotkaniu punktu) przechowujemy tablicę odcinków znajdujących się w danym momencie w $Y$-strukturze posortowaną po rosnącej współrzędnej $y$-owej. 
+
+Niech $P$ będzie punktem, którego przynależność do wielokąta sprawdzamy. W tablicy $X$ wyszukiwaniem połówkowym szukamy punktu $A$ o największej współrzędnej $x$ takiego, że $x_A < x_P$. Jako $Y_A$ oznaczmy tablicę odcinków odpowiadających zdarzeniu napotkania punktu $A$ (rysunek \ref{fig:zad73}). 
+
+Zauważmy, że punkt $P$ należy do wielokąta wtedy i tylko wtedy, gdy liczby boków wielokąta nad i pod $P$ są nieparzyste (lub $P$ leży na jednym z boków wielokąta). Potrzebujemy zatem znać liczbę odcinków nad i pod $P$ znajdujących się w tablicy $Y_A$. W tym celu ponownie wykorzystujemy wyszukiwanie połówkowe.
+
+Złożoność algorytmu sprawdzania przynależności jest logarytmiczna (nie liczymy preprocessingu wielokąta), ponieważ dwukrotnie używamy wyszukiwania połówkowego.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[height=0.45\linewidth]{data/zad73.png}
+	\caption{Punkt $A$ jest najbardziej wysuniętym w prawo punktem położonym na lewo od $P$. Szara prosta reprezentuje miotłę. Na czerwono zaznaczono odcinki znajdujące się w tablicy $Y_A$ (to znaczy obecne w $Y$-strukturze po napotkaniu punktu $A$ przy zamiataniu).}	
+	\label{fig:zad73}
+\end{figure}
+
+% Algorytm \ref{alg:Zadanie7_1} zakłada, że wielokąt nie ma boków równoległych do osi $OY$ oraz punkt $P$ nie należy do wielokątów . Rozszerzenie algorytmu na 
+
+\begin{algorithm}[H]
+	\caption{Sprawdzenie przynależności punktu do wielokąta}
+	\begin{algorithmic}[1]
+		\Procedure{IsPointInsidePolygon}{$X$: tablica zdarzeń, $P$: punkt}
+			\State $A \gets \text{najbardziej wysunięty w prawo punkt położonym na lewo od $P$ (\textit{binary search})}$	
+			\State $Y \gets \text{tablica odcinków przechowywana w zdarzeniu napotkania punktu $A$}$
+			\State $a \gets 0$
+			\State $b \gets |Y|-1$
+			\State
+			% Szczerze to nie jestem pewny czy to indeksowanie tutaj działa, chyba tak, ale nie mam siły żeby sprawdzić dokładnie
+			\While{$b-a=1$}
+				\State $i \gets \left\lfloor \frac{a+b}{2} \right\rfloor$
+				\If{$(Y[i].\text{start}, Y[i].\text{end}, P)$ jest skrętem w lewo ($\Leftrightarrow$ $P$ jest nad $Y[i]$)}
+					\State $b \gets i$
+				\ElsIf{$(Y[i].\text{start}, Y[i].\text{end}, P)$ jest skrętem w prawo ($\Leftrightarrow$ $P$ jest pod $Y[i]$)}
+					\State $a \gets i$
+				\Else
+					\If {$y_{Y[i].\text{start}} \neq y_{Y[i].\text{end}}$}
+						\State \Return true \Comment{$P$ leży na boku wierzchołka}
+					\EndIf
+				 
+					\If{$y_{Y[i].\text{start}} < y_P < y_{Y[i].\text{end}}$} 
+						\State \Return true \Comment{$P$ leży na boku wierzchołka równoległym do $OY$}
+					\EndIf
+					
+					\If{$y_{Y[i].\text{end}} < y_P$ ($\Leftrightarrow$ $P$ jest nad $Y[i]$)}
+						\State $b \gets i$
+					\ElsIf{$y_{Y[i].\text{start}} > y_P$ ($\Leftrightarrow$ $P$ jest pod $Y[i]$)}
+						\State $a \gets i$
+					\EndIf
+				
+				\EndIf    
+			\EndWhile
+			\State
+			\State $l_{nad} \gets  a +1$
+			\State $l_{pod} \gets |Y| - b$
+			\If {$2 \nmid l_{nad} \land 2 \nmid l_{pod}$}
+				\State \Return true
+			\EndIf
+			\State
+			\State \Return false
+		\EndProcedure
+	\end{algorithmic}
+	\label{alg:Zadanie7_1}
+\end{algorithm}
 
 \subsection{Zadanie 4 -- Otoczka wypukła punktu i wielokątu wypukłego}
 \paragraph{Treść:} Dany jest wielokąt wypukły o zbiorze wierzcholków $Z$ oraz punkt $p$. Znajdź otoczkę wypukłą zbioru $Z \cup \{p\}$ w czasie $O(|Z|)$.
@@ -113,7 +178,7 @@ Rozważmy dwa przypadki
 		\For{$j \gets i + 1, i + 2, \dots n - 1$}
 		\If{$Z[j-1]$, $Z[j]$ oraz $Z[j + 1]$ nie są skrętem w lewo}
 		\State Usuń $Z[j]$
-		\State $j--$ 
+		\State $j\mm$ 
 		\Else
 		\State \textbf{break}
 		\EndIf
