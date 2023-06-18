@@ -80,6 +80,87 @@ po rozwiązaniu powyższego równania, otrzymamy największy
 pierwiastek $x \approx 1.9276$. Zatem na mocy twierdzenia
 o rozwiązywaniu rekurencji złożoność algorytmu wynosi $O(n1.9276^n) = O^*(1.9276^n)$.
 
+\paragraph{Treść: } Niech $x$ będzie zmienną mogącą przyjmować wartość \textit{true} lub \textit{false}. Przez literał rozumiemy zmienną
+$x$ lub jej zaprzeczenie $\lnot x$. Klauzulą nazywamy zbiór literałów -- na przykład $\{x, y, \lnot z\}$. Mówimy, że wartościowanie
+zmiennych spełnia klauzulę, jeżeli przynajmniej jeden z jej literałów jest prawdziwy.
+\\ W problemie 3-SAT mamy dane $n$ zmiennych $x_1, x_2, \ldots, x_n$ oraz zbiór klauzul, z których każda zawiera co najwyżej
+3 literały. Pytamy, czy istnieje wartościowanie zmiennych, które spełnia każdą klauzulę.
+Zaprojektuj jak najszybszy algorytm rozwiązujący problem 3-SAT i oszacuj jego złożoność.
+
+\paragraph{Rozwiązanie: } Rozważmy algorytm naiwny (używający \textit{bruteforce}'a). Będziemy brać zmienną $x$, która jeszcze nie ma wartościowania i przypisywać jej wartość \true lub \false; a następnie rekurencyjnie wywoływać funkcję dla kolejnych zmiennych. Na każdym poziomie rekurencji liniowo sprawdzamy, czy wszystkie klauzule zostały spełnione lub któraś jest niespełniona. Opisany algorytm działa w czasie $O^*(2^n)$ (liczba wszystkich ciągów binarnych długości $n$).
+
+Algorytm naiwny możemy ulepszyć, zauważając następujący fakt: do spełnienia klauzuli wystarczy, żeby co najmniej jeden z literałów miał wartość \textit{true}. Dodatkowo zmienne będziemy rozpatrywać w kolejności pojawiania się w jeszcze nierozstrzygniętych klauzulach.
+
+Mając nierozstrzygniętą klauzulę $\{x, y, z\}$, w której żadna zmienna nie ma przypisanej wartości, będziemy rozpatrywać następujące wartościowania\daggerfootnote{Naturalnie przypadków będzie mniej, jeżeli klauzula ma mniej literałów lub któraś ze zmiennych ma już przypisaną wartość -- wtedy rozważamy odpowiednio jeden lub dwa pierwsze przypadki.}:
+
+\begin{align*}
+	\begin{cases}
+		x = 1;
+	\end{cases}
+	\qquad
+	\begin{cases}
+		x = 0, \\
+		y = 1;
+	\end{cases}
+	\qquad
+	\begin{cases}
+		x = 0, \\
+		y = 0,\\
+		z = 1.
+	\end{cases}
+\end{align*}
+
+W ten sposób maksymalnie osiem możliwych przypadków wartościowania zmiennych w klauzuli $\{x, y, z\}$ ograniczyliśmy do trzech. 
+
+\begin{algorithm}[H]
+	\caption{Rozwiązanie problemu 3-SAT}
+	\begin{algorithmic}[1]
+		\Procedure{Solve3SAT}{$\mathfrak{K}$: zbiór klauzul nierozstrzygniętych}
+		% \If {przy obecnym wartościowaniu któraś z klauzul z $\mathfrak{K}$ jest niespełnialna}
+		% 	\State \Return \false
+		% \EndIf
+		\If {$\mathfrak{K} = \emptyset$}
+		\State \Return \true
+		\EndIf
+		
+		\State 
+		\State \textit{Kasia} $\gets$ nierozstrzygnięta klauzula z $\mathfrak{K}$ 
+		\If{\textit{Kasia} jest niespełnialna przy obecnym wartościowaniu}
+		\State \Return \false
+		\EndIf
+		\State $x, y, z \gets $ literały \textit{Kasi} bez wartościowania
+		\State
+		\State $x \gets $ \true
+		\State $\mathfrak{K}' \gets \mathfrak{K}$ bez \textit{Kasi} i klauzul spełnionych przez $x$
+		\If {\textsc{Solve3SAT}($\mathfrak{K}'$)}
+		\State \Return \true
+		\EndIf
+		\State
+		\State $x \gets $ \false, $y \gets $ \true \Comment{Jeśli literałów było $\geq 2$}
+		\State $\mathfrak{K}' \gets \mathfrak{K}$ bez \textit{Kasi} i klauzul spełnionych przez $y$
+		\If {\textsc{Solve3SAT}($\mathfrak{K}'$)} 
+		\State \Return \true
+		\EndIf
+		\State
+		\State $x \gets $ \false, $y \gets $ \false, $z \gets $ \true \Comment{Jeśli literałów było 3}
+		\State $\mathfrak{K}' \gets \mathfrak{K}$ bez \textit{Kasi} i klauzul spełnionych przez $z$
+		\If {\textsc{Solve3SAT}($\mathfrak{K}'$)}
+		\State \Return \true
+		\EndIf
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+Oznaczmy jako $f(n)$ pesymistyczny czas działania funkcji \textsc{Solve3SAT}, gdzie $n$ jest liczbą zmiennych bez przypisanej wartości. Możemy oszacować:
+
+\[
+f(n) \leq f(n-1) + f(n-2) + f(n-3) + O(n),
+\]
+
+gdzie $O(n)$ wynika z pesymistycznie liniowego czasu sprawdzania spełnialności $\mathfrak{K}$. Pierwiastkiem równania
+$x^3 = x^2 + x + 1$
+jest $x \approx 1{,}8393$, zatem z twierdzenia o rozwiązywaniu rekurencji pesymistyczna złożoność algorytmu wynosi $O^*(1{,}8393^n)$.
+
 \subsection{Zadanie 3 -- Kolorowanie grafu z list o rozmiarze nie większym niż 2}
 \paragraph{Treść:} W problemie kolorowania grafu $G$ z list dla każdego wierzchołka 
 $v \in V(G)$ mamy daną listę $L_v$ i
