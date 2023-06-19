@@ -122,3 +122,36 @@ mogą sąsiadować tylko te wierzchołki, które odpowiadają temu samemu koloro
 
 Utworzenie zbiorów jak i algorytm roztrzygania dwudzielności wymagają czasu wielomianowego, więc rozwiązanie spełnia wymagania czasowe.
 
+\subsection{Zadanie 4 -- sprawdzenie 3-kolorowalności grafu}
+
+\begin{algorithm}[H]
+	\caption{Sprawdzenie 3-kolorowalności grafu}
+	\begin{algorithmic}[1]
+		\Procedure{ThreeColoring}{$G$: graf, $C$: pokolorowane wierzchołki}
+		\State $v \gets v \in V(G) \setminus C: \deg(v) \geq 3 \land \forall_{u\in N(v)}\; u \notin C$
+		\If{nie istnieje takie $v$}
+			\State \parbox[t]{390pt}{Wszystkie niepokolorowane wierzchołki stopnia $\geq 3$ mają listy długości $\leq 2$. Jeżeli pokolorujemy te wierzchołki, wszystkim niepokolorowanym wierzchołkom stopnia $\leq 2$ zostanie na pewno jeden kolor wolny. Możemy zatem uruchomić algorytm znajdowania kolorowania listowego przy listach długości $\leq 2$ dla niepokolorowanych wierzchołków stopnia $\geq 3$.\strut}
+			\State \Return wynik kolorowania listowego
+		\EndIf
+		
+		\State
+		\State Pokoloruj $v$ na 0.
+		\If{\textsc{ThreeColoring}($G, C \cup \{v\}$)}
+			\State \Return \textsf{true}
+		\EndIf
+		\State
+		\State Pokoloruj $v$ na 1.
+		\If{\textsc{ThreeColoring}($G, C \cup \{v\}$)}
+			\State \Return \textsf{true}
+		\EndIf
+		\State
+		\State Pokoloruj $v$ na 2.
+		\If{\textsc{ThreeColoring}($G, C \cup \{v\}$)}
+			\State \Return \textsf{true}
+		\EndIf
+		\State
+		\State \Return \textsf{false}
+		
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
