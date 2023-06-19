@@ -89,7 +89,7 @@ zmiennych spełnia klauzulę, jeżeli przynajmniej jeden z jej literałów jest 
 3 literały. Pytamy, czy istnieje wartościowanie zmiennych, które spełnia każdą klauzulę.
 Zaprojektuj jak najszybszy algorytm rozwiązujący problem 3-SAT i oszacuj jego złożoność.
 
-\paragraph{Rozwiązanie: } Rozważmy algorytm naiwny (używający \textit{bruteforce}'a). Będziemy brać zmienną $x$, która jeszcze nie ma wartościowania i przypisywać jej wartość \true lub \false; a następnie rekurencyjnie wywoływać funkcję dla kolejnych zmiennych. Na każdym poziomie rekurencji liniowo sprawdzamy, czy wszystkie klauzule zostały spełnione lub któraś jest niespełniona. Opisany algorytm działa w czasie $O^*(2^n)$ (liczba wszystkich ciągów binarnych długości $n$).
+\paragraph{Rozwiązanie: } Rozważmy algorytm naiwny (używający \textit{bruteforce}'a). Będziemy brać zmienną $x$, która jeszcze nie ma wartościowania i przypisywać jej wartość \true{} lub \false; a następnie rekurencyjnie wywoływać funkcję dla kolejnych zmiennych. Na każdym poziomie rekurencji liniowo sprawdzamy, czy wszystkie klauzule zostały spełnione lub któraś jest niespełniona. Opisany algorytm działa w czasie $O^*(2^n)$ (liczba wszystkich ciągów binarnych długości $n$).
 
 Algorytm naiwny możemy ulepszyć, zauważając następujący fakt: do spełnienia klauzuli wystarczy, żeby co najmniej jeden z literałów miał wartość \textit{true}. Dodatkowo zmienne będziemy rozpatrywać w kolejności pojawiania się w jeszcze nierozstrzygniętych klauzulach.
 
