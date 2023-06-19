@@ -117,6 +117,7 @@ grafu $G'$ przy pomocy algorytmu opisanego w \hyperref[exc:bipart]{zadaniu 5 z t
 \centering
 \includegraphics[trim=0 150 0 60,clip,width=\linewidth]{data/3listcol.eps}
 \caption{Przykładowy przebieg konstrukcji nowego grafu. Można zauważyć, że powstały graf jest dwudzielny, a $v_{14}$, $v_{22}$, $v_{33}$ i $v_{41}$ tworzą żądaną klasę dwudzielności $X$, zatem oryginalny graf da się pokolorować listowo.}
+\label:{fig:kolorowanielistowe}
 \end{figure}
 
 Dzieje się tak dlatego, że dla każdego wierzchołka $v_i\in V(G)$ klasa $X$ zawiera wierzchołek $v_{ik}$ reprezentujący pokolorowanie $v_i$ na kolor $k$. Zawiera ona dokładnie jeden wierzchołek $v_{ik}$ odpowiadający $v_i$ ze względu na obecność krawędzi łączących $v_{ik}$ z $v_{il}$ dla $l \in L_{v_i}, l \neq k$ (tzn. z innymi kolorami z $L_{v_i}$). Jednocześnie z dwudzielności wynika, że dla każdego koloru $k$ w klasie $X$ nie sąsiadują żadne wierzchołki $v_{ik}$, $v_{jk}$ takie, że $v_iv_j\in E(G)$. Kolorowanie to jest więc poprawne.
