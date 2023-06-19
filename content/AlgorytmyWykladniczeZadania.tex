@@ -89,36 +89,29 @@ wszystkie listy mają rozmiar nie większy niż $2$.
 
 \paragraph{Rozwiązanie:} 
 
-Niech graf $G$ to graf wejściowy w naszym algorytmie, taki, że
+Niech graf $G$ to graf wejściowy w naszym algorytmie taki, że
 $V(G) = \{v_1, v_2, \ldots, v_n\}$. 
-Niech $\chi = \bigcup_{i = 1}^n L_{v_i}$.
 Utwórzmy zbiór wierzchołków
-\[V' = \{v_{ij} : j \in L_{v_i} \land i \in [n] \land j \in \chi\},\]
+\[V' = \{v_{ik} : v_i\in V(G) \land k \in L_{v_i}\},\]
 
 oraz zbiór krawędzi 
-\[E' = \{v_{ij}v_{kl} : i = k \land i,k \in [n] \land j, l \in \chi\} \cup 
-\]
-\[\cup
-\{v_{ij}v_{kl} : j = l \land v_iv_k \in E(G) \land i,k \in [n] \land j, l \in \chi\}.\]
+\[E' = \underbrace{\{v_{ik}v_{il} : v_i \in V(G) \land k, l \in L_{v_i}\}}_\text{krawędzie list} \cup 
+\underbrace{\{v_{ik}v_{jk} : v_iv_j \in E(G) \land k\in L_{v_i} \cap L_{v_j}\}}_\text{krawędzie kolorów}.\]
 
 Niech graf $G' = (V', E')$. 
 
-Prostrzymi słowami, każdy wierzchołek z $V(G)$ rozbijamy na dwa wierzchołki odpowiadające kolorom z listy (lub jeden, jeśli na liście znajduje się tylko jeden kolor) i tworzymy pomiędzy 
+Oznacza to, że każdy wierzchołek z $V(G)$ rozbijamy na dwa wierzchołki w $V'$ odpowiadające kolorom z listy (lub jeden, jeśli na liście znajduje się tylko jeden kolor) i tworzymy pomiędzy 
 nimi krawędź. Pozostałe krawędzie pomiędzy dwoma wierzchołkami
-$u$ i $v$ z $G'$ tworzymy wtedy kiedy wierzchołki 
+$u$ i $v$ z $G'$ tworzymy wtedy, kiedy wierzchołki 
 z których $u$ i $v$ zostały rozbite sąsiadują ze sobą
-w grafie $G$ oraz $u$ i $v$ odpowiadają temu samemu kolorowi.
+w grafie $G$ oraz $u$ i $v$ odpowiadają temu samemu kolorowi. 
 
-Wystarczy roztrzygnąć dwudzielność 
-grafu $G'$, przy pomocy algorytmu, który zastosowaliśmy w zadaniu 5 z tematu ,,Przeszukiwanie grafów''. Jeśli graf $G'$ jest dwudzielny
-to możemy pokolorować go listowo.
+Wystarczy rozstrzygnąć dwudzielność 
+grafu $G'$, przy pomocy algorytmu, który zastosowaliśmy w \hyperref[exc:bipart]{zadaniu 5 z tematu ,,Przeszukiwanie grafów''}. Jeśli graf $G'$ jest dwudzielny i każdy wierzchołek z $G$ ma swojego odpowiednika w \emph{tej samej} klasie dwudzielności $X$, to możemy pokolorować go listowo.
 
-Dzieje się tak, dlatego, że w klasie dwudzielności nigdy
-nie znajdą się dwa wierzchołki $u, v \in V'$ rozbite z tego samego wierzchołka, bo z definicji połączyliśmy je krawędzią.
+Dzieje się tak dlatego, że dla każdego wierzchołka $v_i\in V(G)$ klasa $X$ zawiera wierzchołek $v_{ik}$ reprezentujący pokolorowanie $v_i$ na kolor $k$. Zawiera ona dokładnie jeden wierzchołek odpowiadający $v_i$ ze względu na obecność krawędzi łączących go z innymi kolorami. Jednocześnie dla każdego koloru $k$ w klasie $X$ nie sąsiadują żadne wierzchołki $v_{ik}$, $v_{jk}$, takie że $v_iv_j\in E(G)$, co wynika z dwudzielności. Kolorowanie to jest więc poprawne.
 
-Oznacza to, że dla każdego wierzchołka $x \in V(G)$ musi
-istnieć dokładnie jeden wierzchołek z niego rozbity znajdujący się w takiej klasie dwudzielności. Jako, że w grafie $V(G')$
-mogą sąsiadować tylko te wierzchołki, które odpowiadają temu samemu kolorowi, to żaden kolor w takiej klasie dwudzielności nie może się powtórzyć.
+Pokazanie, że jeżeli istnieje poprawne kolorowanie listowe grafu $G$, to $G'$ jest dwudzielny i odpowiednie wierzchołki $G'$ odpowiadające temu kolorowaniu tworzą klasę dwudzielności jest analogiczne. 
 
-Utworzenie zbiorów jak i algorytm roztrzygania dwudzielności wymagają czasu wielomianowego, więc rozwiązanie spełnia wymagania czasowe.
+Utworzenie zbiorów jak i algorytm rozstrzygania dwudzielności wymagają czasu wielomianowego, więc rozwiązanie spełnia wymagania czasowe.
 
