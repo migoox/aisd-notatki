@@ -162,7 +162,7 @@ Rozważmy dwa przypadki
 \end{enumerate}
 
 \begin{algorithm}[H]
-	\caption{Algorytm }
+	\caption{Algorytm znajdowania otoczki dla punktu oraz wielokąta wypukłego}
 	\begin{algorithmic}[1]
 		\Procedure{FindCHForPointAndConvexPolygon}{$Z$: zbiór wierzchołków, $p$: punkt}
 		\For{$i \gets 2, 3, \dots n$}
@@ -186,3 +186,78 @@ Rozważmy dwa przypadki
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
+
+\subsection{Zadanie 5 -- Łączenie dwóch otoczek}
+\paragraph{Treść:} Dane są dwa zbiory $Z_1$ i $Z_2$ takie, że dla każdych $(x1, y1) \in Z1$ i $(x2, y2) \in Z2$ zachodzi $x_1 < x_2$ (tzn. zbiór $Z_1$ jest w całości na lewo od $Z_2$). Zaprojektuj algorytm, który mając dane otoczki wypukłe zbiorów $Z_1$ i $Z_2$
+znajdzie otoczkę wypukłą zbioru $Z_1 \cup Z_2$ w czasie $O(|Z1| + |Z2|)$.
+
+\paragraph{Rozwiązanie:} 
+Załóżmy, że $Z_1$ oraz $Z_2$ przechowują tylko punkty, które należą do 
+otoczek.
+
+Ponadto przyjmijmy, że $Z_1$ oraz $Z_2$ to listy, które przechowują wierzchołki w kolejności zgodnej z ruchem wskazówek zegara, gdzie pierwszy ma najmniejszą współrzędną $y$ (w przypadku wystąpienia kilku takich wierzchołków, bierzemy ten, który ma najmniejszą współrzędną $x$).
+
+W pierwszej kolejności musimy znaleźć najbardziej odległe 
+wierzchołki względem x-owej współrzędnej. Aby to zrobić wystarczy
+najpierw przeszukać liniowo $Z_1$ w celu znalezienia
+najmniejszego punktu względem x-owej współrzędnej, a potem $Z_2$ w celu znalezienia największego punktu względem x-owej wspołrzędnej. Możemy 
+tak zrobić dzięki założeniu, że zbiór $Z_1$ jest w całości na lewo od $Z_2$. Oznaczmy minimalny punkt $P_1$, a maksymalny $P_2$.
+
+Następnie musimy podzielić zbiór $Z_i$ ($i \in \{1, 2\}$) na 
+zbiór wierzchołków pod prostą $P_1P_2$ oraz nad porstą $P_1P_2$.
+
+Oznaczmy $A_i$ jako zbiór wierzchołków ze zbioru $Z_i$ ($i \in \{1, 2\}$) nad prostą $P_1P_2$, oraz $B_i$ jako zbiór wierzchołków ze zbioru $Z_i$ ($i \in \{1, 2\}$) nad prostą $P_1P_2$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{data/zad75.png}
+	\caption{Rysunek przedstawia przykładowe otoczki wejściowe oraz utworzone zbiory $A_i$, $B_i$ ($i \in \{1, 2\}$)}
+	\label{fig:laczenieotoczek}
+\end{figure}
+
+Następnym krokiem jest utworzenie otoczki górnej oraz dolnej.
+W tym celu zastosujemy algorytm Grahama bez sortowania 
+wierzchołków, dla obu
+zbiorów pod prostą $P_1P_2$ oraz nad prostą $P_1P_2$. 
+Argumentem wejściowym do tak zmodyfikowanego algorytmu Grahama 
+powinna być lista wierzchołków $P_2, A_2, A_1, P_1$
+(w dokładnie takiej kolejności), w 
+przypadku szukania otoczki górnej oraz $P_1, B_1, B_2, P_2$
+(w dokładnie takiej kolejności) w przypadku
+szukania otoczki dolnej.
+
+Łączenie wyjściowych (dolnej i górnej) otoczek polega na 
+doczepieniu do listy punktów otoczki dolnej, listy punktów otoczki górnej.
+
+\begin{algorithm}[H]
+	\caption{Algorytm łączenia dwóch otoczek}
+	\begin{algorithmic}[1]
+		\Procedure{MergeConvexHulls}{$Z_1, Z_2$: zbiory wierzchołków}
+		\State $P_1 \gets$ najmniejszy wierzchołek względem współrzędnej x w $Z_1$
+		\State $P_2 \gets$ największy wierzchołek względem współrzędnej x w $Z_2$
+		\State $A_i \gets \{(x, y) \in Z_i : (P_1, P_2, (x,y)) \text{ tworzą skręt w lewo}\}$, gdzie $i \in \{1, 2\}$
+		\State $B_i \gets \{(x, y) \in Z_i : (P_1, P_2, (x,y)) \text{ tworzą skręt w prawo}\}$, gdzie $i \in \{1, 2\}$
+		\State $A \gets \{P_2, A_2, A_1, P_1\}$ \Comment Kolejność ma znaczenie
+		\State $B \gets \{P_1, B_1, B_2, P_2\}$ \Comment Kolejność ma znaczenie
+		\State $O_A \gets$ \textsc{NoSortGraham($A$)}
+		\State $O_B \gets$ \textsc{NoSortGraham($B$)}
+		\State Usuń $P_1$ oraz $P_2$ z $O_A$ \Comment Nie chcemy duplikatów $P_1$ i $P_2$
+		\State \Return $\{O_B, O_A\}$ \Comment Kolejność ma znaczenie
+		\EndProcedure
+		
+		\Procedure{NoSortGraham}{$P$: zbiór punktów} \Comment Graham bez sortowania
+		\State $S \gets \text{stos}()$
+		\State $S$.Push($P[0]$)
+		\State $S$.Push($P[1]$)
+		\For {$k = 2,3, \dots, n-1$}
+		\While{($S$.BelowTop(), $S$.Top(), $P[k]$) nie jest skrętem w lewo}
+		\State $S$.Pop()
+		\EndWhile
+		\State $S$.Push($P[k]$)
+		\EndFor
+		\State \Return $S$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+Złożoność powyższego algorytmu wynosi $O(|Z_1| + |Z_2|)$.
