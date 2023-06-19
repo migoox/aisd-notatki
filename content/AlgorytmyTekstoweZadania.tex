@@ -15,6 +15,7 @@ W zadaniu tym można wykorzystać modyfikację algorytmu KMP (\ref{KMP}), która
 		\State $j \gets 0$
 		\State $maxLen\gets-1$
 		\State $maxPos\gets-1$ 
+		
 		\For{$i = 0;\ i \leq n - m;\ i \pleq \operatorname{max}(j - P[j], 1)$}
 			\State {$j = P[j]$}
 			\While {$j < m \land y[i+j]=x[j]$}

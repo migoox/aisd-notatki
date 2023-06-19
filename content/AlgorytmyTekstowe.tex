@@ -160,7 +160,7 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 			\item jeśli porównanie jest negatywne, to wykonają się 
 			operacja $i \pleq \max\{j - P[j], 1\}$ (linijka nr 15) oraz
 			operacja $j \gets P[j]$ (linijka nr 16). Oznaczmy przez $i', j'$ kolejno wartości $i$
-			oraz $j$ po wykonaniu się tych dwóch operacji.
+			oraz $j$ po wykonaniu tych dwóch operacji.
 			
 			Wtedy jeśli $j - P[j] > 1$, to 
 			\[ i' + j' = i + j - P[j] + P[j] = i + j,\]
@@ -176,10 +176,13 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 		Zatem z faktu, że operacji $j\scalebox{0.75}{++}$ (linijka nr 18) w całym algorytmie jest 
 		dokładnie tyle, ile wynosi liczba porównań pozytywnych w całym algorytmie, wynika, że
 		liczba porównań pozytywnych w całym algorytmie jest nie większa niż $n$. Otrzymujemy
-		\[\text{liczba porównań} = \text{liczba porównań negatywnych} + \text{liczba porównań pozytywnych}\leq\]
-		\[\leq n - m + 1 + n \leq 2n,\]
+		\begin{gather*}
+			\text{liczba porównań} = \text{liczba porównań negatywnych} + \text{liczba porównań pozytywnych}\leq  \\
+			\leq n - m + 1 + n \leq 2n,
+		\end{gather*}
+	
 		co w połączeniu z lematem \ref{lemma:zlozonoscComputeP} pozwala wywnioskować, że
-		złożoność algorytmu KMP wynosi $O(n)$.
+		złożoność algorytmu KMP wynosi $O(n)$. \qedhere
 		
 		
 	\end{proof}	
