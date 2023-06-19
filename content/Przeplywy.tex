@@ -68,9 +68,9 @@ $\min\limits_{uw \in E(P)} \{c_f(uw)\}$.
 \subsubsection{Algorytm Forda-Fulkersona}
 
 \begin{algorithm}[H]
-	\caption{Algorytm Forda-Fulkersona}\label{ford-fulker_alg}
+	\caption{Algorytm Forda-Fulkersona}\label{alg:ford-fulker}
 	\begin{algorithmic}[1]
-		\Procedure{FordFulkerson($(G, w)$, $s$, $t$)}{}
+		\Procedure{FordFulkerson}{$(G, c, s, t)$: sieć}
 		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
 		\State Utwórz sieć rezydualną $(R, c_f)$ dla wejściowej 
 		sieci przepływowej oraz dla $f$ 
@@ -117,14 +117,14 @@ Taka modyfikacja daje nam gwarancję, że
 algorytm zakończy się w czasie wielomianowym.
 
 \begin{algorithm}[H]
-	\caption{Edmonds-Karp}\label{edmonds-karp_alg}
+	\caption{Algorytm Edmondsa-Karpa}\label{alg:edmonds-karp}
 	\begin{algorithmic}[1]
-		\Procedure{EdmondsKarp($G, w$, $s$, $t$))}{}
+		\Procedure{EdmondsKarp}{$(G, c, s, t)$: sieć}
 		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
 		\State Utwórz sieć rezydualną $(R, c_f)$ dla wejściowej 
 		sieci przepływowej oraz dla $f$ 
 		\While{Istnieje ścieżka powiększająca w $R$}
-		\State Niech $P = v_1v_2\dots v_k$ będzie \textbf{najkrótszą}
+		\State Niech $P = v_1v_2\dots v_k$ będzie \emph{najkrótszą}
 		ścieżką powiększająca (gdzie $v_1 = s$ oraz $v_k = t$)
 		\State $a \gets \min_{i \in \{1, 2, \dots, k-1\}} r(v_iv_{i+1})$
 		\State Powiększ $f$ o $a$ na wszystkich krawędziach $P$
@@ -267,14 +267,14 @@ algorytm zakończy się w czasie wielomianowym.
 		co ostatecznie daje nam nie więcej niż $nm$ wywołań pętli w nr 4.
 		Ponadto w każdej iteracji wywołujemy BFS w celu znalezienia najkrótszej
 		ścieżki, z kosztem $O(m)$. Zatem złożoność algorytmu Edmondsa-Karpa
-		to $O(nm^2)$. \textbf{TODO Marcin:} \textit{Wytłumaczyć to inaczej}
+		to $O(nm^2)$.  \qedhere
 		
 	\end{proof}
 \end{theorem}
 
-\subsection{Problem MinCostMaxFlow}
+\subsection{Problem \textit{MinCostMaxFlow}}
 \textbf{Dane:}
-\begin{itemize}
+\begin{itemize}[noitemsep, nolistsep]
 	\item Sieć przepływowa $(G, c, s, t)$
 	\item Funkcja kosztu $k : E(G) \to \mathbb{R}$
 \end{itemize}
@@ -394,10 +394,10 @@ w których takie sytuacje nie występują.
 		spowoduje, że któraś z krawędzi $C$ przestanie 
 		„zaliczać się” do zbioru $S$.
 		
-		Zauważmy, że gdyby $k_f(C) > 0$ , wówczas $k_{f'}(C) < 0$
+		Zauważmy, że gdyby $k_f(C) > 0$, wówczas $k_{f'}(C) < 0$
 		co jest sprzeczne, bo $f'$ jest maksymalnym
-		przepływem o minimalnym koszcie a już pokazaliśmy,
-		że to implikuje brak ujemnych cykli
+		przepływem o minimalnym koszcie, a  pokazaliśmy już,
+		że  implikuje to brak ujemnych cykli
 		w sieci rezydualnej z kosztem.
 		
 		W przypadku kiedy $k_f(C) = 0$ to oznaczałoby że $k_{f'}(C)=0$,
@@ -408,10 +408,10 @@ w których takie sytuacje nie występują.
 		na mniejszej liczbie krawędzi niż $f'$, co stoi w 
 		sprzeczności ze sposobem wyboru $f'$.
 		
-		Oznacza to, że $k_f(C) > 0$ co kończy dowód.
+		Oznacza to, że $k_f(C) > 0$, co kończy dowód. \qedhere
 		
 	\end{proof}
-	\label{mincost_maxflow_proof}
+	\label{thrm:mincostmaxflow}
 \end{theorem}
 
 \begin{algorithm}[H]

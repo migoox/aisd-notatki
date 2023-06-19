@@ -41,7 +41,7 @@ jak i prostych.
 \begin{algorithm}[H]
 	\caption{Rozwiązanie zadania 2}\label{Zadanie22a}
 	\begin{algorithmic}[1]
-		\Procedure{DFSNR($G$ -- graf, $v$ -- wierzchołek startowy)}{}
+		\Procedure{DFSNR}{$G$: graf, $v$: wierzchołek startowy}
 		\State Zainicjalizuj stos (\textit{last in, first out}) $S$
 		\State Zainicjalizuj tablicę booli $T$ o $|V(G)|$ elementach wartością 
 		\textit{false}
@@ -67,7 +67,7 @@ tablicą booli $T$ o $|V(G)|$ elementach zainicjowaną wartością
 \begin{algorithm}[H]
 	\caption{Algorytm przeszukiwania DFS -- wersja rekurencyjna}\label{Zadanie22b}
 	\begin{algorithmic}[1]
-		\Procedure{DFS($G$ -- graf, $v$ -- wierzchołek startowy)}{}
+		\Procedure{DFS}{$G$: graf, $v$: wierzchołek startowy}
 		\While{$x \in N(v)$}
 		\If {$T[x] = $ \textit{false} }
 		\State $T[x] \gets$ \textit{true}
@@ -90,7 +90,7 @@ jak i prostych.
 \begin{algorithm}[H]
 	\caption{Rozwiązanie zadania 2}\label{Zadanie23}
 	\begin{algorithmic}[1]
-		\Procedure{BFS($G$ -- graf, $v$ -- wierzchołek startowy)}{}
+		\Procedure{BFS}{$G$: graf, $v$: wierzchołek startowy}
 		\State Zainicjalizuj kolejkę (\textit{first in, first out}) $Q$
 		\State Zainicjalizuj tablicę bool'i $T$ o $|V(G)|$ elementach wartością 
 		\textit{false}
@@ -161,7 +161,7 @@ będą znajdować się posortowane wierzchołki.
 \begin{algorithm}[H]
 	\caption{Rozwiąznie zadania 5}
 	\begin{algorithmic}[1]
-		\Procedure{TSort($G$ -- graf, $v$ -- wierzchołek startowy)}{}
+		\Procedure{TSort}{$G$: graf, $v$: wierzchołek startowy}
 		\While{$x \in N(v)$}
 		\If {$T[x] = $ \textit{false} }
 		\State $T[x] \gets$ \textit{true}

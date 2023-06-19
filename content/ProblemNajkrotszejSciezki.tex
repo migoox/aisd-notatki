@@ -88,7 +88,7 @@ do dowolnego osiągalnego wierzchołka.
 \begin{algorithm}[H]
 	\caption{Algorytm Bellmana-Forda}\label{bellmanford_alg}
 	\begin{algorithmic}[1]
-		\Procedure{BellmanFord(($G, w$), $s \in V(G)$))}{}
+		\Procedure{BellmanFord}{($G, w$): graf ważony, $s \in V(G)$: wierzchołek startowy}
 		\State odległość = tablica liczb, rozmiaru $V[G]$
 		\For{$v \in V(G)$}
 		\State odległość$[v]=\infty$
@@ -273,7 +273,7 @@ nie większą niż ścieżka $P$.
 \begin{algorithm}[H]
 	\caption{Algorytm Dijkstry}\label{dijkstra_alg}
 	\begin{algorithmic}[1]
-		\Procedure{Dijkstra(($G, \omega$), $s \in V(G)$))}{}
+		\Procedure{Dijkstra}{($G, w$): graf ważony, $s \in V(G)$: wierzchołek startowy}
 		\State Niech odległość to tablica liczb, rozmiaru $V[G]$
 		\State Niech Q to pusta kolejka priorytetowa 
 		\For{$v \in V(G)$}
@@ -446,13 +446,13 @@ rosnącego $\text{dist}(s,v) + h(v)$.
 \begin{algorithm}[H]
 	\caption{Algorytm A*}
 	\begin{algorithmic}[1]
-		\Procedure{AStar($(G, \omega)$, $s$, $t$, $h$)}{}
+		\Procedure{AStar}{($G, \omega$): graf ważony, $s$: źródło, $t$: ujście, $h$: heurystyka}
 		\State Niech odległość to tablica liczb, rozmiaru $V[G]$
 		\For{$v \in V(G)$}
 		\State odległość$[v]\gets\infty$
 		\EndFor
 		\State odległość$[s]\gets 0$
-		\State Q - kolejka priorytetowa inicjalizowana 
+		\State Q $\gets$ kolejka priorytetowa inicjalizowana 
 		zbiorem $\{V(G)\}$, gdzie priorytet każdego wierzchołka $v$
 		to odległość$[v] + h(v)$
 		\While{Q.IsEmpty = \textit{False}}
@@ -558,7 +558,7 @@ algorytmu Dijsktry.
 \begin{algorithm}[H]
 	\caption{Algorytm Johnsona}
 	\begin{algorithmic}[1]
-		\Procedure{Johnson($G, \omega$)}{}
+		\Procedure{Johnson}{($G, \omega$): graf ważony}
 		\State Niech $V'=V(G) \cup \{q\}$ oraz 
 		$E' = E(G) \cup \{qv : v \in V(G)\}$
 		\State Skonstruuj graf skierowany $(G', V')$
@@ -683,7 +683,7 @@ algorytm Floyda-Warshalla, dla graów rzadkich.
 \begin{algorithm}[H]
 	\caption{Algorytm Floyda-Warshalla}
 	\begin{algorithmic}[1]
-		\Procedure{FloydWarshall($G, \omega$)}{}
+		\Procedure{FloydWarshall}{($G, \omega$): graf ważony}
 		\State Utwórz tablicę odległości o wymiarach $V(G) \times V(G)$
 		\For{$i \in V(G)$}
 		\For{$j \in V(G)$}

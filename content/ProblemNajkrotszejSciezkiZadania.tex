@@ -8,7 +8,7 @@ wierzchołkami.
 \begin{algorithm}[H]
 	\caption{Algorytm Bellmana-Forda z odtwarzaniem ściezki}
 	\begin{algorithmic}[1]
-		\Procedure{BellmanFord(($G, w$), $s,x \in V(G)$))}{}
+		\Procedure{BellmanFord}{$(G, w)$: graf ważony, $s$: źródło, $t$: ujście}
 		\State odległość = tablica liczb, rozmiaru $V[G]$
 		\State poprzednik = tablica wierzchołków, rozmiaru $V[G]$
 		\For{$v \in V(G)$}
@@ -24,10 +24,10 @@ wierzchołkami.
 		\EndIf
 		\EndFor
 		\EndFor
-		\State ścieżka = pusta lista wierzchołków
-		\State ściezka.PushFront(x)
-		\While{$x \gets \text{poprzednik}[x] \not = -1$}
-		\State ścieżka.PushFront(x)
+		\State ścieżka $\gets$ pusta lista wierzchołków
+		\State ściezka.PushFront($t$)
+		\While{$t \gets \text{poprzednik}[t] \not = -1$}
+		\State ścieżka.PushFront($t$)
 		\EndWhile
 		\State \Return ścieżka
 		\EndProcedure
@@ -67,7 +67,7 @@ ujemne cykle.
 \begin{algorithm}[H]
 	\caption{Znajdowanie ujemnego cyklu}
 	\begin{algorithmic}[1]
-		\Procedure{BellmanFord(($G, w$): graf ważony)}{}
+		\Procedure{BellmanFord}{($G, w$): graf ważony}
 		\State $G'$ - graf $G$ z dodanym wierzchołkiem $s$
 		oraz krawędziami skierowanymi od $s$ do każdego innego
 		wierzchołka o wadze $0$
@@ -85,10 +85,10 @@ ujemne cykle.
 		\EndFor
 		\For{$uv \in E(G')$}
 		\If{odległość$[v] >$ odległość$[u]$ + $w(uv)$}
-		\State return True
+		\State return \true
 		\EndIf
 		\EndFor
-		\State \Return False
+		\State \Return \false
 		\EndProcedure
 	\end{algorithmic}
 	\label{Zadanie32}
@@ -101,7 +101,7 @@ $G$, wierzchołków $u, v \in V(G)$ i liczby $k \in
 \{1, 2, \ldots , n\}$ znajdzie liczbę spacerów 
 od $u$ do $v$ o dokładnie $k$ krawędziach.
 
-\textbf{Rozwiązanie: }
+\textbf{Rozwiązanie: } % :(
 
 \subsection{Zadanie 4 -- Wyznaczanie odległości w drzewie ważonym}
 \textbf{Treść: } Zaprojektuj algorytm, ktory dla ważonego 
@@ -112,11 +112,11 @@ Wskazówka: wykorzystaj sortowanie topologiczne (zadanie 1.5)
 \textbf{Rozwiązanie: }
 Dijkstra tylko, że zamiast kolejki $Q$ stosujemy
 sortowanie topologiczne (średnia złożoność $O(m)$), 
-po czym iter
+po czym iter % PO CZYM ITER CO? :(
 \begin{algorithm}[H]
 	\caption{Znajdowanie ujemnego cyklu}
 	\begin{algorithmic}[1]
-		\Procedure{FindDistanceInTree(($T, w$))}{}
+		\Procedure{FindDistanceInTree}{($T, w$): drzewo ważone}
 		\State Niech odległość to tablica liczb, rozmiaru $V[G]$
 		\State Niech kolejność to tablica liczb, rozmiaru $V[G]$, na
 		$i$-tej komórce znajduje się wierzchołek, który ma 
@@ -144,12 +144,14 @@ w którym spełnione
 są wszystkie założenia 
 poza 
 ,,dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + \text{waga}(uv)$''.
+
 \textbf{Rozwiązanie: }
 
 \subsection{Zadanie 6 -- Poprawność algorytmu A\texorpdfstring{$^*$}{TEXT}}
 \textbf{Treść: } Udowodnij poprawność algorytmu 
 A$^*$ i wskaż, w których miejscach wykorzystywane są jego założenia.
 Wskazówka: zainspiruj się dowodem poprawności algorytmu Dijkstry.
+
 \textbf{Rozwiązanie: } Dowód twierdzenia \ref{aStar_proof}.
 
 \subsection{Zadanie 7 -- Poprawność algorytmu Floyda-Warshalla}

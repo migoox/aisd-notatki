@@ -344,7 +344,7 @@ Na podstawie tabeli \ref{tab_zad14}, wiemy, że szukana odległość wynosi 7.
 \begin{algorithm}[H]
 	\caption{Rozwiązanie zadania 1.4}
 	\begin{algorithmic}[1]
-		\Procedure{EditDistance($x$, $m$, $y$, $n$)}{}
+		\Procedure{EditDistance}{$x$: napis, $m$: długość $x$, $y$: napis, $n$: długość $y$}
 		\State Utwórz tablicę $T$ o $n + 1$ wierszach i $m + 1$ kolumnach
 		\For{$i=0,1\ldots n$}
 		\State $T[i, 0] = i$
