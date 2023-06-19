@@ -173,36 +173,38 @@ wszystkie listy mają rozmiar nie większy niż $2$.
 
 \paragraph{Rozwiązanie:} 
 
-Niech graf $G$ to graf wejściowy w naszym algorytmie, taki, że
+Niech graf $G$ będzie grafem wejściowym takim, że
+
 $V(G) = \{v_1, v_2, \ldots, v_n\}$. 
-Niech $\chi = \bigcup_{i = 1}^n L_{v_i}$.
 Utwórzmy zbiór wierzchołków
-\[V' = \{v_{ij} : j \in L_{v_i} \land i \in [n] \land j \in \chi\},\]
+\[V' = \{v_{ik} : v_i\in V(G) \land k \in L_{v_i}\}\]
 
 oraz zbiór krawędzi 
-\[E' = \{v_{ij}v_{kl} : i = k \land i,k \in [n] \land j, l \in \chi\} \cup 
-\]
-\[\cup
-\{v_{ij}v_{kl} : j = l \land v_iv_k \in E(G) \land i,k \in [n] \land j, l \in \chi\}.\]
+\[E' = \underbrace{\{v_{ik}v_{il} : v_i \in V(G) \land k, l \in L_{v_i}\}}_\text{krawędzie list} \cup 
+\underbrace{\{v_{ik}v_{jk} : v_iv_j \in E(G) \land k\in L_{v_i} \cap L_{v_j}\}}_\text{krawędzie kolorów}.\]
 
 Niech graf $G' = (V', E')$. 
 
-Prostrzymi słowami, każdy wierzchołek z $V(G)$ rozbijamy na dwa wierzchołki odpowiadające kolorom z listy (lub jeden, jeśli na liście znajduje się tylko jeden kolor) i tworzymy pomiędzy 
+Oznacza to, że każdy wierzchołek z $V(G)$ rozbijamy na dwa wierzchołki w $V'$ odpowiadające kolorom z listy (lub jeden, jeśli na liście znajduje się tylko jeden kolor) i tworzymy pomiędzy 
 nimi krawędź. Pozostałe krawędzie pomiędzy dwoma wierzchołkami
-$u$ i $v$ z $G'$ tworzymy wtedy kiedy wierzchołki 
-z których $u$ i $v$ zostały rozbite sąsiadują ze sobą
-w grafie $G$ oraz $u$ i $v$ odpowiadają temu samemu kolorowi.
+$u$ i $v$ z $G'$ tworzymy wtedy, kiedy wierzchołki,
+z których $u$ i $v$ zostały rozbite, sąsiadują ze sobą
+w grafie $G$ oraz $u$ i $v$ odpowiadają temu samemu kolorowi (rysunek \ref{fig:kolorowanielistowe}). 
 
-Wystarczy roztrzygnąć dwudzielność 
-grafu $G'$, przy pomocy algorytmu, który zastosowaliśmy w zadaniu 5 z tematu ,,Przeszukiwanie grafów''. Jeśli graf $G'$ jest dwudzielny
-to możemy pokolorować go listowo.
+Teraz zauważmy, że graf $G'$ jest dwudzielny oraz każdy wierzchołek z $G$ ma swojego odpowiednika w \emph{tej samej} klasie dwudzielności $X$ wtedy i tylko wtedy, gdy możemy pokolorować $G$ listowo. 
 
-Dzieje się tak, dlatego, że w klasie dwudzielności nigdy
-nie znajdą się dwa wierzchołki $u, v \in V'$ rozbite z tego samego wierzchołka, bo z definicji połączyliśmy je krawędzią.
+\begin{figure}[H]
+\centering
+\includegraphics[trim=0 150 0 60,clip,width=\linewidth]{data/3listcol.eps}
+\caption{Przykładowy przebieg konstrukcji nowego grafu. Można zauważyć, że powstały graf jest dwudzielny, a $v_{14}$, $v_{22}$, $v_{33}$ i $v_{41}$ tworzą żądaną klasę dwudzielności $X$, zatem oryginalny graf da się pokolorować listowo.}
+\label:{fig:kolorowanielistowe}
+\end{figure}
 
-Oznacza to, że dla każdego wierzchołka $x \in V(G)$ musi
-istnieć dokładnie jeden wierzchołek z niego rozbity znajdujący się w takiej klasie dwudzielności. Jako, że w grafie $V(G')$
-mogą sąsiadować tylko te wierzchołki, które odpowiadają temu samemu kolorowi, to żaden kolor w takiej klasie dwudzielności nie może się powtórzyć.
+Dzieje się tak dlatego, że dla każdego wierzchołka $v_i\in V(G)$ klasa $X$ zawiera wierzchołek $v_{ik}$ reprezentujący pokolorowanie $v_i$ na kolor $k$. Zawiera ona dokładnie jeden wierzchołek $v_{ik}$ odpowiadający $v_i$ ze względu na obecność krawędzi łączących $v_{ik}$ z $v_{il}$ dla $l \in L_{v_i}, l \neq k$ (tzn. z innymi kolorami z $L_{v_i}$). Jednocześnie z dwudzielności wynika, że dla każdego koloru $k$ w klasie $X$ nie sąsiadują żadne wierzchołki $v_{ik}$, $v_{jk}$ takie, że $v_iv_j\in E(G)$. Kolorowanie to jest więc poprawne.
 
-Utworzenie zbiorów jak i algorytm roztrzygania dwudzielności wymagają czasu wielomianowego, więc rozwiązanie spełnia wymagania czasowe.
+Pokazanie, że jeżeli istnieje poprawne kolorowanie listowe grafu $G$, to $G'$ jest dwudzielny i odpowiednie wierzchołki $G'$ odpowiadające temu kolorowaniu tworzą klasę dwudzielności jest analogiczne. 
+
+Pozostaje pytanie, jak można zaimplementować powyższe rozumowanie. Jeżeli $G'$ jest dwudzielnym grafem spójnym to istnieje dokładnie jeden podział na klasy dwudzielności. W takiej sytuacji możemy znaleźć klasy dwudzielności oraz zbadać, czy wszystkie wierzchołki z $G$ mają swojego odpowiednika w tej samej klasie. W przypadku kiedy $G'$ nie jest spójny, możemy w sposób analogiczny rozważyć jego spójne składowe. Problem dwudzielności jak i znajdowania składowych grafu potrafimy rozwiązać (patrz \hyperref[exc:bipart]{zadania 4 oraz 5 z tematu ,,Przeszukiwanie grafów''}.
+
+Utworzenie zbiorów, dwudzielność oraz znajdowanie składowych grafu są problemami wymagającymi czasu wielomianowego, a zatem algorytm spełnia wymagania czasowe.
 
