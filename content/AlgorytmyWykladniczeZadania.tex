@@ -11,10 +11,10 @@ grafie o $n$ wierzchołkach i maksymalnym stopniu nie większym niż 3. Oszacuj 
 Aby rozwiązać to zadanie zastosujemy algorytm z nawrotami.
 
 Wprowadźmy oznaczenia, które zostaną wykorzystane w algorytmie.
-Niech $D_{\min}$ to najmniejszy zbiór dominujący jaki udało 
+Niech $D_{\min}$ będzie najmniejszym zbiorem dominującym, jaki udało 
 nam się dotychczas znaleźć.
-Niech $D$ to aktualny stan zbioru dominującego, oraz
-niech $X$ to zbiór wierzchołków, które na pewno nie znajdą się 
+Niech $D$ będzie aktualnym stanem zbioru dominującego oraz
+niech $X$ będzie zbiorem wierzchołków, które na pewno nie znajdą się 
 w zbiorze dominującym $D$ na następnych poziomach rekurencji.
 Warunkiem stopu będzie sytuacja, w której $|D| + |X| = |V(G)|$.
 
@@ -89,9 +89,9 @@ wszystkie listy mają rozmiar nie większy niż $2$.
 
 \paragraph{Rozwiązanie:} 
 
-Niech graf $G$ to graf wejściowy w naszym algorytmie, taki, że
+Niech graf $G$ będzie grafem wejściowym w naszym algorytmie takim, że
 $V(G) = \{v_1, v_2, \ldots, v_n\}$. 
-Niech $\chi = \bigcup_{i = 1}^n L_{v_i}$.
+Niech $\chi := \bigcup_{i = 1}^n L_{v_i}$.
 Utwórzmy zbiór wierzchołków
 \[V' = \{v_{ij} : j \in L_{v_i} \land i \in [n] \land j \in \chi\},\]
 
@@ -101,7 +101,7 @@ oraz zbiór krawędzi
 \[\cup
 \{v_{ij}v_{kl} : j = l \land v_iv_k \in E(G) \land i,k \in [n] \land j, l \in \chi\}.\]
 
-Niech graf $G' = (V', E')$. 
+Niech graf $G' := (V', E')$. 
 
 Prostrzymi słowami, każdy wierzchołek z $V(G)$ rozbijamy na dwa wierzchołki odpowiadające kolorom z listy (lub jeden, jeśli na liście znajduje się tylko jeden kolor) i tworzymy pomiędzy 
 nimi krawędź. Pozostałe krawędzie pomiędzy dwoma wierzchołkami

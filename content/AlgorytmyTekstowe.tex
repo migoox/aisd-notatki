@@ -119,7 +119,7 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 
 \begin{lemma}[Złożoność funkcji \textsc{ComputeP}]
 	\label{lemma:zlozonoscComputeP}
-	Niech $m$ to długość wzorca. Wtedy pesymistyczna złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
+	Niech $m$ będzie długością wzorca. Wtedy pesymistyczna złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
 	\begin{proof}
 		Problematyczną częścią funkcji podczas badania złożoności pesymistycznej jest pętla \textit{while} w linijce nr 4, 
 		ze względu na jej niedeterministyczną liczbę wykonań podczas jednej iteracji pętli \textit{for} z linijki nr 3. Aby poradzić sobie z tym problemem, zliczymy, ile razy wykonuje się ta pętla
@@ -140,7 +140,7 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 
 
 \begin{theorem}[Złożoność algorytmu KMP]
-	Niech $n$ to długość tekstu, w którym wyszukujemy wzorzec o długości $m \leq n$. Wtedy pesymistyczna złożoność algorytmu KMP wynosi $O(n)$.
+	Niech $n$ będzie długością tekstu, w którym wyszukujemy wzorzec o długości $m \leq n$. Wtedy pesymistyczna złożoność algorytmu KMP wynosi $O(n)$.
 	\begin{proof}
 		Przez \textit{porównanie negatywne} będziemy rozumieli sytuację w algorytmie
 		(nie w pojedynczej iteracji algorytmu), w której

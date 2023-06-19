@@ -2,7 +2,7 @@
 \subsubsection{Wykorzystanie DFS dla drzew}
 \subsubsection{Wykorzystanie BFS dla dowolnych grafów}
 
-\subsection{Problem najkrótszej ściezki w grafach ważonych}
+\subsection{Problem najkrótszej ścieżki w grafach ważonych}
 
 W tym rozdziale poprzez \textit{spacer} będziemy rozumieli dowolny
 ciąg wierzchołków $v_0$, $v_1$, $\dots$, $v_{n}$, w 
@@ -31,7 +31,7 @@ będziemy rozumieli dowolny spacer, w którym
 		Skoro, $S$ nie jest ścieżką, to musi zawierać
 		w sobie $k\geq 1$ cykli $C_1$, $C_2$, $\dots$, $C_k$. 
 		
-		Niech $Q$ to ścieżka utworzona z $S$ w taki sposób,
+		Niech $Q$ będzie ścieżką utworzoną z $S$ w taki sposób,
 		że każdy cykl jest pominięty. (np. dla $S=uabcdbgv$, 
 		$Q=uabgv$)
 		
@@ -51,12 +51,12 @@ będziemy rozumieli dowolny spacer, w którym
 \begin{lemma}
 	Niech $(G, w)$ będzie skierowanym grafem ważonym
 	bez ujemnych cykli oraz niech $u, v \in V(G)$,
-	będą takie, że $u \not = v$. Niech $P$ to 
-	najkrótsza ścieżka od $u$ do $v$. Oznaczmy przez
+	będą takie, że $u \not = v$. Niech $P$ będzie
+	najkrótszą ścieżką od $u$ do $v$. Oznaczmy przez
 	$x$ przedostatni wierzchołek $P$ oraz 
 	przez $P'$ fragment ścieżki $P$ od $u$ do $x$.
 	
-	Wówczas śieżka $P'$ jest najkrótszą ścieżką od $u$ do 
+	Wówczas ścieżka $P'$ jest najkrótszą ścieżką od $u$ do 
 	$x$.
 	
 	\begin{proof}
@@ -352,8 +352,8 @@ Fibonacciego otrzymujemy złożoność $O(n\log n + m)$.
 		
 		Najpierw pokażemy, że (a$'$), czyli, że
 		dla każdego wierzchołka $w \not \in Q'$ zachodzi
-		odległość$'[w] = d(w)$. Niech $u$ to wierzchołek
-		zdjęty z kolejki priorytetwowej w linijce nr. 9.
+		odległość$'[w] = d(w)$. Niech $u$ będzie wierzchołkiem
+		zdjętym z kolejki priorytetwowej w linijce nr. 9.
 		Zauważmy, że odległość$'[u] = \text{odległość}[u]$. 
 		Aby wykazać prawdziwość tego warunku wystarczy
 		pokazać, że $\text{odległość}[u] = d(u)$, ponieważ
@@ -605,19 +605,19 @@ algorytm Floyda-Warshalla, dla graów rzadkich.
 		
 		Aby wykazać poprawność aglorytmu Johnsona 
 		musimy udowodnić poniższe obserwacje:
-		\begin{itemize}
-			\item[1. ] Dane wejściowe do 
+		\begin{enumerate}
+			\item Dane wejściowe do 
 			algorytmu Bellmana-Forda są poprawne.
-			\item[2. ] Dane wejściowe do 
+			\item Dane wejściowe do 
 			algorytmu Dijkstry są poprawne.
-			\item[3. ] Niech $P$ to dowolna
-			$u$-$v$-ścieżka w grafie $G$ oraz niech $h$
-			to odwzorowanie zwrócone przez algorytm
-			Belmmana-Forda w linii nr. 5, wtedy
+			\item Niech $P$ będzie dowolną
+			$u$-$v$-ścieżką w grafie $G$ oraz niech $h$
+			będzie odwzorowaniem zwróconym przez algorytm
+			Belmmana-Forda w linii nr 5. Wtedy
 			\[\omega''(P) = \omega(P) +  h(u) - h(v).\]
-			\item[4. ] Niech $u, v \in V(G)$, wtedy
+			\item Niech $u, v \in V(G)$, wtedy
 			\[dist_{\omega}(u, v) = dist_{\omega''}(u, v) - h(u) + h(v).\]
-		\end{itemize}
+		\end{enumerate}
 		
 		Obserwacja 1. jest prawdziwa, ponieważ ($G$, $\omega$)
 		z założenia nie posiada ujemnych cykli oraz
@@ -654,7 +654,7 @@ algorytm Floyda-Warshalla, dla graów rzadkich.
 		co należało dowieść.
 		
 		\textbf{Dowód obserwacji 4:} Niech $P_{\omega}$ oraz 
-		$P_{\omega''}$ to najkrótsze $u$-$v$-ścieżki kolejno 
+		$P_{\omega''}$ będą najkrótszymi $u$-$v$-ścieżkami kolejno 
 		przy ważeniu $\omega$ oraz $\omega''$. Korzystając z 
 		Obserwacji 3 otrzymujemy
 		\[\omega''(P_{\omega}) = \omega(P_{\omega}) + h(u) - h(v) \leq
@@ -754,7 +754,7 @@ Złożoność powyższego algorytmu to $O(n^3)$.
 		W takiej sytuacji musiała powstać co najmniej jedna 
 		$i$-$j$-ścieżka. Każda z nowopowstałych $i$-$j$-ścieżek
 		musi zawierać w sobie wierzchołek $l$, niech 
-		$P$ to najkrótsza z nich. Zauważmy, że
+		$P$ będzie najkrótszą z nich. Zauważmy, że
 		\[\omega(P) = d^{(l+1)}(i, j) = 
 		d^{(l+1)}(i, l) + d^{(l+1)}(l, j),\]
 		gdzie druga równość wynika z wielokrotnego zastosowania 

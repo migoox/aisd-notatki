@@ -35,7 +35,7 @@ długości najdłuższego rosnącego podciągu. Utwórzmy tablicę \textit{T}
 (numerujemy od 1), w której na indeksie $i$ 
 będziemy przechowywać długość najdłuższego podciągu, dla którego $c_i$
 jest jego ostatnim elementem. Przypuśćmy, że wypełniliśmy tablicę 
-$T$ do ($i-1$)-tego elementu.
+$T$ do ($i-1$)-szego elementu.
 Wtedy aby poznać wartość na $i$-tym indeksie wystarczy przeanalizować 
 wszystkie te wierzchołki w grafie $G$ które mają skierowaną krawędź na
 $i$-ty wierzchołek.
@@ -47,27 +47,27 @@ $i$-ty wierzchołek.
 	\label{fig:example112_max_length}
 \end{figure}
 
-Niech $I$ to zbiór indeksów wszystkich elementów ciągu $c$, które są 
+Niech $I$ będzie zbiorem indeksów wszystkich elementów ciągu $c$, które są 
 mniejsze niż $c_i$, wtedy 
 \[T[i]=\max\limits_{j \in I}\{T[j]\} + 1.\]
 
-Jeśli wypełnimy całą tablicę $T$ wg. powyższej procedury, odpowiediedzą
+Jeśli wypełnimy całą tablicę $T$ według powyższej procedury, odpowiedzią
 będzie maksymalny element tablicy $T$.
 
 \begin{algorithm}[H]
-	\caption{Znajdowanie najdłuższego rosnącego podciągu.}\label{MaxIncreasingSubseqenceLength}
+	\caption{Znajdowanie najdłuższego rosnącego podciągu}\label{MaxIncreasingSubseqenceLength}
 	\begin{algorithmic}[1]
-		\Procedure{MaxIncreasingSubseqenceLength($c = c_1,c_2, \ldots, c_n$)}{}
+		\Procedure{MaxIncreasingSubseqenceLength}{$c=(c_1,c_2, \ldots, c_n)$: ciąg}
 		\State Utwórz tablicę $n$-elementową $T$
 		\State Ustaw wartość każdej komórki tablicy $T$ na $1$
 		\State $i \gets 2$
 		\While{$i \leq n$}
 		\State $j \gets 1$
 		\While{$j \leq i - 1$}
-		\If{$c_i \geq c_j$ } 
-		\textbf{continue}
+		\If{$c_i \geq c_j$} 
+		\State \textbf{continue}
 		\EndIf
-		\If{$T[i] \leq T[j] + 1$ } 
+		\If{$T[i] \leq T[j] + 1$} 
 		\State $T[j] \gets T[i]$
 		\EndIf
 		\EndWhile
@@ -77,10 +77,10 @@ będzie maksymalny element tablicy $T$.
 	\end{algorithmic}
 \end{algorithm}
 
-Złożoność czasowa powyszego rozwiązania jest rzędu $n^2$. 
+Złożoność czasowa powyższego rozwiązania jest rzędu $n^2$. 
 
 Powyższy algorytm można bardzo łatwo zmodyfikować w taki sposób, aby
-możliwym było zwrócenie podciągu stanowiącego rozwiązanie (problem pierwotny).
+możliwe było zwrócenie podciągu stanowiącego rozwiązanie (problem pierwotny).
 Wystarczy utworzyć tablicę $P$, która na indeksie $i$
 będzie zapisywać indeks ostatniego elementu, który spełnił 
 warunek $T[i] \leq T[j] + 1$. Ustalmy, że $-1$ będzie oznaczało, że 
@@ -89,7 +89,7 @@ takiego elementu nie ma (tzn. $c_i$ jest pierwszym elementem podciągu).
 \begin{algorithm}[H]
 	\caption{Znajdowanie najdłuższego rosnącego podciągu.}\label{MaxIncreasingSubseqence}
 	\begin{algorithmic}[1]
-		\Procedure{MaxIncreasingSubseqence($c = c_1,c_2, \ldots, c_n$)}{}
+		\Procedure{MaxIncreasingSubseqence}{$c = (c_1,c_2, \ldots, c_n$): ciąg}
 		\State Utwórz tablicę $n$-elementową $T$
 		\State Ustaw wartość każdej komórki tablicy $T$ na $1$
 		\State Utwórz tablicę $n$-elementową $P$
@@ -164,7 +164,7 @@ Zdefiniujmy tablicę $T$ (indeksowaną od $0$) jako
 tablicę rozmiaru $K + 1$, w której komórka $T[i]$ ($i \in {0, 1, \ldots, K}$)
 przechowuje liczbę monet potrzebną do optymalnego wydania kwoty równej $i$.
 Z powyższych rozważań
-wiadomo, że jeśli tablica jest wypełniona do $(i-1)$-tego
+wiadomo, że jeśli tablica jest wypełniona do $(i-1)$-szego
 elementu ($i \in {0, 1, \ldots, K}$) włącznie, to 
 \begin{equation}
 	T[i] = \min_{1 \leq j \leq k}\{T[i - n_j]\} + 1,
@@ -185,8 +185,8 @@ możemy zwrócić informację, że rozwiązanie nie istnieje.
 	\caption{Znajdowanie liczby monet optymalnego 
 		rozwiązania w problemie wydawania reszty.}\label{MinCoinsCountChangeMaking}
 	\begin{algorithmic}[1]
-		\Procedure{MinCoinsCountChangeMaking($n_1,n_2, \ldots, n_k \in \mathbb{N}$, 
-			$K \in \mathbb{N}$)}{}
+		\Procedure{MinCoinsCountChangeMaking}{$n_1,n_2, \ldots, n_k \in \mathbb{N}$: nominały monet, 
+			$K \in \mathbb{N}$: kwota}
 		\State Utwórz tablicę $(K+1)$-elementową $T$
 		\State Ustaw wartość każdej komórki tablicy $T$ na $\infty$
 		\State $T[0] = 0$
@@ -218,17 +218,17 @@ będzie prawdziwa.
 
 \begin{algorithm}[H]
 	\caption{Znajdowanie liczby monet optymalnego 
-		rozwiązania w problemie wydawania reszty.}\label{ChangeMaking}
+		rozwiązania w problemie wydawania reszty}\label{ChangeMaking}
 	\begin{algorithmic}[1]
-		\Procedure{ChangeMaking($n_1,n_2, \ldots, n_k \in \mathbb{N}$, 
-			$K \in \mathbb{N}$)}{}
+		\Procedure{ChangeMaking}{$n_1,n_2, \ldots, n_k \in \mathbb{N}$: nominały monet, 
+			$K \in \mathbb{N}$: kwota}
 		\State Utwórz tablicę $(K+1)$-elementową $T$
 		\State Ustaw wartość każdej komórki tablicy $T$ na $\infty$
 		\State Utwórz tablicę $(K+1)$-elementową $P$
 		\State $T[0] \gets 0$
 		\For{$i = 1, 2, \ldots K$}
 		\For{$j = 1, 2, \ldots k$}
-		\If{$i < n_j$} \textbf{continue}
+		\If{$i < n_j$}  \textbf{continue}
 		\EndIf
 		\State $c = T[i - n_j] + 1$
 		\If{$c < T[i]$} 
@@ -237,7 +237,7 @@ będzie prawdziwa.
 		\EndIf
 		\EndFor
 		\EndFor
-		\If{$T[K] = \infty$} \textbf{return} \textit{null}
+		\If{$T[K] = \infty$} \Return \textit{null}
 		\EndIf
 		
 		\State Utwórz tablicę $T[K]$-elementową $A$ reprezentującą

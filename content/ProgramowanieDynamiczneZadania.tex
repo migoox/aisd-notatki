@@ -1,16 +1,14 @@
 \subsection{Zadanie 1 -- Szukanie podzbioru o zadanej sumie elementów}
-\textbf{Treść: } Zaprojektuj algorytm, który dla zadanego zbioru 
+
+\paragraph{Treść: } Zaprojektuj algorytm, który dla zadanego zbioru 
 liczb naturalnych $S$ i liczby naturalnej $N$ rozstrzygnie,
 czy $S$ zawiera podzbiór o sumie równej $N$ w czasie $O(N |S|)$.
+Wskazówka: wyznacz wszystkie możliwe sumy podzbiorów zbioru $S$.
 
-Wskazówka: wyznacz wszystkie możliwe sumy podzbiorów zbioru $S$
+\paragraph{Rozwiązanie: } Niech $S = \{s_0, s_1, \dots, s_{|S| - 1}\}$ będzie zbiorem wejściowym oraz 
+niech $N$ będzie liczbą, dla której sprawdzimy czy istnieją elementy, które się do niej sumują.
 
-\textbf{Rozwiązanie: }
-
-Niech $S = \{s_0, s_1, \dots, s_{|S| - 1}\}$ to zbiór wejściowy, oraz 
-niech $N$ to liczba, dla której sprawdzimy czy istnieją elementy, które się do niej sumują.
-
-Niech $T$ to tablica dwuwymiarowa o wymiarach $|S|$ na $N + 1$, przyjmująca wartości 
+Niech $T$ będzie tablicą dwuwymiarową o wymiarach $|S|$ na $N + 1$, przyjmująca wartości 
 \textit{True} lub \textit{False} w każdej komórce tablicy $T$.
 Komórka tablicy $T[i, j]$ odpowiada na pytanie, czy da się otrzymać 
 sumę równą $i$ z $j$-elementowego podzbioru $\{s_1, s_2, \dots, s_j\} \subseteq S$.
@@ -24,10 +22,10 @@ i zmienić wartość na $T$ i tak do momentu uzupełnienia tablicy $T$.
 Po uzupełnieniu $T$ odpowiedzią na zadane pytanie jest $T[k, N]$.
 
 Rozważmy przykład: $S = \{1, 3, 5, 10\}$ (tzn. $s_0=1$, $s_1=3$, $s_2=5$, $s_3=10$), 
-$N = 9$. Tablica prezentuje się wtedy tak jak poniżej.
+$N = 9$. Tablica prezentuje się wtedy jak w tabeli \ref{tab:problemnptrudny}.
 
 \begin{table}[H]
-	\center
+	\centering
 	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
 		\hline
 		& \multicolumn{1}{l|}{\textbf{0}} & \multicolumn{1}{l|}{\textbf{1}} & \multicolumn{1}{l|}{\textbf{2}} & \multicolumn{1}{l|}{\textbf{3}} & \multicolumn{1}{l|}{\textbf{4}} & \multicolumn{1}{l|}{\textbf{5}} & \multicolumn{1}{l|}{\textbf{6}} & \multicolumn{1}{l|}{\textbf{7}} & \multicolumn{1}{l|}{\textbf{8}} & \multicolumn{1}{l|}{\textbf{9}} \\ \hline
@@ -38,12 +36,13 @@ $N = 9$. Tablica prezentuje się wtedy tak jak poniżej.
 		\hline
 	\end{tabular}
 	\caption{Elementy $s_1, s_2 \dots, s_k \in S$ nie muszą być posortowane.}
+	\label{tab:problemnptrudny}
 \end{table}
 
 \begin{algorithm}[H]
-	\caption{Rozwiązanie zadania 1.1}\label{Zadanie11}
+	\caption{Szukanie podzbioru o zadanej sumie elementów}\label{Zadanie11}
 	\begin{algorithmic}[1]
-		\Procedure{SubsetSum($S = \{s_0, s_1, \dots, s_{|S| - 1}\} \subseteq \mathbb{N}$, $N \in \mathbb{N}$)}{}
+		\Procedure{SubsetSum}{$S = \{s_0, s_1, \dots, s_{|S| - 1}\} \subseteq \mathbb{N}$: zbiór, $N \in \mathbb{N}$: szukana suma}
 		\State Utwórz tablicę dwuwymiarową $T$ o $|S|$ wierszach i $N + 1$ kolumnach 
 		\State Wypełnij tablicę $T$ wartością \textit{False}
 		\State $T[0, 0] \gets $ \textit{True}
@@ -74,17 +73,17 @@ Wskazówka: zastosuj programowanie dynamiczne; wyznacz rozwiązanie dla każdej 
 \textbf{Rozwiązanie:}
 Oznaczmy ciągi wejściowe jako 
 $A = a_1, a_2, \dots a_n$ oraz 
-$B = b_1, b_2, \dots b_m$. Niech $C$ to największy możliwy
-wspólny podciąg $A$ i $B$.  Zauważmy, że jeśli znamy rozwiązanie
+$B = b_1, b_2, \dots b_m$. Niech $C$ będzie największym możliwym
+wspólnym podciągiem $A$ i $B$.  Zauważmy, że jeśli znamy rozwiązanie
 nastepujących podproblemów:
-\begin{itemize}
-	\item[1.] Największy możliwy wspólny podciąg $C_1$ dla ciągów $A_1=a_1, a_2, \dots a_n$ oraz 
+\begin{enumerate}
+	\item największy możliwy wspólny podciąg $C_1$ dla ciągów $A_1=a_1, a_2, \dots a_n$ oraz 
 	$B_1=b_1, b_2, \dots b_{m-1}$,
-	\item[2.] Największy możliwy wspólny podciąg $C_2$ dla ciągów $A_2 =a_1, a_2, \dots a_{n-1}$ oraz 
+	\item największy możliwy wspólny podciąg $C_2$ dla ciągów $A_2 =a_1, a_2, \dots a_{n-1}$ oraz 
 	$B_2=b_1, b_2, \dots b_{m}$,
-	\item[3.] Największy możliwy wspólny podciąg $C_3$ dla ciągów $A_3=a_1, a_2, \dots a_{n-1}$ oraz 
-	$B_3=b_1, b_2, \dots b_{m-1}$
-\end{itemize}
+	\item największy możliwy wspólny podciąg $C_3$ dla ciągów $A_3=a_1, a_2, \dots a_{n-1}$ oraz 
+	$B_3=b_1, b_2, \dots b_{m-1}$,
+\end{enumerate}
 to jesteśmy w stanie znaleźć $C$
 w następujący sposób: jeżeli $a_n = b_m$, to rozwiązaniem 
 jest podciąg $C_3$ z dodatkowym elementem $a_n$, w przeciwnym przypadku
@@ -92,7 +91,7 @@ rozwiązaniem musi być większy z ciągów $C_1$ oraz $C_2$ ($\ast$).
 
 Aby zaimplementować to rozumowanie, zastosujemy tablicę dwuwymiarową $T$ 
 (indeksujemy od 0)
-o $n+1$ wierszach oraz $m+1$ kolumnach. Jako, że w zadaniu mowa jest 
+o $n+1$ wierszach oraz $m+1$ kolumnach. Jako że w zadaniu mowa jest 
 tylko o długości szukanego podciągu $C$, każda z komórek tablicy $T$ 
 o indeksach $i$ oraz $j$ ($i \in \{0,1, \dots, n\}$, 
 $j \in \{0,1, \dots, m\}$) będzie 
@@ -128,9 +127,9 @@ będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg ($\ast$).
 
 
 \begin{algorithm}[H]
-	\caption{Rozwiązanie zadania 1.2}\label{Zadanie12}
+	\caption{Szukanie najdłuższego wspólnego podciągu}\label{Zadanie12}
 	\begin{algorithmic}[1]
-		\Procedure{SubsetSum($A = a_1, a_2, \dots, a_n$, $B = b_1, b_2, \dots, b_m$)}{}
+		\Procedure{SubsetSum}{$A = a_1, a_2, \dots, a_n$, $B = b_1, b_2, \dots, b_m$}
 		\State Utwórz tablicę dwuwymiarową $T$ o $n+1$ wierszach i $m+1$ kolumnach.
 		\State Wypełnij zerową kolumnę i zerowy wiersz tablicy $T$ zerami
 		\State $i \gets 1$
@@ -142,9 +141,9 @@ będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg ($\ast$).
 		\Else
 		\State $T[i, j] = \max\{T[i-1,j], T[i,j-1]\}$
 		\EndIf
-		\State $j \gets j + 1$
+		\State $j \pp$
 		\EndWhile
-		\State $i \gets i + 1$
+		\State $i \pp$
 		\EndWhile
 		\State \Return $T[n, m]$
 		\EndProcedure 
@@ -164,7 +163,7 @@ Zaprojektuj jak najszybszy algorytm rozwiązujący problem łamania tekstu.
 
 \textbf{Rozwiązanie:} Niech wejściem algorytmu będzie ciąg  długości słów $d=d_1,d_2,\dotsc,d_n$ oraz szerokość linii $s$.
 
-Niech $C$ to tablica dwuwymiarowa o wymiarach $n$ na $n$, gdzie w komórce $C[i,j]$ znajdować będzie się koszt umieszczenia słów od $i$ do $j$ w jednej linii, gdzie jako koszt rozumiemy kwadrat liczby pozostałych miejsc. Dla każdej pary $(i,j)$, $i\leq j$ należy więc wyznaczyć ilość dodatkowych spacji. Mamy więc przypadki: \begin{itemize}
+Niech $C$ będzie tablicą dwuwymiarową o wymiarach $n$ na $n$, gdzie w komórce $C[i,j]$ znajdować będzie się koszt umieszczenia słów od $i$ do $j$ w jednej linii, gdzie jako koszt rozumiemy kwadrat liczby pozostałych miejsc. Dla każdej pary $(i,j)$, $i\leq j$ należy więc wyznaczyć ilość dodatkowych spacji. Mamy więc przypadki: \begin{itemize}
 	\item słowa od $i$ do $j$ nie mieszczą się w linii: $C[i,j]=\infty$,
 	\item słowa od $i$ do $j$ mieszczą się, ale $j=n$ (jest to ostatnia linia), więc nie ma kosztu: $C[i,j]=0$,
 	\item w przeciwnym wypadku: $C[i,j]=\textrm{ex}^2$, gdzie $\textrm{ex}$ to liczba dodatkowych spacji w linii.
@@ -215,9 +214,9 @@ Zauważmy, że $p[n]$ zawiera informację, od którego słowa zaczyna się linia
 
 W algorytmie panuje umowa, że $C$ jest indeksowana od 1, a $c,p$ od 0.
 \begin{algorithm}[H]
-	\caption{Rozwiązanie zadania 1.3}\label{Zadanie13}
+	\caption{Problem łamania tekstu}\label{Zadanie13}
 	\begin{algorithmic}[1]
-		\Procedure{BreakLines($d = d_1, d_2, \dotsc, d_n$, $s$)}{}
+		\Procedure{BreakLines}{$d = (d_1, d_2, \dotsc, d_n)$: ciąg długości słów, $s$: szerokość linii}
 			\State Utwórz tablicę dwuwymiarową $C$ o $n$ wierszach i $n$ kolumnach.
 			\State Utwórz tablice $c,p$ o $n+1$ kolumnach.
 			\For{$i\in\{1,2,\dotsc,n\}$}
@@ -277,11 +276,11 @@ oraz $n$ jako długość napisu $y$. Rozważmy dwa przypadki:
 	\end{itemize} 
 \end{itemize}
 
-W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania npaisów od 1.
+W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania napisów od 1.
 \begin{algorithm}[H]
 	\caption{Odległość edycyjna -- naiwny algorytm rekurencyjny}
 	\begin{algorithmic}[1]
-		\Procedure{NaiveEditDistance($x$, $m$, $y$, $n$)}{}
+		\Procedure{NaiveEditDistance}{$x$: napis, $m$: długość $x$, $y$: napis, $n$: długość $y$}
 		\If{$m=0$}
 		\Comment $x$ jest puste, więc możemy jedynie dodać wszystkie znaki z napisu $y$ do napisu $x$
 		\State \Return $n$ 
@@ -291,11 +290,11 @@ W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania npaisów 
 		\State \Return $m$ 
 		\EndIf
 		\If{$x[m] = y[n]$}
-		\State \Return NaiveEditDistance($x$, $m - 1$, $y$, $n - 1$)
+		\State \Return \textsc{NaiveEditDistance}($x$, $m - 1$, $y$, $n - 1$)
 		\Else
-		\State DeleteCost = NaiveEditDistance($x$, $m - 1$, $y$, $n$)
-		\State InsertCost = NaiveEditDistance($x$, $m$, $y$, $n - 1$)
-		\State \Return 1 + min(DeleteCost, InsertCost) \Comment +1, bo musimy wliczyć koszt wykonania aktualnej operacji
+		\State \textit{DeleteCost} $\gets$ \textsc{NaiveEditDistance}($x$, $m - 1$, $y$, $n$)
+		\State \textit{InsertCost} $\gets$ \textsc{NaiveEditDistance}($x$, $m$, $y$, $n - 1$)
+		\State \Return $1 + \min(\textit{DeleteCost, InsertCost})$ \Comment +1, bo musimy wliczyć koszt wykonania aktualnej operacji
 		\EndIf
 		\EndProcedure 
 	\end{algorithmic}
@@ -303,7 +302,7 @@ W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania npaisów 
 \end{algorithm}
 
 Teraz zajmijmy się podejściem programowania dynamicznego.
-Niech $T$ to tablica dwuwymiarowa o
+Niech $T$ będzie tablicą dwuwymiarową o
 $n + 1$ wierszach oraz $m + 1$ kolumnach
 gdzie kolumny oznaczają kolejne litery napisu $x$ a
 wiersze kolejne litery napisu $y$. Komórka
@@ -321,11 +320,11 @@ zaobserwujmy następującą relację:
 	(w zależności od tego, czy $T[i - 1, j] > T[i, j - 1]$).
 \end{itemize}
 
-Przykład: rozważmy dwa napisy $x =$ \textit{piesek} oraz $y =$ \textit{kotek}.
+Przykład: rozważmy dwa napisy $x =$ ,,piesek'' oraz $y =$ ,,kotek''.
 
 \begin{table}[H]
 	\center
-	\begin{tabular}{|l|lllllll|}
+	\begin{tabular}{|c|lllllll|}
 		\hline \diagbox{$y$}{$x$}
 		& \multicolumn{1}{l|}{\textbf{""}} & \multicolumn{1}{l|}{\textbf{p}} & \multicolumn{1}{l|}{\textbf{i}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{s}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{k}} \\ \hline
 		\textbf{""} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-1}
