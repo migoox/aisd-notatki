@@ -152,21 +152,31 @@ wierzchołków w taki sposób, że dla
 każdej krawędzi $uv$, wierzchołek $u$ znajduje się przed 
 wierzchołkiem $v$
 
-\textbf{Rozwiązanie:} Zakładamy, że dysponujemy globalną
+\textbf{Rozwiązanie:} Rozwiązanie polega na zastosowaniu przeszukiwania DFS, które
+odbywa się w funkcji \textsc{RSort}.
+
+Zakładamy, że dysponujemy globalną
 tablicą booli $T$ o $|V(G)|$ elementach zainicjowaną wartością 
 \textit{false}.
 
-Ponadto zakładamy, że mamy globalną listę $L$, w której 
-będą znajdować się posortowane wierzchołki.
-
 \begin{algorithm}[H]
-	\caption{Rozwiąznie zadania 5}
+	\caption{Sortowanie topologiczne wierzchołków drzewa}
 	\begin{algorithmic}[1]
-		\Procedure{TSort($G$ -- graf, $v$ -- wierzchołek startowy)}{}
+		\Procedure{TopologicalSort}{$G$: graf, $v$: wierzchołek startowy}
+		\State $V' \gets V(G) \cup \{x\}$
+		\State $E' \gets E(G) \cup \{xv : v \in V(G)\}$
+		\State $G' \gets (V', E')$
+		\State $L \gets$ pusta lista
+		\State RSort($G'$, $x$, $L$)
+		\State $L$.PopFront() \Comment Pierwszym elementem jest $x \not \in V(G)$
+		\State \Return $L$
+		\EndProcedure
+		
+		\Procedure{RSort}{$G$: graf, $v$: wierzchołek startowy, $L$: lista}
 		\While{$x \in N(v)$}
 		\If {$T[x] = $ \textit{false} }
 		\State $T[x] \gets$ \textit{true}
-		\State TSort($G$, $x$)
+		\State TSort($G$, $x$, $L$)
 		\EndIf
 		\EndWhile
 		\State $L$.PushFront(x)
@@ -174,6 +184,9 @@ będą znajdować się posortowane wierzchołki.
 	\end{algorithmic}
 	\label{Zadanie26}
 \end{algorithm}
+
+Zauważmy, że dodanie do drzewa wierzchołka $x$, które odbywa się w linijkach..., nie może spowodować
+cykli, bo w $G'$ nie istnieje łuk wchodzący do tego wierzchołka.
 
 \subsection{Zadanie 7 -- Szukanie cyklu Eulera}
 \textbf{Treść: } Skontruuj algorytm znajdujący cykl Eulera 
