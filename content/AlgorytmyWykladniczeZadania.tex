@@ -140,13 +140,13 @@ W ten sposób maksymalnie osiem możliwych przypadków wartościowania zmiennych
 		\EndIf
 		\State
 		\State $x \gets $ \false, $y \gets $ \true \Comment{Jeśli literałów było $\geq 2$}
-		\State $\mathfrak{K}' \gets \mathfrak{K}$ bez \textit{Kasi} i klauzul spełnionych przez $y$
+		\State $\mathfrak{K}' \gets \mathfrak{K}$ bez \textit{Kasi} i klauzul spełnionych przez $y$ oraz $\lnot x$
 		\If {\textsc{Solve3SAT}($\mathfrak{K}'$)} 
 		\State \Return \true
 		\EndIf
 		\State
 		\State $x \gets $ \false, $y \gets $ \false, $z \gets $ \true \Comment{Jeśli literałów było 3}
-		\State $\mathfrak{K}' \gets \mathfrak{K}$ bez \textit{Kasi} i klauzul spełnionych przez $z$
+		\State $\mathfrak{K}' \gets \mathfrak{K}$ bez \textit{Kasi} i klauzul spełnionych przez $z$ oraz $\lnot y$ oraz $\lnot x$
 		\If {\textsc{Solve3SAT}($\mathfrak{K}'$)}
 		\State \Return \true
 		\EndIf
