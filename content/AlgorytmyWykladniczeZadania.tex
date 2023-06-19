@@ -114,7 +114,8 @@ Wystarczy rozstrzygnąć dwudzielność
 grafu $G'$ przy pomocy algorytmu opisanego w \hyperref[exc:bipart]{zadaniu 5 z tematu ,,Przeszukiwanie grafów''}. Graf $G'$ jest dwudzielny i każdy wierzchołek z $G$ ma swojego odpowiednika w \emph{tej samej} klasie dwudzielności $X$ wtedy i tylko wtedy, gdy możemy pokolorować go listowo.
 
 
-Dzieje się tak dlatego, że dla każdego wierzchołka $v_i\in V(G)$ klasa $X$ zawiera wierzchołek $v_{ik}$ reprezentujący pokolorowanie $v_i$ na kolor $k$. Zawiera ona dokładnie jeden wierzchołek odpowiadający $v_i$ ze względu na obecność krawędzi łączących go z innymi kolorami. Jednocześnie dla każdego koloru $k$ w klasie $X$ nie sąsiadują żadne wierzchołki $v_{ik}$, $v_{jk}$, takie że $v_iv_j\in E(G)$, co wynika z dwudzielności. Kolorowanie to jest więc poprawne.
+Dzieje się tak dlatego, że dla każdego wierzchołka $v_i\in V(G)$ klasa $X$ zawiera wierzchołek $v_{ik}$ reprezentujący pokolorowanie $v_i$ na kolor $k$. Zawiera ona dokładnie jeden wierzchołek $v_{ik}$ odpowiadający $v_i$ ze względu na obecność krawędzi łączących $v_{ik}$ z $v_{il}$ dla $l \in L_{v_i}, l \neq k$ (tzn. z innymi kolorami z $L_{v_i}$). Jednocześnie z dwudzielności wynika, że dla każdego koloru $k$ w klasie $X$ nie sąsiadują żadne wierzchołki $v_{ik}$, $v_{jk}$ takie, że $v_iv_j\in E(G)$. Kolorowanie to jest więc poprawne.
+
 
 Pokazanie, że jeżeli istnieje poprawne kolorowanie listowe grafu $G$, to $G'$ jest dwudzielny i odpowiednie wierzchołki $G'$ odpowiadające temu kolorowaniu tworzą klasę dwudzielności jest analogiczne. 
 
