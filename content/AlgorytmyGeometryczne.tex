@@ -515,11 +515,17 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 	\begin{proof}
 		\phantom{a}
 		\begin{enumerate}
-			\item Pokażemy, że $P[0]$ jest wierzchołkiem otoczki wypukłej $P$. 
+			\item Sprawdzenie skrętu trójki ($S$.BelowTop(), $S$.Top(), $P[k]$) jest możliwe w każdej chwili wykonania się algorytmu
 			
 			Załóżmy nie wprost, że $P[0]$ nie jest wierzchołkiem $\operatorname{CH}(P)$. Wtedy istnieje krawędź $\operatorname{CH}(P)$ znajdująca się pod $P[0]$, co oznacza, że istnieje punkt (koniec tej krawędzi) o mniejszej współrzędnej $y$ -- sprzeczność, bo z definicji $P[0]$ jest punktem o najmniejszej współrzędnej $y$.
 			
 			Analogicznie dowodzimy w przypadku, gdy jest kilka punktów o tej samej współrzędnej $y$.
+			
+			Z posortowania wierzchołków $P$, względem kąta wynika, że pod prostą przechodzącą przez punkty $P[0]$ i $P[1]$ nie może istnieć 
+			żaden inny punkt należący do $P$. Oznacza to, że nie istnieje punkt $P[i]$, gdzie $i \in \{0, 1, \ldots n\}$, taki, że 
+			trójka ($P[0]$, $P[1]$, $P[i]$) jest skrętem w prawo. Z tego faktu implikujemy, że $P[1]$ również należy do otoczki wypukłej $P$.
+			
+			Powyższe oznacza, że stos $S$ zawsze zawiera co najmniej 2 elementy, czyli sprawdzenie skrętu jest możliwe.
 			
 			\item Jako $S_k$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ (tzn. po $(k-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots P[k]\}$.
 			
@@ -553,10 +559,17 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 					\end{minipage}				
 
 					\item Niech $\bar{S}$ będzie zbiorem punktów zdjętych w ostatnim wykonaniu pętli \textit{while} ze stosu $S_{k-1}$.
-					Weźmy dowolny $Q \in \bar{S}$. Z prawoskrętności trójki ($S$.Top(), $Q$, $P[k]$) wynika, że kąt wyznaczony przez tę trójkę jest wklęsły, zatem $Q$ leży we wnętrzu trójkąta $(P[k], P[0], S.\operatorname{Top}())$ (rysunek \ref{fig:graham:usuwanie}). Z założenia indukcyjnego wszystkie punkty z $\{P[0], \dots, P[k]\} \setminus \bar{S}$ leżą wewnątrz wielokąta opisanego przez $S \setminus \bar{S}$. Zatem $S_k$ stanowi otoczkę zbioru $\{P[0], \dots, P[k]\}$.
+					Weźmy dowolny $Q \in \bar{S}$. Z prawoskrętności trójki ($S$.Top(), $Q$, $P[k]$) wynika, że kąt wyznaczony przez tę trójkę jest wklęsły, zatem $Q$ leży we wnętrzu trójkąta $(P[k], P[0], S.\operatorname{Top}())$ (rysunek \ref{fig:graham:usuwanie}). Oznacza to, że zbiór $\bar{S}$
+					 znajduje się wewnątrz wielokąta wypukłego $S_k$. Z założenia indukcyjnego wszystkie punkty z $\{P[0], \dots, P[k-1]\}$ leżą wewnątrz wielokąta wypukłego opisanego przez $S_{k-1}$.
+					 Skoro wszystkie punkty z $S_{k-1}$ należą albo do $S_k$
+					 albo leżą wewnątrz wielokąta wypukłego $S_k$, to $S_k$ musi stanowić otoczkę zbioru $\{P[0], \dots, P[k]\}$.
 				\end{enumerate}				
 			\end{itemize}
-			Podsumowując, wielokąt opisany przez $S_k$ jest otoczką wypukłą zbioru $\{P[0], \dots, P[k]\}$. Po $n-1$ iteracjach pętli \textit{for} ciąg punktów $S$ opisuje otoczkę wypukłą wszystkich punktów z $P$. \qedhere
+			Punkty (a) oraz (b) implikują, że $S_k$ jest wielokątem wypukłym, natomiast (c), że wielokąt wypukły $S_k$ stanowi otoczkę wypukłą
+			zbioru $\{P[0], P[1], \ldots, P[k]\}$, co oznacza, że niezmiennik 
+			jest prawdziwy.
+			
+			Zatem, po $n-1$ iteracjach pętli \textit{for} ciąg punktów $S$ opisuje otoczkę wypukłą wszystkich punktów z $P$. \qedhere
 		\end{enumerate}
 	\end{proof}
 \end{theorem}
