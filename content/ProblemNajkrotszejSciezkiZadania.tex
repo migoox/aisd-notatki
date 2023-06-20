@@ -8,7 +8,8 @@ wierzchołkami.
 \begin{algorithm}[H]
 	\caption{Algorytm Bellmana-Forda z odtwarzaniem ściezki}
 	\begin{algorithmic}[1]
-		\Procedure{BellmanFord}{$(G, w)$: graf ważony, $s$: źródło, $t$: ujście}
+		\Procedure{BellmanFord}{$(G, w)$: graf ważony, $s$: wierzchołek startowy, $t$: wierzchołek docelowy}
+
 		\State odległość = tablica liczb, rozmiaru $V[G]$
 		\State poprzednik = tablica wierzchołków, rozmiaru $V[G]$
 		\For{$v \in V(G)$}
