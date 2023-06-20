@@ -315,8 +315,9 @@ powinna udostępniać następujące metody:
 \begin{itemize}
 	\item Insert($s$) -- wstawienie odcinka $s$,
 	\item Delete($s$) -- usunięcie odcinka $s$,
-	\item Above($s$) -- znalezienie górnego sąsiada odcinka $s$,
-	\item Below($s$) -- znalezienie dolnego sąsiada odcinka $s$,
+	\item Above($s$) -- znalezienie ,,górnego'' sąsiada odcinka $s$,
+	\item Below($s$) -- znalezienie ,,dolnego'' sąsiada odcinka $s$,
+
 	\item Interchange($s_1$, $s_2$) -- zmiana uporządkowania odcinków $s_1$ i $s_2$.
 \end{itemize}
 Chcemy, aby powyższe metody miały pesymistyczną złożoność $O(\log(n))$. W tym celu możemy skorzystać ze zrównoważonych drzew BST, czyli
