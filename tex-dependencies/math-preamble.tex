@@ -72,6 +72,8 @@
 \counterwithin{equation}{section}
 \counterwithin{figure}{section}
 
+\counterwithin{table}{section}
+
 \renewcommand\useanchorwidth{T} % https://tex.stackexchange.com/questions/205145/flip-the-underbrace
 \renewcommand\theadalign{bc} % table head align - bottom center
 \renewcommand\theadfont{\bfseries} % table head font
@@ -258,9 +260,9 @@
 \newcommand{\mieq}{\mathrel{\scalebox{0.75}{-{=}}}}
 \newcommand{\pp}{\scalebox{0.75}{++}}
 \newcommand{\mm}{\scalebox{0.75}{$--$}}
-\usepackage{xspace}
-\newcommand{\true}{\textsf{true\xspace}}
-\newcommand{\false}{\textsf{false\xspace}}
+\newcommand{\true}{\textsf{true}}
+\newcommand{\false}{\textsf{false}}
+
 \usepackage{lmodern}
 
 \captionsetup[table]{font=small}

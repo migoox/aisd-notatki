@@ -83,7 +83,7 @@ i utworzenia przepływów.
 \begin{algorithm}[H]
 	\caption{Algorytm Dinica}
 	\begin{algorithmic}[1]
-		\Procedure{Dinic($G, w$, $s$, $t$)}{}
+		\Procedure{Dinic}{($G, w, s, t$): sieć}
 		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
 		\State Utwórz sieć rezydualną $(R, c_f)$ dla wejściowej 
 		sieci przepływowej oraz dla $f$ 
@@ -130,16 +130,16 @@ wartość dowolnego przekroju), a jako minimum -- 1.
 \begin{algorithm}[H]
 	\caption{Wyznaczanie pesymistycznej wydajności}
 	\begin{algorithmic}[1]
-		\Procedure{FindPesimisticEfficiency($G, c$, $s$)}{}
-		\State Niech $V' = V(G) + \{t\}$
-		\State Niech $E' = E(G) + \{vt : v \in V' \setminus \{s, t\} \}$
-		\State Niech $G' = (V', E')$
+		\Procedure{FindPesimisticEfficiency}{($G, c, s, t$): sieć}
+		\State $V' \gets V(G) + \{t\}$
+		\State $E' \gets E(G) + \{vt : v \in V' \setminus \{s, t\} \}$
+		\State $G' \gets (V', E')$
 		\State $R \gets \sum_{v \in N(s)}c(sv)$
 		\State $L \gets 1$
 		\While{$L < R$}
 		\State $w = \lfloor \frac{L + R}{2} \rfloor$
 		\For{$e \in E'$}
-		\State $c(e) = w$
+		\State $c(e) \gets w$
 		\EndFor 
 		\State $f \gets$ Ford-Fulkerson($G'$, $c$, $s$, $t$)
 		\If{$\forall_{e \in E'} f(e) = w$}
