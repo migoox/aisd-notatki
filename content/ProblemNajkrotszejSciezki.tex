@@ -446,7 +446,7 @@ rosnącego $\text{dist}(s,v) + h(v)$.
 \begin{algorithm}[H]
 	\caption{Algorytm A*}
 	\begin{algorithmic}[1]
-		\Procedure{AStar}{($G, \omega$): graf ważony, $s$: źródło, $t$: ujście, $h$: heurystyka}
+		\Procedure{AStar}{($G, \omega$): graf ważony, $s$: wierzchołek startowy, $t$: wierzchołek docelowy, $h$: heurystyka}
 		\State Niech odległość to tablica liczb, rozmiaru $V[G]$
 		\For{$v \in V(G)$}
 		\State odległość$[v]\gets\infty$
