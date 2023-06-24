@@ -32,8 +32,8 @@ będziemy rozumieli dowolny spacer, w którym
 		w sobie $k\geq 1$ cykli $C_1$, $C_2$, $\dots$, $C_k$. 
 		
 		Niech $Q$ to ścieżka utworzona z $S$ w taki sposób,
-		że każdy cykl jest pominięty. (np. dla $S=uabcdbgv$, 
-		$Q=uabgv$)
+		że każdy cykl jest pominięty (np. dla $S=uabcdbgv$, 
+		$Q=uabgv$).
 		
 		Zauważmy, że
 		\[\omega(P) > \omega(S) \geq \omega(Q),\]
@@ -42,7 +42,7 @@ będziemy rozumieli dowolny spacer, w którym
 		z faktu że w $G$ nie ma ujemnych cykli.
 		
 		Ale przecież, założyliśmy, że $P$ jest najkrótszą ścieżką,
-		co prowadzi do sprzecności.
+		co prowadzi do sprzeczności.
 		
 	\end{proof}
 	\label{minpath_walk}
@@ -91,13 +91,13 @@ do dowolnego osiągalnego wierzchołka.
 		\Procedure{BellmanFord(($G, w$), $s \in V(G)$))}{}
 		\State odległość = tablica liczb, rozmiaru $V[G]$
 		\For{$v \in V(G)$}
-		\State odległość$[v]=\infty$
+		\State odległość$[v] \gets \infty$
 		\EndFor
-		\State odległość$[s]=0$
+		\State odległość$[s] \gets 0$
 		\For{$i=1,2,\dots,n-1$}
 		\For{$uv \in E(G)$}
 		\If{odległość$[v] >$ odległość$[u]$ + $w(uv)$}
-		\State odległość$[v]=$ odległość$[u] + w(uv)$ 
+		\State odległość$[v] \gets$ odległość$[u] + w(uv)$ 
 		\EndIf
 		\EndFor
 		\EndFor
@@ -505,7 +505,7 @@ heurystyki są spełnione.
 	poprawnie rozwiązuje problem najkrótszej ścieżki
 	pomiędzy wierzchołkami $s$ i $t$.
 	\begin{proof}
-		\textbf{to do} (nie obowiązuje na kolokwium)
+		(nie obowiązuje na kolokwium)
 	\end{proof}
 	\label{aStar_proof}
 \end{theorem}

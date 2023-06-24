@@ -107,31 +107,40 @@ od $u$ do $v$ o dokładnie $k$ krawędziach.
 \textbf{Treść: } Zaprojektuj algorytm, ktory dla ważonego 
 acyklicznego grafu skierowanego $G$ oraz wierzchołków $s, t \in
 V(G)$ wyznaczy odległość od $s$ do $t$ w czasie $O(m)$. 
-Wskazówka: wykorzystaj sortowanie topologiczne (zadanie 1.5)
+Wskazówka: wykorzystaj sortowanie topologiczne.
 
 \textbf{Rozwiązanie: }
-Dijkstra tylko, że zamiast kolejki $Q$ stosujemy
-sortowanie topologiczne (średnia złożoność $O(m)$), 
-po czym iter
+Rozwiązanie polega na zastosowaniu algorytmu zbliżonego do
+algorytmu Dijkstry. Zamiast 
+kolejki priorytetowej $Q$, wykorzystamy przygotowaną przez algorytm 
+\ref{alg:Zadanie26} listę wierzchołków $L$, posortowanych topologicznie.
+Nie ma potrzeby zmiany kolejności wierzchołków na liście $L$ w czasie 
+wykonywania algorytmu, tak jak jest to robione w przypadku algorytmu
+Dijkstry poprzez operację \textsc{DecreaseKey} wywoływanej na kolejce $Q$.
+
+Jako, że startowy wierzchołek nie musi być pierwszym wierzchołkiem na liście $L$,
+musimy usunąć wszystkie wierzchołki z listy, które znajdują przed $s$.
+
 \begin{algorithm}[H]
 	\caption{Znajdowanie ujemnego cyklu}
 	\begin{algorithmic}[1]
-		\Procedure{FindDistanceInTree(($T, w$))}{}
-		\State Niech odległość to tablica liczb, rozmiaru $V[G]$
-		\State Niech kolejność to tablica liczb, rozmiaru $V[G]$, na
-		$i$-tej komórce znajduje się wierzchołek, który ma 
-		$i$-te miejsce w posortowanej topologicznie tablicy wierzchołków
-		\State kolejność $\gets$ TopologicalSort($T$)
-		\For{$i = 0, 1, \dots n - 1$}
-		\State $u \gets \text{kolejność}[i]$
-		\For{$v \in N(u)$}
-		\If {$\text{odległość}[u] + \omega(uv) < 
-			\text{odległość}[v]$}
-		\State $\text{odległość}[v] = \text{odległość}[u] + \omega(uv)$
-		\EndIf
-		\EndFor 
+		\Procedure{FindDistanceInTree}{$T$: drzewi, $\omega$: ważenie, $s$: wierzchołek startowy, $t$: wierzchołek docelowy}
+		\State \textit{odległość} $\gets$ tablica liczb, rozmiaru $V[G]$
+		\For{$v \in V(G)$}
+		\State \textit{odległość}$[v] \gets \infty$
 		\EndFor
-		\State \Return False
+		\State \textit{odległość}$[s] \gets 0$
+		\State $L \gets$ \textsc{TopologicalSort}($T$) 
+		\State Usuń z $L$ wszystkie wierzchołki przed $s$
+		\While{$L$ nie jest pusta}
+		\State $u \gets L$.DetachHead()
+		\For{$v \in N(u)$} 
+		\If{\textit{odległość}$[u] + \omega(uv) <$ \textit{odległość}$[v]$}
+		\State \textit{odległość}$[v] \gets $ {odległość}$[u] + \omega(uv)$
+		\EndIf
+		\EndFor
+		\EndWhile
+		\State \Return \textit{odległość}$[t]$
 		\EndProcedure
 	\end{algorithmic}
 	\label{Zadanie34}
@@ -144,12 +153,14 @@ w którym spełnione
 są wszystkie założenia 
 poza 
 ,,dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + \text{waga}(uv)$''.
+
 \textbf{Rozwiązanie: }
 
 \subsection{Zadanie 6 -- Poprawność algorytmu A\texorpdfstring{$^*$}{TEXT}}
 \textbf{Treść: } Udowodnij poprawność algorytmu 
 A$^*$ i wskaż, w których miejscach wykorzystywane są jego założenia.
 Wskazówka: zainspiruj się dowodem poprawności algorytmu Dijkstry.
+
 \textbf{Rozwiązanie: } Dowód twierdzenia \ref{aStar_proof}.
 
 \subsection{Zadanie 7 -- Poprawność algorytmu Floyda-Warshalla}
