@@ -513,21 +513,10 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 \begin{theorem}[Poprawność algorytmu Grahama]
 	Algorytm Grahama poprawnie znajduje otoczkę wypukłą danego zbioru punktów.
 	\begin{proof}
+		Niech $P$ to pewien zbiór punktów, wtedy przez $\operatorname{CH}(P)$, będziemy rozumieli otoczkę wypukłą na zbiorze punktów $P$.
 		\phantom{a}
 		\begin{enumerate}
-			\item Sprawdzenie skrętu trójki ($S$.BelowTop(), $S$.Top(), $P[k]$) jest możliwe w każdej chwili wykonania się algorytmu
-			
-			Załóżmy nie wprost, że $P[0]$ nie jest wierzchołkiem $\operatorname{CH}(P)$. Wtedy istnieje krawędź $\operatorname{CH}(P)$ znajdująca się pod $P[0]$, co oznacza, że istnieje punkt (koniec tej krawędzi) o mniejszej współrzędnej $y$ -- sprzeczność, bo z definicji $P[0]$ jest punktem o najmniejszej współrzędnej $y$.
-			
-			Analogicznie dowodzimy w przypadku, gdy jest kilka punktów o tej samej współrzędnej $y$.
-			
-			Z posortowania wierzchołków $P$, względem kąta wynika, że pod prostą przechodzącą przez punkty $P[0]$ i $P[1]$ nie może istnieć 
-			żaden inny punkt należący do $P$. Oznacza to, że nie istnieje punkt $P[i]$, gdzie $i \in \{0, 1, \ldots n\}$, taki, że 
-			trójka ($P[0]$, $P[1]$, $P[i]$) jest skrętem w prawo. Z tego faktu implikujemy, że $P[1]$ również należy do otoczki wypukłej $P$.
-			
-			Powyższe oznacza, że stos $S$ zawsze zawiera co najmniej 2 elementy, czyli sprawdzenie skrętu jest możliwe.
-			
-			\item Jako $S_k$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ (tzn. po $(k-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots P[k]\}$.
+			\item Jako $S_k$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ do otoczki (tzn. po $(k-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots P[k]\}$.
 			
 			\begin{itemize}
 				\item Baza indukcji. Przed pętlą \textit{for} ciąg $S_1$ opisuje odcinek $(P[0], P[1])$, który naturalnie jest otoczką wypukłą zbioru  $\{P[0], P[1]\}$.
@@ -536,7 +525,7 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 				Chcemy pokazać, że $S_k$ opisuje wielokąt wypukły, który jest otoczką zbioru $P$.
 				
 				\begin{enumerate}				
-					\item Po zakończeniu pętli \textit{while} $S$.BelowTop(), $S$.Top() i $P[k]$ tworzą skręt w lewo (z warunku pętli). Również dowolne 3 kolejne elementy $S$ tworzą skręt w lewo ($S$ jest podciągiem $S_{k-1}$, w którym zachodzi to z założenia indukcyjnego oraz faktu \ref{fact:wielwypukly}). Oznacza to, że dowolne 3 kolejne elementy z $S_k = S \cup \{P[k]\}$ tworzą skręt w lewo. 
+					\item Po zakończeniu pętli \textit{while}, $S$.BelowTop(), $S$.Top() i $P[k]$ tworzą skręt w lewo (z warunku pętli). Również dowolne 3 kolejne elementy $S$ tworzą skręt w lewo ($S$ jest podciągiem $S_{k-1}$, w którym zachodzi to z założenia indukcyjnego oraz faktu \ref{fact:wielwypukly}). Oznacza to, że dowolne 3 kolejne elementy z $S_k = S \cup \{P[k]\}$ tworzą skręt w lewo. 
 					
 					\item Ponadto tablica $P$ jest posortowana według rosnących kątów, więc $P[k]$ znajduje się na lewo od prostej przechodzącej przez punkty $P[0]$ oraz $S$.Top() (rysunek \ref{fig:graham:samoprzeciecie}). Nie powstanie zatem samoprzecięcie.
 					
@@ -563,14 +552,42 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 					 znajduje się wewnątrz wielokąta wypukłego $S_k$. Z założenia indukcyjnego wszystkie punkty z $\{P[0], \dots, P[k-1]\}$ leżą wewnątrz wielokąta wypukłego opisanego przez $S_{k-1}$.
 					 Skoro wszystkie punkty z $S_{k-1}$ należą albo do $S_k$
 					 albo leżą wewnątrz wielokąta wypukłego $S_k$, to $S_k$ musi stanowić otoczkę zbioru $\{P[0], \dots, P[k]\}$.
-				\end{enumerate}				
+					 
+				\end{enumerate}	
+				Punkty (a) oraz (b) faktu 1. implikują, że $S_k$ jest wielokątem wypukłym, natomiast (c), że wielokąt wypukły $S_k$ stanowi otoczkę wypukłą
+				zbioru \linebreak $\{P[0], P[1], \ldots, P[k]\}$, co oznacza, że niezmiennik 
+				jest prawdziwy.			
 			\end{itemize}
-			Punkty (a) oraz (b) implikują, że $S_k$ jest wielokątem wypukłym, natomiast (c), że wielokąt wypukły $S_k$ stanowi otoczkę wypukłą
-			zbioru $\{P[0], P[1], \ldots, P[k]\}$, co oznacza, że niezmiennik 
-			jest prawdziwy.
 			
-			Zatem, po $n-1$ iteracjach pętli \textit{for} ciąg punktów $S$ opisuje otoczkę wypukłą wszystkich punktów z $P$. \qedhere
+			
+			\item Na stosie $S$ znajdują się punkty $P[0]$ oraz $P[1]$, w każdym
+			momencie wykonywania się algorytmu.
+			
+			Niech $P_k := \{P[0], P[1], \ldots, P[k]\}$.
+			
+			\begin{enumerate}
+				\item Pokażmy, że $P[0]$ jest wierzchołkiem $\operatorname{CH}(P_k)$ dla każdego $k \in \{0, 1, \ldots n\}$.
+				
+				Załóżmy nie wprost, że $P[0]$ nie jest wierzchołkiem $\operatorname{CH}(P_k)$ dla pewnego 
+				$k \in \{0, 1, \ldots n\}$. Wtedy istnieje krawędź
+				w $\operatorname{CH}(P_k)$ znajdująca się pod $P[0]$, co oznacza, że istnieje punkt (koniec tej krawędzi) o mniejszej współrzędnej $y$ -- sprzeczność, bo z definicji $P[0]$ jest punktem o najmniejszej współrzędnej $y$. Analogicznie dowodzimy w przypadku, gdy jest kilka punktów o tej samej współrzędnej $y$. 
+				
+				\item Pokażmy, że $P[1]$ jest wierzchołkiem $\operatorname{CH}(P_k)$ dla każdego $k \in \{0, 1, \ldots n\}$.
+				
+				Z posortowania wierzchołków $P_k$ wynika, że pod prostą przechodzącą przez punkty $P[0]$ i $P[1]$ nie może istnieć 
+				żaden inny punkt należący do $P_k$. Oznacza to, że nie istnieje punkt $P[i]$, gdzie $i \in \{0, 1, \ldots k\}$, taki, że 
+				trójka ($P[0]$, $P[1]$, $P[i]$) jest skrętem w prawo. Z tego faktu implikujemy, że $P[1]$ również należy do $\operatorname{CH}(P_k)$.
+				
+			\end{enumerate}
+			Skoro $P[0], P[1] \in \operatorname{CH}(P_k)$ to z 1., wiadomo, że $P[0], P[1] \in S_k$ dla każdego $k \in \{0, 1, \ldots n\}$.
+			
 		\end{enumerate}
+		
+		Fakt 2., mówi, że zawsze jesteśmy wstanie dokonać sprawdzenia 
+		skrętu trójki ($S$.BelowTop(), $S$.Top(), $P[k]$), gdzie $k \in
+		\{1, 2, \ldots, n\}$.
+		
+		Z faktu 1., po $n-1$ iteracjach pętli \textit{for} ciąg punktów $S$ opisuje otoczkę wypukłą wszystkich punktów z $P$. 
 	\end{proof}
 \end{theorem}
 
