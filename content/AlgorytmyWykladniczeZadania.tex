@@ -47,19 +47,19 @@ wierzchołków, który początkowo jest pusty.
 		\State Niech $u$ to dowolny wierzchołek z $Y$
 		\State DominatingSet($G$, $D \cup \{u\}$, $X$, $D_{\min}$)
 		\If{$|N(u)| \geq 1$}
-		\State Niech $v_1 \in N(X)$
+		\State Niech $v_1 \in N(u)$
 		\If{$v_1 \not \in D \land v_1 \not \in X$}
 		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u\}$, $D_{\min}$)
 		\EndIf
 		\EndIf
 		\If{$|N(u)| \geq 2$}
-		\State Niech $v_2 \in N(X) \setminus \{v_1\}$
+		\State Niech $v_2 \in N(u) \setminus \{v_1\}$
 		\If{$v_2 \not \in D \land v_2 \not \in X$}
 		\State DominatingSet($G$, $D \cup \{v_2\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
 		\EndIf
 		\EndIf
 		\If{$|N(u)| = 3$}
-		\State Niech $v_3 \in N(X) \setminus \{v_1, v_2\}$
+		\State Niech $v_3 \in N(u) \setminus \{v_1, v_2\}$
 		\If{$v_3 \not \in D \land v_3 \not \in X$}
 		\State DominatingSet($G$, $D \cup \{v_3\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
 		\EndIf
