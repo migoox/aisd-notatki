@@ -1,11 +1,11 @@
 
 \subsection{Zadanie 1 -- Sprawdzenie czy wielokąty wypukłe z użyciem zamiatania} 
-\paragraph{Treść:} Zaprojektuj algorytm, który w 
+\paragraph{Treść.} Zaprojektuj algorytm, który w 
 czasie $O(n)$ sprawdzi, czy dwa zadane wielokąty wypukłe o nie więcej
 niż $n$ wierzchołkach się przecinają. 
 
-\paragraph{Rozwiązanie:}
-Stosujemy metodę zamiatania. Zdefiniujmy \textit{zdarzenie},
+\paragraph{Rozwiązanie.}
+Stosujemy metodę zamiatania. Zdefiniujmy \textit{zdarzenie}
 jako typ danych, który przechowuje wierzchołek $p$, dwa
 odcinki $s_1$, $s_2$, których końcem jest $p$ oraz informację 
 do którego wielokątu należy ten wierzchołek.
@@ -16,34 +16,34 @@ względem współrzędnej x wierzchołka $p$.
 
 Stosujemy zmodyfikowaną wersję algorytmu \ref{HasIntersectingSegments1}, który za 
 pomocą metody zamiatania stwierdza, czy w podanym
-zbiorze odcinków, istnieją dwa, które się przecinają.  
+zbiorze odcinków istnieją dwa, które się przecinają.  
 
-Aby zescalać dwie wejściowe listy reprezentujące wierzchołki pierwszego
-i drugiego wielokątu możemy zastosować liniową metodę scalania
-znaną z algorytmu MergeSort. Taka uporządkowana lista
-będzie stanowiła X-strukturę.
+Aby scalić dwie wejściowe listy reprezentujące wierzchołki pierwszego
+i drugiego wielokąta, możemy zastosować liniową metodę scalania
+znaną z algorytmu \textsc{MergeSort}. Taka uporządkowana lista
+będzie stanowiła $X$-strukturę.
 
-Jako Y-strukturę możemy przyjąć dowolną strukturę danych, która
+Jako $Y$-strukturę możemy przyjąć dowolną strukturę danych, która
 zapewni możliwość wykonania wymaganych operacji. Ze względu 
-na to, że w Y-strukturze nie może znaleźć się więcej niż 
+na to, że w $Y$-strukturze nie może znaleźć się więcej niż 
 4 odcinki jednocześnie (bo każdy wierzchołek jest jednocześnie
 końcem jednej krawędzi i początkiem drugiej oraz mamy 
-2 wielokąty), możemy przyjąć, że operacje na Y-strukutrze wykonują się w czasie $O(1)$.
+2 wielokąty), możemy przyjąć, że operacje na $Y$-strukutrze wykonują się w czasie $O(1)$.
 
-Jako, że sytuację w której jeden wielokąt znajduje się wewnątrz drugiego
-wielokątu, również traktujemy jako przecięcie wielokątów, musimy nanieść modyfikację
-na algorytm \ref{HasIntersectingSegments1}. Modyfikacja polega na tym, by 
-sprawdzić, czy występuje sytuacja, w której dodany odcinek $s$
-jednego wielokąta znajduje się nad odcinkiem $s_1$ oraz pod odcinkeim $s_2$,
+Jako że sytuację, w której jeden wielokąt znajduje się wewnątrz drugiego
+wielokątu również traktujemy jako przecięcie wielokątów, musimy nanieść modyfikację
+na algorytm \ref{HasIntersectingSegments1}. Modyfikacja polega na sprawdzeniu, 
+czy występuje sytuacja, w której dodany odcinek $s$
+jednego wielokąta znajduje się nad odcinkiem $s_1$ oraz pod odcinkiem $s_2$,
 które należą do drugiego wielokąta. Z wypukłości wielokątów wiemy, że 
-taka sytuacja wystąpi tylko wtedy gdy wielokąty na siebie nachodzą, lub
-jeden jest w drugim.
+taka sytuacja wystąpi tylko wtedy, gdy wielokąty na siebie nachodzą lub
+jeden jest wewnątrz drugiego.
  
 \begin{algorithm}[H]
 	\caption{Sprawdzenie czy wielokąty się przecinają}
 	\begin{algorithmic}[1]
 		\Procedure{HasIntersectingSegments}{$S$: zbiór odcinków spełniający założenia}
-		\State $X \gets \text{Merge}(L_1, L_2)$ 
+		\State $X \gets \textsc{Merge}(L_1, L_2)$ 
 		\State $Y \gets \emptyset$
 		\While{$X \not = \emptyset$}
 		\State \textit{zdarzenie} $\gets$ $X.$DetachHead()
@@ -71,11 +71,11 @@ jeden jest w drugim.
 \end{algorithm}
 
 \subsection{Zadanie 3 -- sprawdzenie przynależności punktu do wielokąta}
-\paragraph{Treść:} Zaprojektuj strukturę danych, która dla zadanego wielokąta bez samoprzecięć o 
+\paragraph{Treść.} Zaprojektuj strukturę danych, która dla zadanego wielokąta bez samoprzecięć o 
 $n$ wierzchołkach pozwoli
 na sprawdzenie przynależności punktów do tego wielokąta w czasie $O(\log n)$.
 Wskazówka: wykorzystaj metodę zamiatania.
-\paragraph{Rozwiązanie:} 
+\paragraph{Rozwiązanie.} 
 Wielokąt opisany jest przez ciąg punktów posortowanych przeciwnie do ruchu wskazówek zegara. W preprocessingu przygotowujemy przechowywanie wierzchołków wielokąta tak, że dla każdego z nich w czasie stałym jesteśmy w stanie określić dwa odcinki, których dany wierzchołek jest krańcem.
 
 Zamiatamy od lewej do prawej. Zdarzenia przechowujemy w tablicy $X$ posortowanej po współrzędnej $x$-owej. W każdym zdarzeniu (napotkaniu punktu) przechowujemy tablicę odcinków znajdujących się w danym momencie w $Y$-strukturze posortowaną po rosnącej współrzędnej $y$-owej. 
@@ -141,24 +141,24 @@ Złożoność algorytmu sprawdzania przynależności jest logarytmiczna (nie lic
 \end{algorithm}
 
 \subsection{Zadanie 4 -- Otoczka wypukła punktu i wielokątu wypukłego}
-\paragraph{Treść:} Dany jest wielokąt wypukły o zbiorze wierzcholków $Z$ oraz punkt $p$. Znajdź otoczkę wypukłą zbioru $Z \cup \{p\}$ w czasie $O(|Z|)$.
-\paragraph{Rozwiązanie:}
+\paragraph{Treść.} Dany jest wielokąt wypukły o zbiorze wierzcholków $Z$ oraz punkt $p$. Znajdź otoczkę wypukłą zbioru $Z \cup \{p\}$ w czasie $O(|Z|)$.
+\paragraph{Rozwiązanie.}
 Przyjmijmy, że $Z = \{z_1, z_2, \ldots, z_n\}$ to lista, która przechowuje wierzchołki
-wielokąta wypukłego $W$, w kolejności przeciwnej do ruchu wskazówek zegara.
-Rozważmy dwa przypadki
+wielokąta wypukłego $W$ w kolejności przeciwnej do ruchu wskazówek zegara.
+Rozważmy dwa przypadki.
 \begin{enumerate}
 	\item Wierzchołek $p$ znajduje się wewnątrz wielokąta $W$. Iterując po odcinkach
-	wielokąta $W$, w kolejności przeciwnej do ruchu wskazówek zegara, wierzchołki
-	$z_{i-1}$, $z_i$ ($i \in [n]$) tworzące aktualny odcinek oraz wierzchołek $p$, w dokładnie takiej kolejności, zawsze utworzą skręt w lewo. W takiej sytuacji obwódka wypukła jest zbiorem $Z$.
+	wielokąta $W$ w kolejności przeciwnej do ruchu wskazówek zegara, wierzchołki
+	$z_{i-1}$, $z_i$ ($i \in [n]$) tworzące aktualny odcinek oraz wierzchołek $p$ (w dokładnie takiej kolejności) zawsze utworzą skręt w lewo. W takiej sytuacji obwódka wypukła jest zbiorem $Z$.
 	
 	\item Wierzchołek $p$ znajduje się na zewnątrz wielokąta $W$. Iterując po odcinkach
-	wielokąta $W$, w kolejności przeciwnej do ruchu wskazówek zegara, musi zaistnieć sytuacja, w której wierzchołki
-	$z_{i-1}$, $z_i$ ($i \in [n]$) tworzące aktualny odcinek oraz wierzchołek $p$, w dokładnie takiej kolejności, utworzą skręt w prawo.
+	wielokąta $W$ w kolejności przeciwnej do ruchu wskazówek zegara, musi zaistnieć sytuacja, w której wierzchołki
+	$z_{i-1}$, $z_i$ ($i \in [n]$) tworzące aktualny odcinek oraz wierzchołek $p$ (w dokładnie takiej kolejności) utworzą skręt w prawo.
 	
 	W takiej sytuacji zastąpimy wierzchołek $z_i$ wierzchołkiem $p$ i zaczniemy 
-	sprawdzać skręt kolejnych trójek $z_{j-1}$, $z_j$ oraz $z_{j+1}$
+	sprawdzać skręty kolejnych trójek $z_{j-1}$, $z_j$ oraz $z_{j+1}$
 	($j = i + 1, i + 2, \dots n - 1$). Tak długo
-	jak skręt będzie w prawo, usuwamy $z_i$, w przeciwnym przypadku kończymy i zwracamy zmodyfikowane $Z$.
+	jak skręt będzie w prawo, usuwamy $z_i$. W przeciwnym przypadku kończymy i zwracamy zmodyfikowane $Z$.
 \end{enumerate}
 
 \begin{algorithm}[H]
@@ -188,23 +188,23 @@ Rozważmy dwa przypadki
 \end{algorithm}
 
 \subsection{Zadanie 5 -- Łączenie dwóch otoczek}
-\paragraph{Treść:} Dane są dwa zbiory $Z_1$ i $Z_2$ takie, że dla każdych $(x_1, y_1) \in Z_1$ i $(x_2, y_2) \in Z_2$ zachodzi $x_1 < x_2$ (tzn. zbiór $Z_1$ jest w całości na lewo od $Z_2$). Zaprojektuj algorytm, który mając dane otoczki wypukłe zbiorów $Z_1$ i $Z_2$
+\paragraph{Treść.} Dane są dwa zbiory $Z_1$ i $Z_2$ takie, że dla każdych $(x_1, y_1) \in Z_1$ i $(x_2, y_2) \in Z_2$ zachodzi $x_1 < x_2$ (tzn. zbiór $Z_1$ jest w całości na lewo od $Z_2$). Zaprojektuj algorytm, który mając dane otoczki wypukłe zbiorów $Z_1$ i $Z_2$
 znajdzie otoczkę wypukłą zbioru $Z_1 \cup Z_2$ w czasie $O(|Z_1| + |Z_2|)$.
 
-\paragraph{Rozwiązanie:} 
+\paragraph{Rozwiązanie.} 
 Załóżmy, że $Z_1$ oraz $Z_2$ przechowują tylko punkty, które należą do 
 otoczek.
 
-Ponadto przyjmijmy, że $Z_1$ oraz $Z_2$ to listy, które przechowują wierzchołki w kolejności zgodnej z ruchem wskazówek zegara, gdzie pierwszy ma najmniejszą współrzędną $y$ (w przypadku wystąpienia kilku takich wierzchołków, bierzemy ten, który ma najmniejszą współrzędną $x$).
+Ponadto przyjmijmy, że $Z_1$ oraz $Z_2$ to listy, które przechowują wierzchołki w kolejności zgodnej z ruchem wskazówek zegara, gdzie pierwszy ma najmniejszą współrzędną $y$ (w przypadku wystąpienia kilku takich wierzchołków bierzemy ten, który ma najmniejszą współrzędną $x$).
 
 W pierwszej kolejności musimy znaleźć najbardziej odległe 
-wierzchołki względem x-owej współrzędnej. Aby to zrobić wystarczy
+wierzchołki względem $x$-owej współrzędnej. Aby to zrobić, wystarczy
 najpierw przeszukać liniowo $Z_1$ w celu znalezienia
-najmniejszego punktu względem x-owej współrzędnej, a potem $Z_2$ w celu znalezienia największego punktu względem x-owej wspołrzędnej. Możemy 
+najmniejszego punktu względem x-owej współrzędnej, a następnie $Z_2$ w celu znalezienia największego punktu względem $x$-owej współrzędnej. Możemy 
 tak zrobić dzięki założeniu, że zbiór $Z_1$ jest w całości na lewo od $Z_2$. Oznaczmy minimalny punkt $P_1$, a maksymalny $P_2$.
 
 Następnie musimy podzielić zbiór $Z_i$ ($i \in \{1, 2\}$) na 
-zbiór wierzchołków pod prostą $P_1P_2$ oraz nad porstą $P_1P_2$.
+zbiór wierzchołków pod prostą $P_1P_2$ oraz nad prostą $P_1P_2$.
 
 Oznaczmy $A_i$ jako zbiór wierzchołków ze zbioru $Z_i$ ($i \in \{1, 2\}$) nad prostą $P_1P_2$, oraz $B_i$ jako zbiór wierzchołków ze zbioru $Z_i$ ($i \in \{1, 2\}$) nad prostą $P_1P_2$.
 
@@ -217,8 +217,8 @@ Oznaczmy $A_i$ jako zbiór wierzchołków ze zbioru $Z_i$ ($i \in \{1, 2\}$) nad
 
 Następnym krokiem jest utworzenie otoczki górnej oraz dolnej.
 W tym celu zastosujemy algorytm Grahama bez sortowania 
-wierzchołków, dla obu
-zbiorów pod prostą $P_1P_2$ oraz nad prostą $P_1P_2$. 
+wierzchołków dla obu
+zbiorów: pod prostą $P_1P_2$ oraz nad prostą $P_1P_2$. 
 Argumentem wejściowym do tak zmodyfikowanego algorytmu Grahama 
 powinna być lista wierzchołków $P_2, A_2, A_1, P_1$
 (w dokładnie takiej kolejności), w 
@@ -227,7 +227,7 @@ przypadku szukania otoczki górnej oraz $P_1, B_1, B_2, P_2$
 szukania otoczki dolnej.
 
 Łączenie wyjściowych (dolnej i górnej) otoczek polega na 
-doczepieniu do listy punktów otoczki dolnej, listy punktów otoczki górnej.
+doczepieniu do listy punktów otoczki dolnej listy punktów otoczki górnej.
 
 \begin{algorithm}[H]
 	\caption{Algorytm łączenia dwóch otoczek}
@@ -246,7 +246,7 @@ doczepieniu do listy punktów otoczki dolnej, listy punktów otoczki górnej.
 		\EndProcedure
 		
 		\Procedure{NoSortGraham}{$P$: zbiór punktów} \Comment Graham bez sortowania
-		\State $S \gets \text{stos}()$
+		\State $S \gets \text{pusty stos}$
 		\State $S$.Push($P[0]$)
 		\State $S$.Push($P[1]$)
 		\For {$k = 2,3, \dots, n-1$}

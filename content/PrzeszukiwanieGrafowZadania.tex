@@ -1,6 +1,6 @@
 \subsection{Zadanie 1 -- Struktura danych reprezentująca graf skierowany}
 
-\textbf{Treść:} Zaprojektuj strukturę danych reprezentującą graf skierowany o $n$ wierzchołkach i $m$ krawędziach, z
+\paragraph{Treść.} Zaprojektuj strukturę danych reprezentującą graf skierowany o $n$ wierzchołkach i $m$ krawędziach, z
 następującymi operacjami:
 \begin{itemize}
 	\item dodanie krawędzi,
@@ -9,50 +9,50 @@ następującymi operacjami:
 	\item przejrzenie wszystkich krawędzi wychodzących z zadanego wierzchołka $v$,
 \end{itemize}
 która spełnia następujące wymagania:
-\begin{itemize}
-	\item[a)] Operacje na pojedynczej krawędzi w czasie $O(\log n)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(\deg^+(v))$\daggerfootnote{$\deg^+(v)$ oznacza liczbę krawędzi wychodzących z wierzchołka $v$.}, 
+\begin{enumerate}[label=\alph*)]
+	\item Operacje na pojedynczej krawędzi w czasie $O(\log n)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(\deg^+(v))$\daggerfootnote{$\deg^+(v)$ oznacza liczbę krawędzi wychodzących z wierzchołka $v$.}, 
 	złożoność pamięciowa $O(m)$.
-	\item[b)] Dodawanie krawędzi w czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(\deg^+(v))$, złożoność
+	\item Dodawanie krawędzi w czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(\deg^+(v))$, złożoność
 	pamięciowa $O(m)$.
-	\item[c)] Operacje na pojedynczej krawędzi w czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(\deg^+(v))$.
-	\item[d)] Operacje na pojedynczej krawędzi w oczekiwanym czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie
+	\item Operacje na pojedynczej krawędzi w czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie $O(\deg^+(v))$.
+	\item Operacje na pojedynczej krawędzi w oczekiwanym czasie $O(1)$, przejrzenie krawędzi wychodzących z $v$ w czasie
 	$O(\deg^+(v))$, złożoność pamięciowa $O(m)$.
-\end{itemize}
+\end{enumerate}
 
-\textbf{Rozwiązanie}
-\begin{itemize}
-	\item[a)] Wystarczy zastosować reprezentację listową, w której 
+\paragraph{Rozwiązanie.}
+\begin{enumerate}[label=\alph*)]
+	\item Reprezentacja listowa, w której 
 	listy zastępujemy drzewami zrównoważonymi (CC, AVL).
-	\item[b)] Lista nieuporządkowana dla każdego wierzchołka
-	\item[c)] Zastosować reprezentację macierzową, która przechowuje
-	referencję na node w liscie incydencji (mamy liste incydencji
-	gdzie sa wartosci i tablice referencji)
-	\item[d)] Tablica haszująca o $m$ elementach (haszowanie łańcuchowe)
-\end{itemize}
+	\item Lista nieuporządkowana dla każdego wierzchołka
+	\item Reprezentacja macierzowa, która przechowuje
+	referencję na node w liście incydencji (mamy listę incydencji zawierającą wartości i tablice referencji)
+	\item Tablica haszująca o $m$ elementach (haszowanie łańcuchowe)
+\end{enumerate}
 
 \subsection{Zadanie 2 -- Nierekurencyjne przeszukiwanie w głąb (DFS)}
-\textbf{Treść: } Zaproponuj nierekurencyjną implementację
+\label{zad:dfsnr}
+\paragraph{Treść.} Zaproponuj nierekurencyjną implementację
 przeszukiwania grafu w głąb.
 
-\textbf{Rozwiązanie:}
+\paragraph{Rozwiązanie.}
 Poniższy algorytm działa zarówno dla grafów skierowanych
 jak i prostych.
 
 \begin{algorithm}[H]
-	\caption{Rozwiązanie zadania 2}\label{Zadanie22a}
+	\caption{Przeszukiwanie grafu w głąb}\label{Zadanie22a}
 	\begin{algorithmic}[1]
 		\Procedure{DFSNR}{$G$: graf, $v$: wierzchołek startowy}
 		\State Zainicjalizuj stos (\textit{last in, first out}) $S$
 		\State Zainicjalizuj tablicę booli $T$ o $|V(G)|$ elementach wartością 
 		\textit{false}
 		\State $S$.Push(v)
-		\State $T[v] \gets$ \textit{false}
-		\While {$S$.IsEmpty() = \textit{false}}
+		\State $T[v] \gets$ \false
+		\While {$S$.IsEmpty() = \false}
 		\State $x \gets$ $S$.Pop()
 		\While {$y \in N(x)$}
-		\If {$T[y]$ = \textit{false}}
+		\If {$T[y]$ = \false}
 		\State $S$.Push(y)
-		\State $T[y] \gets$ \textit{true} 
+		\State $T[y] \gets$ \true 
 		\EndIf
 		\EndWhile
 		\EndWhile
@@ -60,9 +60,9 @@ jak i prostych.
 	\end{algorithmic}
 \end{algorithm}
 
-\textbf{Wersja rekurencyjna:} Zakładamy, że dysponujemy globalną
+\paragraph{Wersja rekurencyjna.} Zakładamy, że dysponujemy globalną
 tablicą booli $T$ o $|V(G)|$ elementach zainicjowaną wartością 
-\textit{false}.
+\textsf{false}.
 
 \begin{algorithm}[H]
 	\caption{Algorytm przeszukiwania DFS -- wersja rekurencyjna}\label{Zadanie22b}
@@ -71,7 +71,7 @@ tablicą booli $T$ o $|V(G)|$ elementach zainicjowaną wartością
 		\While{$x \in N(v)$}
 		\If {$T[x] = $ \textit{false} }
 		\State $T[x] \gets$ \textit{true}
-		\State DFS($G$, $x$)
+		\State \textsc{DFS}($G$, $x$)
 		\EndIf
 		\EndWhile
 		\EndProcedure
@@ -79,29 +79,29 @@ tablicą booli $T$ o $|V(G)|$ elementach zainicjowaną wartością
 \end{algorithm}
 
 \subsection{Zadanie 3 -- Implementacja przeszukiwania wszerz (BFS)}
-
-\textbf{Treść: } Zaproponuj implementację
+\label{zad:bfs}
+\paragraph{Treść.} Zaproponuj implementację
 przeszukiwania grafu wszerz.
 
-\textbf{Rozwiązanie:}
+\paragraph{Rozwiązanie.}
 Poniższy algorytm działa zarówno dla grafów skierowanych
 jak i prostych.
 
 \begin{algorithm}[H]
-	\caption{Rozwiązanie zadania 2}\label{Zadanie23}
+	\caption{Przeszukiwanie grafu wszerz}\label{Zadanie23}
 	\begin{algorithmic}[1]
 		\Procedure{BFS}{$G$: graf, $v$: wierzchołek startowy}
 		\State Zainicjalizuj kolejkę (\textit{first in, first out}) $Q$
-		\State Zainicjalizuj tablicę bool'i $T$ o $|V(G)|$ elementach wartością 
-		\textit{false}
+		\State Zainicjalizuj tablicę booli $T$ o $|V(G)|$ elementach wartością 
+		\false
 		\State $Q$.PushBack(v)
-		\State $T[v] \gets$ \textit{false}
+		\State $T[v] \gets$ \false
 		\While {$Q$.IsEmpty() $=$ \textit{false}}
 		\State $x \gets$ $Q$.PopFront()
 		\While {$y \in N(x)$}
-		\If {$T[y] =$  \textit{false}}
+		\If {$T[y] =$  \false}
 		\State $Q$.PushBack(y)
-		\State $T[y] \gets$ \textit{true} 
+		\State $T[y] \gets$ \true
 		\EndIf
 		\EndWhile
 		\EndWhile
@@ -110,10 +110,10 @@ jak i prostych.
 \end{algorithm}
 
 \subsection{Zadanie 4 -- Szukanie liczby składowych spójności grafu}
-\textbf{Treść: } konstruuj algorytm znajdujący liczbę składowych 
-spójności zadanego grafu w czasie $O(m)$
+\paragraph{Treść.} Skonstruuj algorytm znajdujący liczbę składowych 
+spójności zadanego grafu w czasie $O(m)$.
 
-\textbf{Rozwiązanie: } Stosujemy BFS lub DFS z dowolnego 
+\paragraph{Rozwiązanie.} Stosujemy BFS lub DFS z dowolnego 
 wierzchołka i zapisujemy odwiedzone wierzchołki (tablica bool).
 Jeżeli po wyszukiwaniu istnieje nieodwiedzony wierzchołek to 
 wykonujemy na nim BFS lub DFS ponownie. Powtarzamy aż
@@ -123,18 +123,18 @@ Liczba wywołań BFS lub DFS to liczba składowych w grafie $G$.
 
 \subsection{Zadanie 5 -- Sprawdzanie dwudzielności grafu}
 \label{exc:bipart}
-\textbf{Treść: } Skonstruuj algorytm sprawdzający, 
+\paragraph{Treść.} Skonstruuj algorytm sprawdzający, 
 czy zadany graf o $m$ krawędziach jest dwudzielny, w czasie $O(m)$.
 
-\textbf{Rozwiązanie: } Zauważmy, najpierw, że 
-graf $G$ jest dwudzielny $\Leftrightarrow$ istnieje $2$-kolorowanie
-poprawne grafu $G$. (Dowód ($\Rightarrow$): kolorujemy 
+\paragraph{Rozwiązanie.} Zauważmy najpierw, że 
+graf $G$ jest dwudzielny wtedy i tylko wtedy, gdy istnieje $2$-kolorowanie
+poprawne grafu $G$. \footnote{Dowód ($\Rightarrow$): kolorujemy 
 wierzchołki obu zbiorów dwudzielności na przeciwne kolory. Dowód 
 ($\Leftarrow$): kolorujemy poprawnym kolorowaniem, niebieskie
-wierzchołki wyznaczają jeden zbiór, a czerwone drugi zbiór dwudzielności). 
+wierzchołki wyznaczają jeden zbiór, a czerwone drugi zbiór dwudzielności.} 
 
 Aby rozwiązać ten problem, stosujemy kolorowanie 
-zachłanne z przeszukiwaniem BFS (dowód że to działa -\textbf{ to do}). 
+zachłanne z przeszukiwaniem BFS. % (dowód że to działa -\textbf{ to do}). 
 Podczas wyszukiwania wierzchołek, od którego zaczynamy 
 wyszukiwanie, kolorujemy 
 bez straty ogólności na czerwono, natomiast jego
@@ -144,7 +144,8 @@ Powtarzamy wywołanie BFS tak długo, aż nie będzie
 wierzchołków niepokolorowanych.
 
 \subsection{Zadanie 6 -- Sortowanie topologiczne}
-\textbf{Treść: } Skonstruuj algorytm znajdujący 
+\label{zad:tsort}
+\paragraph{Treść.} Skonstruuj algorytm znajdujący 
 sortowanie topologiczne acyklicznego grafu skierowanego 
 o $m$ krawędziach w czasie $O(m)$. 
 Przez sortowanie topologiczne rozumiemy uporządkowanie 
@@ -152,15 +153,15 @@ wierzchołków w taki sposób, że dla
 każdej krawędzi $uv$, wierzchołek $u$ znajduje się przed 
 wierzchołkiem $v$
 
-\textbf{Rozwiązanie:} Zakładamy, że dysponujemy globalną
+\paragraph{Rozwiązanie.} Zakładamy, że dysponujemy globalną
 tablicą booli $T$ o $|V(G)|$ elementach zainicjowaną wartością 
-\textit{false}.
+\textsf{false}.
 
 Ponadto zakładamy, że mamy globalną listę $L$, w której 
 będą znajdować się posortowane wierzchołki.
 
 \begin{algorithm}[H]
-	\caption{Rozwiąznie zadania 5}
+	\caption{Sortowanie topologiczne}
 	\begin{algorithmic}[1]
 		\Procedure{TSort}{$G$: graf, $v$: wierzchołek startowy}
 		\While{$x \in N(v)$}
@@ -176,6 +177,7 @@ będą znajdować się posortowane wierzchołki.
 \end{algorithm}
 
 \subsection{Zadanie 7 -- Szukanie cyklu Eulera}
-\textbf{Treść: } Skontruuj algorytm znajdujący cykl Eulera 
+\paragraph{Treść.} Skontruuj algorytm znajdujący cykl Eulera 
 w zadanym grafie o $m$ krawędziach w czasie $O(m)$.
-\textbf{Rozwiązanie: }
+
+% \paragraph{Rozwiązanie.} :(

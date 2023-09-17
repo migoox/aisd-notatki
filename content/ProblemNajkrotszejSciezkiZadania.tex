@@ -1,12 +1,12 @@
-\subsection{Zadanie 1 -- Algorytm Bellmana-Forda z odtwarzaniem ściezki}
-\textbf{Treść: }Zmodyfikuj algorytm Bellmana-Forda tak, 
+\subsection{Zadanie 1 -- Algorytm Bellmana-Forda z odtwarzaniem ścieżki}
+\paragraph{Treść.}Zmodyfikuj algorytm Bellmana-Forda tak, 
 aby znajdował najkrótszą ścieżkę między zadanymi dwoma
 wierzchołkami.
 
-\textbf{Rozwiązanie: }
+\paragraph{Rozwiązanie.}
 
 \begin{algorithm}[H]
-	\caption{Algorytm Bellmana-Forda z odtwarzaniem ściezki}
+	\caption{Algorytm Bellmana-Forda z odtwarzaniem ścieżki}
 	\begin{algorithmic}[1]
 		\Procedure{BellmanFord}{$(G, w)$: graf ważony, $s$: wierzchołek startowy, $t$: wierzchołek docelowy}
 
@@ -36,32 +36,32 @@ wierzchołkami.
 	\label{Zadanie31}
 \end{algorithm}
 \subsection{Zadanie 2 -- Szukanie ujemnego cyklu}
-\textbf{Treść: } Zaprojektuj algorytm, który znajdzie w 
+\paragraph{Treść.}Zaprojektuj algorytm, który znajdzie w 
 ważonym grafie skierowanym ujemny cykl, jeśli taki istnieje.
-Wskazówka: zmodyfikuj algorytm Bellmana-Forda
+Wskazówka: zmodyfikuj algorytm Bellmana-Forda.
 
-\textbf{Rozwiązanie: }
+\paragraph{Rozwiązanie.}
 Rozwiązanie polega na sprawdzeniu, czy wykonanie
 jeszcze jednej nadmiarowej iteracji 
-w algorytmie Belmmana-Forda, oraz sprawdzenie
-czy pewien wierzchołek został poprawiony.
+w algorytmie Bellmana-Forda %robi co??
+, oraz sprawdzenie
+czy pewien wierzchołek został poprawiony. % ale co z tym sprawdzeniem?
 
 Jeżeli poniższy warunek jest spełniony
 \[\exists_{v\in V(G)}\quad \text{odległość}_n[v] < \text{odległość}_{n-1}[v],\]
 to w grafie $G$ musi istnieć ujemny cykl. Dzieje się 
-tak ponieważ zawsze istnieje co najmniej jedna krawędź 
+tak, ponieważ zawsze istnieje co najmniej jedna krawędź 
 w cyklu ujemnym $C$, która spełnia warunek 
 \[\text{odległość}[v] > \text{odległość}[u] + w(uv),\]
 zatem będzie wtedy istniał wierzchołek, który zostanie 
 poprawiony.
 
-Jako, że graf wejściowy może być niespójny,
-musimy jeszcze dodać dodatkowy wierzchołek $s$, który
+Jako że graf wejściowy może być niespójny,
+musimy dodać dodatkowy wierzchołek $s$, który
 będzie połączony z każdym innym wierzchołkiem
-przy pomocy krawędzi skierowanej. Jako
-że dodane krawędzie to krawędzie skierowane
-od wierzchołka $s$, możemy mieć pewność
-że żadne nowe cykle nie powstaną, a więc
+przy pomocy krawędzi skierowanej od wierzchołka $s$. Jako
+że żadna krawędź nie wchodzi do wierzchołka $s$, możemy mieć pewność,
+że żadne nowe cykle nie powstaną. Zatem
 w szczególności nie powstaną nowe
 ujemne cykle.
 
@@ -69,10 +69,10 @@ ujemne cykle.
 	\caption{Znajdowanie ujemnego cyklu}
 	\begin{algorithmic}[1]
 		\Procedure{BellmanFord}{($G, w$): graf ważony}
-		\State $G'$ - graf $G$ z dodanym wierzchołkiem $s$
+		\State $G'$ $\gets$ graf $G$ z dodanym wierzchołkiem $s$
 		oraz krawędziami skierowanymi od $s$ do każdego innego
 		wierzchołka o wadze $0$
-		\State odległość = tablica liczb, rozmiaru $V[G']$
+		\State odległość $\gets$ tablica liczb, rozmiaru $V[G']$
 		\For{$v \in V(G')$}
 		\State odległość$[v]\gets\infty$
 		\EndFor
@@ -96,24 +96,24 @@ ujemne cykle.
 \end{algorithm}
 
 \subsection{Zadanie 3 -- Szukanie liczby spacerów o zadanej liczbie krawędzi}
-\textbf{Treść: }
+\paragraph{Treść.}
 Zaprojektuj algorytm, który dla danego grafu prostego 
 $G$, wierzchołków $u, v \in V(G)$ i liczby $k \in
 \{1, 2, \ldots , n\}$ znajdzie liczbę spacerów 
 od $u$ do $v$ o dokładnie $k$ krawędziach.
 
-\textbf{Rozwiązanie: } % :(
+%\paragraph{Rozwiązanie.}% :(
 
 \subsection{Zadanie 4 -- Wyznaczanie odległości w drzewie ważonym}
-\textbf{Treść: } Zaprojektuj algorytm, ktory dla ważonego 
+\paragraph{Treść.}Zaprojektuj algorytm, który dla ważonego 
 acyklicznego grafu skierowanego $G$ oraz wierzchołków $s, t \in
 V(G)$ wyznaczy odległość od $s$ do $t$ w czasie $O(m)$. 
-Wskazówka: wykorzystaj sortowanie topologiczne (zadanie 1.5)
+Wskazówka: wykorzystaj sortowanie topologiczne (zadanie \ref{zad:tsort}).
 
-\textbf{Rozwiązanie: }
+\paragraph{Rozwiązanie.}
 Dijkstra tylko, że zamiast kolejki $Q$ stosujemy
 sortowanie topologiczne (średnia złożoność $O(m)$), 
-po czym iter % PO CZYM ITER CO? :(
+po czym iter % PO CZYM ITER CO? :( po czym iter co...
 \begin{algorithm}[H]
 	\caption{Znajdowanie ujemnego cyklu}
 	\begin{algorithmic}[1]
@@ -122,41 +122,41 @@ po czym iter % PO CZYM ITER CO? :(
 		\State Niech kolejność to tablica liczb, rozmiaru $V[G]$, na
 		$i$-tej komórce znajduje się wierzchołek, który ma 
 		$i$-te miejsce w posortowanej topologicznie tablicy wierzchołków
-		\State kolejność $\gets$ TopologicalSort($T$)
+		\State kolejność $\gets$ \textsc{TSort}($T$)
 		\For{$i = 0, 1, \dots n - 1$}
 		\State $u \gets \text{kolejność}[i]$
 		\For{$v \in N(u)$}
-		\If {$\text{odległość}[u] + \omega(uv) < 
+		\If {$\text{odległość}[u] + w(uv) < 
 			\text{odległość}[v]$}
-		\State $\text{odległość}[v] = \text{odległość}[u] + \omega(uv)$
+		\State $\text{odległość}[v] \gets \text{odległość}[u] + w(uv)$
 		\EndIf
 		\EndFor 
 		\EndFor
-		\State \Return False
+		\State \Return \false
 		\EndProcedure
 	\end{algorithmic}
 	\label{Zadanie34}
 \end{algorithm}
 
 \subsection{Zadanie 5 -- Naiwna wersja algorytmu A\texorpdfstring{$^*$}{TEXT}}
-\textbf{Treść: } Znajdź przykład, dla 
+\paragraph{Treść.}Znajdź przykład, dla 
 którego algorytm A$^*$ nie zadziała zgodnie z oczekiwaniami, 
 w którym spełnione
 są wszystkie założenia 
 poza 
-,,dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + \text{waga}(uv)$''.
+,,dla każdej krawędzi $uv$ zachodzi $h(u) \leq h(v) + w(uv)$''.
 
-\textbf{Rozwiązanie: }
+\paragraph{Rozwiązanie.}% :/
 
 \subsection{Zadanie 6 -- Poprawność algorytmu A\texorpdfstring{$^*$}{TEXT}}
-\textbf{Treść: } Udowodnij poprawność algorytmu 
+\paragraph{Treść.}Udowodnij poprawność algorytmu 
 A$^*$ i wskaż, w których miejscach wykorzystywane są jego założenia.
 Wskazówka: zainspiruj się dowodem poprawności algorytmu Dijkstry.
 
-\textbf{Rozwiązanie: } Dowód twierdzenia \ref{aStar_proof}.
+\paragraph{Rozwiązanie.}Dowód twierdzenia \ref{aStar_proof}.
 
 \subsection{Zadanie 7 -- Poprawność algorytmu Floyda-Warshalla}
-\textbf{Treść:} Udowodnij poprawność algorytmu Floyda-Warshalla. 
+\paragraph{Treść.}Udowodnij poprawność algorytmu Floyda-Warshalla. 
 Wskazówka: niech 
 $d^{(m)}(i, j)$ będzie długością
 najkrótszej ścieżki od $i$ do $j$, której wewnętrzne wierzchołki należą
@@ -165,4 +165,4 @@ udowodnij, że po $l$
 iteracjach zewnętrznej pętli dla każdych $i, j \in V (G)$ zachodzi 
 odległość$[i, j] \leq d^{(l)}(i, j)$.
 
-\textbf{Rozwiązanie:} Dowód twierdzenia \ref{floydWarshall_proof}.
+\paragraph{Rozwiązanie.}Dowód twierdzenia \ref{floydWarshall_proof}.

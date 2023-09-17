@@ -1,28 +1,29 @@
 \subsection{Zadanie 1 -- Szukanie podzbioru o zadanej sumie elementów}
 
-\paragraph{Treść: } Zaprojektuj algorytm, który dla zadanego zbioru 
+\paragraph{Treść.} Zaprojektuj algorytm, który dla zadanego zbioru 
 liczb naturalnych $S$ i liczby naturalnej $N$ rozstrzygnie,
 czy $S$ zawiera podzbiór o sumie równej $N$ w czasie $O(N |S|)$.
 Wskazówka: wyznacz wszystkie możliwe sumy podzbiorów zbioru $S$.
 
-\paragraph{Rozwiązanie: } Niech $S = \{s_0, s_1, \dots, s_{|S| - 1}\}$ będzie zbiorem wejściowym oraz 
+\paragraph{Rozwiązanie.} Niech $S = \{s_0, s_1, \dots, s_{|S| - 1}\}$ będzie zbiorem wejściowym oraz 
 niech $N$ będzie liczbą, dla której sprawdzimy czy istnieją elementy, które się do niej sumują.
 
-Niech $T$ będzie tablicą dwuwymiarową o wymiarach $|S|$ na $N + 1$, przyjmująca wartości 
-\textit{True} lub \textit{False} w każdej komórce tablicy $T$.
-Komórka tablicy $T[i, j]$ odpowiada na pytanie, czy da się otrzymać 
+Niech $T$ będzie tablicą dwuwymiarową o wymiarach $|S|$ na $N + 1$, przyjmującą
+\textsf{true} lub \textsf{false} w każdej komórce tablicy $T$.
+
+Komórka tablicy $T[i, j]$ przechowuje informację, czy da się otrzymać 
 sumę równą $i$ z $j$-elementowego podzbioru $\{s_1, s_2, \dots, s_j\} \subseteq S$.
 
 Algorytm polega na uzupełnianiu kolejnych wierszy tablicy.
 Najpierw rozważamy problem oparty na zbiorze $\{s_1\}$. 
-Nastepnie aby otrzymać rozwiązanie dla $\{s_1, s_2\}$, wystarczy
+Następnie, aby otrzymać rozwiązanie dla $\{s_1, s_2\}$, wystarczy
 od każdej komórki przechowującej $T$ przemieścić się o $s_2$ komórek w prawo
-i zmienić wartość na $T$ i tak do momentu uzupełnienia tablicy $T$.
+i zmienić wartość na $T$, i tak do momentu uzupełnienia tablicy $T$.
 
 Po uzupełnieniu $T$ odpowiedzią na zadane pytanie jest $T[k, N]$.
 
 Rozważmy przykład: $S = \{1, 3, 5, 10\}$ (tzn. $s_0=1$, $s_1=3$, $s_2=5$, $s_3=10$), 
-$N = 9$. Tablica prezentuje się wtedy jak w tabeli \ref{tab:problemnptrudny}.
+$N = 9$. Stan tablicy zapisany jest w tabeli \ref{tab:suma}.
 
 \begin{table}[H]
 	\centering
@@ -36,7 +37,7 @@ $N = 9$. Tablica prezentuje się wtedy jak w tabeli \ref{tab:problemnptrudny}.
 		\hline
 	\end{tabular}
 	\caption{Elementy $s_1, s_2 \dots, s_k \in S$ nie muszą być posortowane.}
-	\label{tab:problemnptrudny}
+	\label{tab:suma}
 \end{table}
 
 \begin{algorithm}[H]
@@ -45,15 +46,15 @@ $N = 9$. Tablica prezentuje się wtedy jak w tabeli \ref{tab:problemnptrudny}.
 		\Procedure{SubsetSum}{$S = \{s_0, s_1, \dots, s_{|S| - 1}\} \subseteq \mathbb{N}$: zbiór, $N \in \mathbb{N}$: szukana suma}
 		\State Utwórz tablicę dwuwymiarową $T$ o $|S|$ wierszach i $N + 1$ kolumnach 
 		\State Wypełnij tablicę $T$ wartością \textit{False}
-		\State $T[0, 0] \gets $ \textit{True}
-		\State $T[0, s_1] \gets $ \textit{True}
+		\State $T[0, 0] \gets $ \true
+		\State $T[0, s_1] \gets $ \true
 		\State $i \gets 1$
 		\For{$i = 1, 2 \dots |S| - 1$}
 		\For{$j = 0, 1, 2 \dots N$}
-		\If{$T[i - 1, j] = $ \textit{True}}
-		\State $T[i, j] \gets \textit{True}$
+		\If{$T[i - 1, j] = $ \true}
+		\State $T[i, j] \gets \true$
 		\If{$j + s_j \leq N$}
-		\State $T[i, j + s_j] \gets$ \textit{True}
+		\State $T[i, j + s_j] \gets$ \true
 		\EndIf
 		\EndIf
 		\EndFor 
@@ -64,13 +65,13 @@ $N = 9$. Tablica prezentuje się wtedy jak w tabeli \ref{tab:problemnptrudny}.
 \end{algorithm}
 
 \subsection{Zadanie 2 -- Szukanie najdłuższego wspólnego podciągu}
-\textbf{Treść:} Zaprojektuj algorytm, który znajdzie długość najdłuższego wspólnego podciągu dwoch zadanych ciągów
+\paragraph{Treść.} Zaprojektuj algorytm, który znajdzie długość najdłuższego wspólnego podciągu dwóch zadanych ciągów
 o nie więcej niż $n$ wyrazach w czasie $O(n^2)$. Przykładowo, najdłuższym wspólnym podciągiem 
 ciągów „abcdef” i „eacgd” jest „acd”.
 
-Wskazówka: zastosuj programowanie dynamiczne; wyznacz rozwiązanie dla każdej pary prefiksów zadanych napsów.
+Wskazówka: zastosuj programowanie dynamiczne; wyznacz rozwiązanie dla każdej pary prefiksów zadanych napisów.
 
-\textbf{Rozwiązanie:}
+\paragraph{Rozwiązanie.}
 Oznaczmy ciągi wejściowe jako 
 $A = a_1, a_2, \dots a_n$ oraz 
 $B = b_1, b_2, \dots b_m$. Niech $C$ będzie największym możliwym
@@ -87,7 +88,7 @@ nastepujących podproblemów:
 to jesteśmy w stanie znaleźć $C$
 w następujący sposób: jeżeli $a_n = b_m$, to rozwiązaniem 
 jest podciąg $C_3$ z dodatkowym elementem $a_n$, w przeciwnym przypadku
-rozwiązaniem musi być większy z ciągów $C_1$ oraz $C_2$ ($\ast$). 
+rozwiązaniem musi być większy z ciągów $C_1$ oraz $C_2$. ($\ast$) 
 
 Aby zaimplementować to rozumowanie, zastosujemy tablicę dwuwymiarową $T$ 
 (indeksujemy od 0)
@@ -99,8 +100,7 @@ przechowywać długość szukanego podciągu dla ciągów
 $a_1, a_2, \dots, a_i$ oraz $b_1, b_2, \dots, b_j$. 
 
 Dla przykładu 
-jeśli $A = $ „abcdef” i  $B = $ „eacgd”, to tablica 
-wygląda tak jak tabela \ref{tab_zad12}.
+jeśli $A = $ „abcdef” i  $B = $ „eacgd”, to stan tablicy jest zapisany w tabeli \ref{tab_zad12}.
 
 
 \begin{table}[H]
@@ -123,7 +123,7 @@ wygląda tak jak tabela \ref{tab_zad12}.
 Na początku zerową kolumnę oraz zerowy wiersz tablicy $T$
 wypełniamy zerami. W każdym kroku algorytmu, wypełniając $T[i, j]$
 ($i \in \{0,1, \dots, n\}$, $j \in \{0,1, \dots, m\}$)
-będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg ($\ast$).
+będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ według ($\ast$).
 
 
 \begin{algorithm}[H]
@@ -137,9 +137,9 @@ będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg ($\ast$).
 		\State $j \gets 1$
 		\While{$j \leq m$}
 		\If {$a_i = b_j$}
-		\State $T[i, j] = T[i-1,j-1] + 1$
+		\State $T[i, j] \gets T[i-1,j-1] + 1$
 		\Else
-		\State $T[i, j] = \max\{T[i-1,j], T[i,j-1]\}$
+		\State $T[i, j] \gets \max\{T[i-1,j], T[i,j-1]\}$
 		\EndIf
 		\State $j \pp$
 		\EndWhile
@@ -152,16 +152,16 @@ będziemy analizowali $T[i-1, j]$, $T[i, j-1]$ oraz $T[i-1,j-1]$ wg ($\ast$).
 
 
 \subsection{Zadanie 3 -- Problem łamania tekstu}
-\textbf{Treść:} W problemie łamania tekstu dany jest tekst składający się z $n$
+\paragraph{Treść.} W problemie łamania tekstu dany jest tekst składający się z $n$
 słów o długościach $d_1, d_2, \ldots , d_n$ oraz
 szerokość wiersza $s$. Szukamy rozmieszczenia słów w wierszach w taki 
 sposób, żeby każde słowo mieściło się w całości
-w wierszu, w żadnym wierszu nie bylo więcej niż $s$ znaków 
+w wierszu, w żadnym wierszu nie było więcej niż $s$ znaków 
 oraz suma kwadratów liczb pozostałych wolnych miejsc we
 wszystkich wierszach była jak najmniejsza.
 Zaprojektuj jak najszybszy algorytm rozwiązujący problem łamania tekstu.
 
-\textbf{Rozwiązanie:} Niech wejściem algorytmu będzie ciąg  długości słów $d=d_1,d_2,\dotsc,d_n$ oraz szerokość linii $s$.
+\paragraph{Rozwiązanie.} Niech wejściem algorytmu będzie ciąg  długości słów $d=d_1,d_2,\dotsc,d_n$ oraz szerokość linii $s$.
 
 Niech $C$ będzie tablicą dwuwymiarową o wymiarach $n$ na $n$, gdzie w komórce $C[i,j]$ znajdować będzie się koszt umieszczenia słów od $i$ do $j$ w jednej linii, gdzie jako koszt rozumiemy kwadrat liczby pozostałych miejsc. Dla każdej pary $(i,j)$, $i\leq j$ należy więc wyznaczyć ilość dodatkowych spacji. Mamy więc przypadki: \begin{itemize}
 	\item słowa od $i$ do $j$ nie mieszczą się w linii: $C[i,j]=\infty$,
@@ -169,7 +169,7 @@ Niech $C$ będzie tablicą dwuwymiarową o wymiarach $n$ na $n$, gdzie w komórc
 	\item w przeciwnym wypadku: $C[i,j]=\textrm{ex}^2$, gdzie $\textrm{ex}$ to liczba dodatkowych spacji w linii.
 \end{itemize}
 
-Przykładowo dla $d=(3,2,2,5)$ i $s=6$ tablica $C$ wygląda jak tabela \ref{tab_zad13_C}.
+Przykładowo dla $d=(3,2,2,5)$ i $s=6$ stan tablicy $C$ zapisany jest w tabeli \ref{tab_zad13_C}.
 \begin{table}[H]
 	\centering
 	\def\arraystretch{1.25}
@@ -186,7 +186,7 @@ Przykładowo dla $d=(3,2,2,5)$ i $s=6$ tablica $C$ wygląda jak tabela \ref{tab_
 	\label{tab_zad13_C}
 \end{table}
 
-Mając wyliczone wszystkie koszty możemy znaleźć najmniejszy całkowity koszt. Niech $c$ będzie tablicą długości $n+1$, gdzie wartość $c[j]$ informuje, jaki jest najmniejszy koszt rozmieszczenia słów od $1$ do $j$. Dodatkowo niech $c[0]=0$. Zauważmy, że z definicji $c[j]$ można skonstruować następującą zależność rekurencyjną: \[
+Mając wyliczone wszystkie koszty, możemy znaleźć najmniejszy całkowity koszt. Niech $c$ będzie tablicą długości $n+1$, gdzie wartość $c[j]$ informuje, jaki jest najmniejszy koszt rozmieszczenia słów od $1$ do $j$. Dodatkowo niech $c[0]=0$. Zauważmy, że z definicji $c[j]$ można skonstruować następującą zależność rekurencyjną: \[
 	c[j]=\begin{cases}
 		0, &j=0\\
 		\min\limits_{1 \leq i \leq j}\left(c[i-1]+C[i,j]\right), &j>0
@@ -196,7 +196,7 @@ Rekurencja ta polega na wykorzystaniu wyliczonych już minimalnych kosztów rozm
 
 Jednocześnie niech $p$ będzie tablicą długości $n+1$, gdzie w $p[j]$ wpisany będzie indeks $i$, dla którego osiągnięto minimum w trakcie wyliczania $c[j]$.
 
-Dla wcześniejszego przykładu $d=(3,2,2,5)$ i $s=6$ tablice $c$ i $p$ wyglądają jak tabela \ref{tab_zad13_c}.
+Dla wcześniejszego przykładu $d=(3,2,2,5)$ i $s=6$ stany tablic $c$ i $p$ zapisane są w tabeli \ref{tab_zad13_c}.
 \begin{table}[H]
 	\centering
 	\def\arraystretch{1.25}
@@ -212,7 +212,7 @@ Dla wcześniejszego przykładu $d=(3,2,2,5)$ i $s=6$ tablice $c$ i $p$ wyglądaj
 
 Zauważmy, że $p[n]$ zawiera informację, od którego słowa zaczyna się linia kończąca się słowem $n$. Na podstawie tablicy $p$ można teraz odtworzyć poszczególne linie: ostatnia linia zawiera słowa od $p[n]$ do $n$, przedostatnia linia zawiera słowa od $p[p[n]-1]$ do $p[n]-1$ itd.
 
-W algorytmie panuje umowa, że $C$ jest indeksowana od 1, a $c,p$ od 0.
+W algorytmie przyjęto, że $C$ jest indeksowana od 1, a $c,p$ od 0.
 \begin{algorithm}[H]
 	\caption{Algorytm łamania tekstu}\label{Zadanie13}
 
@@ -248,34 +248,32 @@ W algorytmie panuje umowa, że $C$ jest indeksowana od 1, a $c,p$ od 0.
 \end{algorithm}
 
 \subsection{Zadanie 4 -- Szukanie odległości edycyjnej napisów}
-\textbf{Treść:} Przez odległość edycyjną napisów 
+\paragraph{Treść.} Przez odległość edycyjną napisów 
 $x$ i $y$ rozumiemy najmniejszą liczbę operacji wstawienia lub usunięcia
 pojedynczego znaku, które pozwalają przekształcić napis $x$ w napis $y$.
 Zaprojektuj algorytm, który znajdzie odległość 
-edycyjną dwóch zadanych napisów.
+edycyjną dwóch zadanych napisów.\daggerfootnote{Warto wspomnieć, że dodanie jeszcze jednej operacji --
+	zamiany znaków z dwóch różnych słów -- powoduje powstanie metryki,
+	którą nazywamy odległością Levenshteina.}
 
 
-\textbf{Rozwiązanie:}
-Warto wspomnieć, że dodanie jeszcze jednej operacji --
-zamiany znaków z dwóch różnych słów powoduje powstanie metryki
-którą nazywamy odległością Levenshteina.
-
+\paragraph{Rozwiązanie.}
 Przeanalizujmy najpierw naiwne podejście rekurencyjne: badamy 
-oba napisy od tyłu, oznaczmy $m$ jako długość napisu $x$
+oba napisy od tyłu. Oznaczmy $m$ jako długość napisu $x$
 oraz $n$ jako długość napisu $y$. Rozważmy dwa przypadki: 
 
-\begin{itemize}
-	\item[1.] Jeśli znaki są takie same to wywołujemy rekurencyjnie
+\begin{enumerate}
+	\item Jeśli znaki są takie same, to wywołujemy rekurencyjnie
 	nasz algorytm dla napisu $x$ skróconego do $m - 1$ oraz 
 	napisu $y$ skróconego do $n - 1$.
-	\item[2.] Jeśli znaki są różne to potrzebujemy dwóch wywołań rekurencyjnych
+	\item Jeśli znaki są różne, to potrzebujemy dwóch wywołań rekurencyjnych
 	\begin{itemize}
 		\item wywołanie dla $m - 1$ oraz $n$, które interpretujemy jako operację usunięcia znaku $x[m]$,
 		\item wywołanie dla $m$ oraz $n - 1$, które
-		interpretujemy jako operację wstawienia znaku $y[m]$ do napisu $x$,
+		interpretujemy jako operację wstawienia znaku $y[m]$ do napisu $x$
 		po znaku $x[m]$.
 	\end{itemize} 
-\end{itemize}
+\end{enumerate}
 
 W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania napisów od 1.
 \begin{algorithm}[H]
@@ -304,43 +302,43 @@ W algorytmie \ref{Zadanie14-naive}, przyjmujemy konwencję numerowania napisów 
 
 Teraz zajmijmy się podejściem programowania dynamicznego.
 Niech $T$ będzie tablicą dwuwymiarową o
-$n + 1$ wierszach oraz $m + 1$ kolumnach
-gdzie kolumny oznaczają kolejne litery napisu $x$ a
+$n + 1$ wierszach oraz $m + 1$ kolumnach,
+gdzie kolumny oznaczają kolejne litery napisu $x$, a
 wiersze kolejne litery napisu $y$. Komórka
 $T[i, j]$ ($i \in [0, n+1], j \in [0, m+1]$), będzie 
 oznaczała odległość 
-podnapisu $x$ składającego się z indeksów $1,2 \ldots j$ od 
-podnapisu $y$ składającego się z indeksów $1,2 \ldots i$.
+podnapisu $x$ składającego się z indeksów $1,2, \ldots, j$ od 
+podnapisu $y$ składającego się z indeksów $1,2, \ldots, i$.
 
 Przyjmijmy, że $i \in [1, n+1]$ i $ j \in [1, m+1]$ oraz 
 zaobserwujmy następującą relację: 
 \begin{itemize}
 	\item jeśli $x[j]=y[i]$, to $T[i, j] = T[i - 1, j - 1]$,
-	\item w przeciwnym przypadku $T[i, j] = 1 + \min(T[i - 1, j], T[i, j - 1])$, gdzie
-	$+1$ wynika, z potrzeby wykonania operacji dodawania lub usuwania znaku
+	\item w przeciwnym przypadku $T[i, j] = \min(T[i - 1, j], T[i, j - 1]) + 1$, gdzie
+	$+1$ wynika z potrzeby wykonania operacji dodawania lub usuwania znaku
 	(w zależności od tego, czy $T[i - 1, j] > T[i, j - 1]$).
 \end{itemize}
 
-Przykład: rozważmy dwa napisy $x =$ ,,piesek'' oraz $y =$ ,,kotek''.
+\paragraph{Przykład.} Rozważmy dwa napisy $x =$ \texttt{piesek} oraz $y =$ \texttt{kotek}.
 
 \begin{table}[H]
 	\center
 	\begin{tabular}{|c|lllllll|}
 		\hline \diagbox{$y$}{$x$}
-		& \multicolumn{1}{l|}{\textbf{""}} & \multicolumn{1}{l|}{\textbf{p}} & \multicolumn{1}{l|}{\textbf{i}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{s}} & \multicolumn{1}{l|}{\textbf{e}} & \multicolumn{1}{l|}{\textbf{k}} \\ \hline
-		\textbf{""} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-1}
-		\textbf{k}  & 1 & 2 & 3 & 4 & 5 & 6 & 5 \\ \cline{1-1}
-		\textbf{o}  & 2 & 3 & 4 & 5 & 6 & 7 & 6 \\ \cline{1-1}
-		\textbf{t}  & 3 & 4 & 5 & 6 & 7 & 8 & 7 \\ \cline{1-1}
-		\textbf{e}  & 4 & 5 & 6 & 5 & 6 & 7 & 8 \\ \cline{1-1}
-		\textbf{k}  & 5 & 6 & 7 & 6 & 7 & 8 & 7 \\ \cline{1-1}
+		& \multicolumn{1}{l|}{\texttt{""}} & \multicolumn{1}{l|}{\texttt{p}} & \multicolumn{1}{l|}{\texttt{i}} & \multicolumn{1}{l|}{\texttt{e}} & \multicolumn{1}{l|}{\texttt{s}} & \multicolumn{1}{l|}{\texttt{e}} & \multicolumn{1}{l|}{\texttt{k}} \\ \hline
+		\texttt{""} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \cline{1-1}
+		\texttt{k}  & 1 & 2 & 3 & 4 & 5 & 6 & 5 \\ \cline{1-1}
+		\texttt{o}  & 2 & 3 & 4 & 5 & 6 & 7 & 6 \\ \cline{1-1}
+		\texttt{t}  & 3 & 4 & 5 & 6 & 7 & 8 & 7 \\ \cline{1-1}
+		\texttt{e}  & 4 & 5 & 6 & 5 & 6 & 7 & 8 \\ \cline{1-1}
+		\texttt{k}  & 5 & 6 & 7 & 6 & 7 & 8 & 7 \\ \cline{1-1}
 		\hline
 	\end{tabular}
 	\caption{}
 	\label{tab_zad14}
 \end{table}
 
-Na podstawie tabeli \ref{tab_zad14}, wiemy, że szukana odległość wynosi 7.
+Z tabeli \ref{tab_zad14} odczytujemy, że szukana odległość wynosi 7.
 
 \begin{algorithm}[H]
 	\caption{Rozwiązanie zadania 1.4}

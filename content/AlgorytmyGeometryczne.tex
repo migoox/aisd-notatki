@@ -75,7 +75,7 @@ odcinki muszą się przecinać.
 \end{algorithm}
 
 Zauważmy, że gdybyśmy powyższy problem rozwiązywali w przestrzeni $\mathbb{R}^2$,
-to podczas badania iloczynów wektorowych, jedyne co nas by interesowało
+to podczas badania iloczynów wektorowych jedyne co interesowałoby nas,
 to znak trzeciej współrzędnej. Z zasady prawej ręki, jeśli
 trzecia współrzędna wektora 
 $\vec{u} \times \vec{v}$ jest dodatnia, to wektor $\vec{v}$
@@ -138,7 +138,7 @@ teoriomnogościowej tych odcinków).
 
 Aby rozwiązać ten problem, skorzystamy z metody zamiatania. Dla
 uproszczenia przyjmijmy, że odcinki z wejściowego zbioru $X$ są reprezentowane
-jako dwuwymiarowe punkty takie, że dla każdego punktu, $x$-owa
+jako dwuwymiarowe punkty takie, że dla każdego punktu $x$-owa
 współrzędna jest taka sama.
 
 W ogólności w przestrzeni mamy kilka serii
@@ -157,7 +157,7 @@ do problemu dyskretnego.
 
 W naszym przypadku każde natrafienie miotły na dowolny kraniec odcinka
 traktujemy jako zdarzenie. Jeśli dojdzie do takiego zdarzenia,
-zapiszemy współrzędną $y$ oraz informację czy punkt jest początkiem czy końcem odcinka.
+zapiszemy współrzędną $y$ oraz informację, czy punkt jest początkiem czy końcem odcinka.
 
 W algorytmie \ref{alg:VerticalSegmentsUnionLength} przyjmujemy, że
 struktura \textit{Event} składa się ze zmiennej \textit{Coord}, która reprezentuje
@@ -203,7 +203,7 @@ reprezentuje informację, czy punkt zaczyna odcinek.
 \end{algorithm}
 
 \subsubsection{Znajdowanie pola sumy prostokątów prostopadłych do osi układu współrzędnych}
-Wyobraź sobie prostokąty. Teraz wyobraź sobie pionową linię zamiatającą. Idzie ona od lewej do prawej. Tym
+Wyobraźmy sobie pewien zbiór prostokątów o bokach równoległych do osi układu współrzędnych. Wyobraź sobie następnie pionową linię zamiatającą idącą od lewej do prawej. Tym
 razem zatrzymuje się ona za każdym razem, gdy natrafi na pionowy bok prostokąta (każdy prostokąt ma dwa takie
 boki). Takie zatrzymanie nazywamy zdarzeniem. 
 
@@ -219,7 +219,7 @@ reprezentuje informację, czy punkt zaczyna odcinek. Ponadto
 struktura zawiera zmienną \textit{Idx}, która przechowuje
 indeks prostokąta w odpowiedniej tablicy.
 
-Ponadto struktura \textit{Rectangle} tworzona jest przez zmienne \textit{MinX, MinY, MaxX, MaxY}.
+Struktura \textit{Rectangle} tworzona jest przez zmienne \textit{MinX, MinY, MaxX, MaxY}.
 
 \begin{algorithm}[H]
 	\caption{Znajdowanie pola sumy prostokątów}
@@ -264,20 +264,20 @@ w przestrzeni $\R^2$ przecinają się. Ponadto przy drugim wariancie problemu
 założymy, że dysponujemy funkcją, która znajduje punkt wspólny dwóch 
 przecinających się odcinków. 
 
-\textbf{Dane.} Zbiór odcinków $S$ taki, że nie istnieją 3 wierzchołki przecinające
+\paragraph{Dane.} Zbiór odcinków $S$ taki, że nie istnieją 3 wierzchołki przecinające
 się w tym samym punkcie oraz nie istnieją odcinki pionowe.
 
-\textbf{Wariant 1.} Rozstrzygnięcie, czy w zbiorze wierzchołków istnieje 
+\paragraph{Wariant 1.} Rozstrzygnięcie, czy w zbiorze wierzchołków istnieje 
 para przecinających się odcinków.
 
-\textbf{Wariant 2.} Znalezienie wszystkich punktów przecięć dwóch odcinków ze zbioru $S$.
+\paragraph{Wariant 2.} Znalezienie wszystkich punktów przecięć dwóch odcinków ze zbioru $S$.
 
 W celu rozwiązania obu wariantów zastosujemy metodę zamiatania. Wyobraźmy
 sobie dwuwymiarową płaszczyznę, na której rozmieszczone są odcinki ze zbioru $S$.
 Ustawiamy miotłę po lewej stronie tej płaszczyzny. Będziemy przechodzić od lewej do prawej.
 \\
 
-Zajmijmy się teraz \textbf{wariantem 1}.
+Zajmijmy się teraz wariantem 1.
 
 Jako zdarzenie będziemy traktowali natrafienie na punkt zaczynający 
 lub kończący jakiś odcinek należący do zbioru $S$.
@@ -326,7 +326,7 @@ drzew AVL lub czerwono-czarnych.
 Metoda Interchange jest potrzebna do drugiego wariantu 
 problemu i zostanie szczegółowo omówiona w dalszej części.
 
-Algorytm w \textbf{wariancie 1} będzie polegał na sprawdzaniu, 
+Algorytm w {wariancie 1.} będzie polegał na sprawdzaniu, 
 czy pewne dwa sąsiadujące odcinki na miotle spełniają założenia 
 Obserwacji \ref{obs:miotła}. Jeśli tak, to stanowią kandydatów na przecinające 
 się odcinki. W ten sposób minimalizujemy liczbę sprawdzeń.
@@ -370,9 +370,9 @@ Złożoność powyższego algorytmu jest rzędu $O(n\log n)$, ponieważ liczba z
 rzędu $n$ oraz dla każdego zdarzenia wykonujemy operacje na $X$- i $Y$-strukturze rzędu $\log(n)$.
 \\
 
-Teraz rozważmy \textbf{wariant 2}.
+Teraz rozważmy {wariant 2}.
 
-Zauważmy, że skoro algorytm w \textbf{wariancie 2} ma kontynuować swoje wykonanie po znalezieniu punktu
+Zauważmy, że skoro algorytm w {wariancie 2.} ma kontynuować swoje wykonanie po znalezieniu punktu
 przecięcia, musimy zaktualizować $Y$-strukturę w momencie, w którym
 miotła znajduje się w punkcie przecięcia. 
 
@@ -383,7 +383,7 @@ miotła znajduje się w punkcie przecięcia.
 \end{obs}
 
 Powyższa obserwacja pozwala wywioskować, że aktualizacja w momencie 
-natrafienia miotły na punkt przecięcia dwóch odcinków, powinna polegać
+natrafienia miotły na punkt przecięcia dwóch odcinków powinna polegać
 na zamianie miejscami dwóch odcinków w $Y$-strukturze, których punkt przecięcia znaleźliśmy. 
 Odpowiada za to wcześniej wspomniania funkcja Interchange.
 
@@ -394,7 +394,7 @@ odcinki $s_1$, $s_2$ oraz punkt przecięcia $p$.
 Na koniec zauważmy jeszcze, że kiedy dokonamy takiej zamiany, musimy 
 jeszcze sprawdzić czy nowe sąsiedztwo w strukturze $Y$ zamienionych miejscami 
 odcinków przecina się z nimi. Jeżeli tego nie zrobimy, możemy pominąć niektóre przecięcia.
-Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzyklad_wariant2}.
+Taką przykładową sytuację ilustruje rysunek \ref{fig:zamiatanie_kontrprzyklad_wariant2}.
 % może da się to dokładniej pokazać? ale idk może nie trzeba..
 
 \begin{figure}[H]
@@ -550,7 +550,7 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 						\begin{figure}[H]
 							\centering
 							\includegraphics[width=\textwidth]{data/graham2.png}
-							\caption{\small Usuwając punkty z $S$ w pętli \textit{while} mamy pewność, że nie leżą one na brzegu szukanej otoczki wypukłej.}
+							\caption{\small Usuwając punkty z $S$ w pętli \textit{while} mamy pewność, że nie leżą one na brzegu szukanej otoczki wypukłej}
 							\label{fig:graham:usuwanie}
 						\end{figure}
 					\end{minipage}				

@@ -7,10 +7,10 @@ należy do $D$ lub ma przynajmniej jednego sąsiada w $D$.
 Zaprojektuj jak najwydajniejszy algorytm, który znajdzie rozmiar najmniejszego zbioru dominującego w zadanym
 grafie o $n$ wierzchołkach i maksymalnym stopniu nie większym niż 3. Oszacuj złożoność tego algorytmu.
 
-\paragraph{Rozwiązanie:}
-Aby rozwiązać to zadanie zastosujemy algorytm z nawrotami.
+\paragraph{Rozwiązanie..}
+Aby rozwiązać to zadanie, zastosujemy algorytm z nawrotami.
 
-Wprowadźmy oznaczenia, które zostaną wykorzystane w algorytmie.
+Wprowadźmy oznaczenia.
 Niech $D_{\min}$ będzie najmniejszym zbiorem dominującym, jaki udało 
 nam się dotychczas znaleźć.
 Niech $D$ będzie aktualnym stanem zbioru dominującego oraz
@@ -18,11 +18,11 @@ niech $X$ będzie zbiorem wierzchołków, które na pewno nie znajdą się
 w zbiorze dominującym $D$ na następnych poziomach rekurencji.
 Warunkiem stopu będzie sytuacja, w której $|D| + |X| = |V(G)|$.
 
-Możemy wprowadzić optymalizację polegająca na tym, że 
-przestaniemy badać daną gałąź wykonań rekurencyjnych,
+Możemy wprowadzić optymalizację polegającą na tym, że 
+przestaniemy badać daną gałąź wykonań rekurencyjnych
 w przypadku, kiedy $|D| < |D_{\min}|$. Optymalizacji tej nie będziemy
-stosowali w przypadku kiedy $D_{\min}$ nie zostało jeszcze znalezione,
-w tym celu skorzystamy z faktu, że jeśli graf $G$, jest 
+stosowali w przypadku, kiedy $D_{\min}$ nie zostało jeszcze znalezione. 
+W tym celu skorzystamy z faktu, że jeśli graf $G$ jest 
 taki, że $V(G) \not = \emptyset$,
 to każdy zbiór dominujący dla tego grafu nie jest pusty.
 
@@ -45,51 +45,51 @@ wierzchołków, który początkowo jest pusty.
 		\State \Return
 		\EndIf
 		\State Niech $u$ to dowolny wierzchołek z $Y$
-		\State DominatingSet($G$, $D \cup \{u\}$, $X$, $D_{\min}$)
+		\State \textsc{DominatingSet}($G$, $D \cup \{u\}$, $X$, $D_{\min}$)
 		\If{$|N(u)| \geq 1$}
 		\State Niech $v_1 \in N(X)$
 		\If{$v_1 \not \in D \land v_1 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u\}$, $D_{\min}$)
+		\State \textsc{DominatingSet}($G$, $D \cup \{v_1\}$, $X \cup \{u\}$, $D_{\min}$)
 		\EndIf
 		\EndIf
 		\If{$|N(u)| \geq 2$}
 		\State Niech $v_2 \in N(X) \setminus \{v_1\}$
 		\If{$v_2 \not \in D \land v_2 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_2\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
+		\State \textsc{DominatingSet}($G$, $D \cup \{v_2\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
 		\EndIf
 		\EndIf
 		\If{$|N(u)| = 3$}
 		\State Niech $v_3 \in N(X) \setminus \{v_1, v_2\}$
 		\If{$v_3 \not \in D \land v_3 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_3\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
+		\State \textsc{DominatingSet}($G$, $D \cup \{v_3\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
 		\EndIf
 		\EndIf
 		\EndProcedure		
 	\end{algorithmic}
 \end{algorithm}
 
-Aby oszacować złożoność powyższego algorytmu skorzystamy z 
+Aby oszacować złożoność powyższego algorytmu, skorzystamy z 
 twierdzenia o rozwiązywaniu rekurencji. Przez $f(n)$
-oznaczmy pesymistyczny czas działania funkcji \textsc{DominatingSet},
-wtedy prawdą jest, że
+oznaczmy pesymistyczny czas działania funkcji \textsc{DominatingSet}.
+Wtedy prawdą jest, że
 \[f(n) \leq f(n-1) + f(n-1) + f(n-2) + f(n-3) + f(n-4) + O(n),\]
 gdzie $O(n)$ to złożoność znajdowania zbioru $Y$. 
-Szukamy pierwiastka poniższego równania
-\[x^4 = x^3 + x^2 + x + 1,\]
-po rozwiązaniu powyższego równania, otrzymamy największy
-pierwiastek $x \approx 1.9276$. Zatem na mocy twierdzenia
+Szukamy pierwiastka równania
+\[x^4 = x^3 + x^2 + x + 1.\]
+Po jego rozwiązaniu otrzymamy największy
+pierwiastek $x \approx 1{,}9276$. Zatem na mocy twierdzenia
 o rozwiązywaniu rekurencji złożoność algorytmu wynosi $O(n1.9276^n) = O^*(1.9276^n)$.
 
 \subsection{Zadanie 2 -- Problem 3-SAT}
 
-\paragraph{Treść: } Niech $x$ będzie zmienną mogącą przyjmować wartość \textit{true} lub \textit{false}. Przez literał rozumiemy zmienną
+\paragraph{Treść.} Niech $x$ będzie zmienną mogącą przyjmować wartość \textsf{true} lub \textsf{false}. Przez literał rozumiemy zmienną
 $x$ lub jej zaprzeczenie $\lnot x$. Klauzulą nazywamy zbiór literałów -- na przykład $\{x, y, \lnot z\}$. Mówimy, że wartościowanie
 zmiennych spełnia klauzulę, jeżeli przynajmniej jeden z jej literałów jest prawdziwy.
 \\ W problemie 3-SAT mamy dane $n$ zmiennych $x_1, x_2, \ldots, x_n$ oraz zbiór klauzul, z których każda zawiera co najwyżej
 3 literały. Pytamy, czy istnieje wartościowanie zmiennych, które spełnia każdą klauzulę.
 Zaprojektuj jak najszybszy algorytm rozwiązujący problem 3-SAT i oszacuj jego złożoność.
 
-\paragraph{Rozwiązanie: } Rozważmy algorytm naiwny (używający \textit{bruteforce}'a). Będziemy brać zmienną $x$, która jeszcze nie ma wartościowania i przypisywać jej wartość \true{} lub \false, a następnie rekurencyjnie wywoływać funkcję dla kolejnych zmiennych. Na każdym poziomie rekurencji liniowo sprawdzamy, czy wszystkie klauzule zostały spełnione lub któraś jest niespełniona. Opisany algorytm działa w czasie $O^*(2^n)$ (liczba wszystkich ciągów binarnych długości $n$).
+\paragraph{Rozwiązanie.} Rozważmy algorytm naiwny (używający \textit{bruteforce}'a). Będziemy brać zmienną $x$, która jeszcze nie ma wartościowania i przypisywać jej wartość \true{} lub \false, a następnie rekurencyjnie wywoływać funkcję dla kolejnych zmiennych. Na każdym poziomie rekurencji liniowo sprawdzamy, czy wszystkie klauzule zostały spełnione lub któraś jest niespełniona. Opisany algorytm działa w czasie $O^*(2^n)$ (liczba wszystkich ciągów binarnych długości $n$).
 
 
 Algorytm naiwny możemy ulepszyć, zauważając następujący fakt: do spełnienia klauzuli wystarczy, żeby co najmniej jeden z literałów miał wartość \true. 
@@ -165,13 +165,13 @@ $x^3 = x^2 + x + 1$
 jest $x \approx 1{,}8393$, zatem z twierdzenia o rozwiązywaniu rekurencji pesymistyczna złożoność algorytmu wynosi $O^*(1{,}8393^n)$.
 
 \subsection{Zadanie 3 -- Kolorowanie grafu z list o rozmiarze nie większym niż 2}
-\paragraph{Treść:} W problemie kolorowania grafu $G$ z list dla każdego wierzchołka 
+\paragraph{Treść.} W problemie kolorowania grafu $G$ z list dla każdego wierzchołka 
 $v \in V(G)$ mamy daną listę $L_v$ i
 szukamy poprawnego kolorowania grafu $G$, w którym kolor każdego wierzchołka $v$ należy do $L_v$.
 Zaprojektuj algorytm, który rozwiąże problem kolorowania grafu z list w czasie wielomianowym w przypadku, gdy
 wszystkie listy mają rozmiar nie większy niż $2$.
 
-\paragraph{Rozwiązanie:} 
+\paragraph{Rozwiązanie.} 
 
 
 Niech graf $G$ będzie grafem wejściowym takim, że
@@ -202,9 +202,9 @@ Teraz zauważmy, że graf $G'$ jest dwudzielny oraz każdy wierzchołek z $G$ ma
 
 Dzieje się tak dlatego, że dla każdego wierzchołka $v_i\in V(G)$ klasa $X$ zawiera wierzchołek $v_{ik}$ reprezentujący pokolorowanie $v_i$ na kolor $k$. Zawiera ona dokładnie jeden wierzchołek $v_{ik}$ odpowiadający $v_i$ ze względu na obecność krawędzi łączących $v_{ik}$ z $v_{il}$ dla $l \in L_{v_i}, l \neq k$ (tzn. z innymi kolorami z $L_{v_i}$). Jednocześnie z dwudzielności wynika, że dla każdego koloru $k$ w klasie $X$ nie sąsiadują żadne wierzchołki $v_{ik}$, $v_{jk}$ takie, że $v_iv_j\in E(G)$. Kolorowanie to jest więc poprawne.
 
-Pokazanie, że jeżeli istnieje poprawne kolorowanie listowe grafu $G$, to $G'$ jest dwudzielny i odpowiednie wierzchołki $G'$ odpowiadające temu kolorowaniu tworzą klasę dwudzielności jest analogiczne. 
+Pokazanie, że jeżeli istnieje poprawne kolorowanie listowe grafu $G$, to $G'$ jest dwudzielny i odpowiednie wierzchołki $G'$ odpowiadające temu kolorowaniu tworzą klasę dwudzielności, jest analogiczne. 
 
-Pozostaje pytanie, jak można zaimplementować powyższe rozumowanie. Jeżeli $G'$ jest dwudzielnym grafem spójnym to istnieje dokładnie jeden podział na klasy dwudzielności. W takiej sytuacji możemy znaleźć klasy dwudzielności oraz zbadać, czy wszystkie wierzchołki z $G$ mają swojego odpowiednika w tej samej klasie. W przypadku kiedy $G'$ nie jest spójny, możemy w sposób analogiczny rozważyć jego spójne składowe. Problem dwudzielności jak i znajdowania składowych grafu potrafimy rozwiązać (patrz \hyperref[exc:bipart]{zadania 4 oraz 5 z tematu ,,Przeszukiwanie grafów''}.
+Pozostaje pytanie, jak można zaimplementować powyższe rozumowanie. Jeżeli $G'$ jest dwudzielnym grafem spójnym, to istnieje dokładnie jeden podział na klasy dwudzielności. W takiej sytuacji możemy znaleźć klasy dwudzielności oraz zbadać, czy wszystkie wierzchołki z $G$ mają swojego odpowiednika w tej samej klasie. W przypadku kiedy $G'$ nie jest spójny, możemy w sposób analogiczny rozważyć jego spójne składowe. Problem dwudzielności jak i znajdowania składowych grafu potrafimy rozwiązać (patrz \hyperref[exc:bipart]{zadania 4 oraz 5 z tematu ,,Przeszukiwanie grafów''}).
 
 Utworzenie zbiorów, dwudzielność oraz znajdowanie składowych grafu są problemami wymagającymi czasu wielomianowego, a zatem algorytm spełnia wymagania czasowe.
 
