@@ -252,6 +252,23 @@
 	\renewcommand*{\thefootnote}{\arabic{footnote}}%
 }
 
+% custom instructions for algorithmic for proper indentation in multi-line statements
+\makeatletter
+\newcommand{\algmargin}{\the\ALG@thistlm}
+\makeatother
+\newlength{\whilewidth}
+\settowidth{\whilewidth}{\algorithmicwhile\ }
+\algdef{SE}[parWHILE]{parWhile}{EndparWhile}[1]
+{\parbox[t]{\dimexpr\linewidth-\algmargin}{%
+		\hangindent\whilewidth\strut\algorithmicwhile\ #1\ \algorithmicdo\strut}}{\algorithmicend\ \algorithmicwhile}%
+\newlength{\ifwidth}
+\settowidth{\ifwidth}{\algorithmicif\ }
+\algdef{SE}[parIF]{parIf}{EndparIf}[1]
+{\parbox[t]{\dimexpr\linewidth-\algmargin}{%
+		\hangindent\ifwidth\strut\algorithmicif\ #1\ \algorithmicdo\strut}}{}%
+\algnewcommand{\parState}[1]{\State%
+	\parbox[t]{\dimexpr\linewidth-\algmargin}{\strut #1\strut}}
+
 \let\originalleft\left
 \let\originalright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}

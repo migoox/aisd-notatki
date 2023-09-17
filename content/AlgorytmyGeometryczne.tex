@@ -424,25 +424,25 @@ Taką przykładową sytuację ilustruje rysunek \ref{fig:zamiatanie_kontrprzykla
 		\State $p \gets \text{punkt odpowiadający \textit{zdarzeniu}}$
 		\State
 		\If{$p$ jest początkiem odcinika $s$}
-		\If{$s$ przecina się z $Y$.Above($s$) lub z $Y$.Below($s$)
-			$\land$
-			$x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s$, $Y$.Above($s$)
-		albo $Y$.below($s$)\footnote{Zawsze będzie to tylko jeden z nich z założenia o braku pionowych odcinków.} oraz ich punkt przecięcia
-		\EndIf
+		\parIf{$s$ przecina się z $Y$.Above($s$) lub z $Y$.Below($s$)
+			oraz
+			$x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $s$, $Y$.Above($s$)
+		albo $Y$.below($s$)\footnotemark \, oraz ich punkt przecięcia }
+		\EndparIf
 		\ElsIf{$p$ jest końcem odcinka $s$}
-		\If{$Y$.above($s$) przecina się z $Y$.below($s$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.Above($s$), $Y$.Below($s$) oraz ich punkt przecięcia  
-		\EndIf
+		\parIf{$Y$.above($s$) przecina się z $Y$.below($s$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.Above($s$), $Y$.Below($s$) oraz ich punkt przecięcia }
+		\EndparIf
 		\Else
 		\State $P \gets P \cup \{p\}$
 		\State $Y$.Interchange($s_1$, $s_2$)
-		\If{$s_1$ przecina się z $Y$.Above($s_1$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.Above($s_1$) oraz ich punkt przecięcia
-		\EndIf
-		\If{$s_2$ przecina się z $Y$.Below($s_2$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_2$, $Y$.Below($s_2$) oraz ich punkt przecięcia
-		\EndIf
+		\parIf{$s_1$ przecina się z $Y$.Above($s_1$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.Above($s_1$) oraz ich punkt przecięcia}
+		\EndparIf
+		\parIf{$s_2$ przecina się z $Y$.Below($s_2$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $s_2$, $Y$.Below($s_2$) oraz ich punkt przecięcia}
+		\EndparIf
 		\EndIf
 		\EndWhile
 		\State \Return $P$
@@ -450,9 +450,10 @@ Taką przykładową sytuację ilustruje rysunek \ref{fig:zamiatanie_kontrprzykla
 	\end{algorithmic}
 	\label{HasIntersectingSegments2}
 \end{algorithm}
+\footnotetext{Zawsze będzie to tylko jeden z nich z założenia o braku pionowych odcinków.}
 
 Warto zwrócić uwagę na to, że dodajemy zdarzenie tylko wtedy, kiedy
-$x$-owa współrzędna tego przecięcia jest większa niż $p_x$. Gdybyśmy tego nie zrobili,
+$x$-owa współrzędna tego przecięcia jest większa niż $x_p$. Gdybyśmy tego nie zrobili,
 pojawią się przypadki, w których będziemy badali dwukrotnie ten sam punkt, co 
 może sprawiać problemy implementacyjne.
 
