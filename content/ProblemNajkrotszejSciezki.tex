@@ -40,7 +40,7 @@ będziemy rozumieli dowolny spacer, w którym
 		gdzie pierwsza nierówność to założenie o
 		tym, że $S$ jest mniejszego kosztu, a druga wynika
 		z faktu, że w $G$ nie ma ujemnych cykli.
-		
+
 		Założyliśmy jednak, że $P$ jest najkrótszą ścieżką,
 		co prowadzi do sprzeczności. \qedhere
 		
@@ -91,13 +91,13 @@ do dowolnego osiągalnego wierzchołka.
 		\Procedure{BellmanFord}{($G, w$): graf ważony, $s \in V(G)$: wierzchołek startowy}
 		\State odległość = tablica liczb, rozmiaru $V[G]$
 		\For{$v \in V(G)$}
-		\State odległość$[v]=\infty$
+		\State odległość$[v] \gets \infty$
 		\EndFor
-		\State odległość$[s]=0$
+		\State odległość$[s] \gets 0$
 		\For{$i=1,2,\dots,n-1$}
 		\For{$uv \in E(G)$}
 		\If{odległość$[v] >$ odległość$[u]$ + $w(uv)$}
-		\State odległość$[v]=$ odległość$[u] + w(uv)$ 
+		\State odległość$[v] \gets$ odległość$[u] + w(uv)$ 
 		\EndIf
 		\EndFor
 		\EndFor
@@ -507,7 +507,7 @@ przeszukanie $o(n)$ wierzchołków. % czy małe o jest celowe czy przeoczeniem?
 	poprawnie rozwiązuje problem najkrótszej ścieżki
 	pomiędzy wierzchołkami $s$ i $t$.
 	\begin{proof}
-		\textbf{to do} (nie obowiązuje na kolokwium) % ;)
+		% \textbf{to do} (nie obowiązuje na kolokwium) % ;)
 	\end{proof}
 	\label{aStar_proof}
 \end{theorem}

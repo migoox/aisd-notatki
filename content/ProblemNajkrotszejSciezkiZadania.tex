@@ -108,31 +108,42 @@ od $u$ do $v$ o dokładnie $k$ krawędziach.
 \paragraph{Treść.}Zaprojektuj algorytm, który dla ważonego 
 acyklicznego grafu skierowanego $G$ oraz wierzchołków $s, t \in
 V(G)$ wyznaczy odległość od $s$ do $t$ w czasie $O(m)$. 
+
 Wskazówka: wykorzystaj sortowanie topologiczne (zadanie \ref{zad:tsort}).
 
 \paragraph{Rozwiązanie.}
-Dijkstra tylko, że zamiast kolejki $Q$ stosujemy
-sortowanie topologiczne (średnia złożoność $O(m)$), 
-po czym iter % PO CZYM ITER CO? :( po czym iter co...
+Rozwiązanie polega na zastosowaniu algorytmu zbliżonego do
+algorytmu Dijkstry. Zamiast 
+kolejki priorytetowej $Q$ wykorzystamy przygotowaną przez algorytm 
+\ref{alg:Zadanie26} listę wierzchołków $L$ posortowanych topologicznie.
+Nie ma potrzeby zmiany kolejności wierzchołków na liście $L$ w czasie 
+wykonywania algorytmu, tak jak jest to robione w przypadku algorytmu
+Dijkstry poprzez operację \textsc{DecreaseKey} wywoływanej na kolejce $Q$.
+
+Jako że startowy wierzchołek nie musi być pierwszym wierzchołkiem na liście $L$,
+musimy usunąć wszystkie wierzchołki z listy, które znajdują się przed $s$.
+
 \begin{algorithm}[H]
 	\caption{Znajdowanie ujemnego cyklu}
 	\begin{algorithmic}[1]
-		\Procedure{FindDistanceInTree}{($T, w$): drzewo ważone}
-		\State Niech odległość to tablica liczb, rozmiaru $V[G]$
-		\State Niech kolejność to tablica liczb, rozmiaru $V[G]$, na
-		$i$-tej komórce znajduje się wierzchołek, który ma 
-		$i$-te miejsce w posortowanej topologicznie tablicy wierzchołków
-		\State kolejność $\gets$ \textsc{TSort}($T$)
-		\For{$i = 0, 1, \dots n - 1$}
-		\State $u \gets \text{kolejność}[i]$
-		\For{$v \in N(u)$}
-		\If {$\text{odległość}[u] + w(uv) < 
-			\text{odległość}[v]$}
-		\State $\text{odległość}[v] \gets \text{odległość}[u] + w(uv)$
-		\EndIf
-		\EndFor 
+		\Procedure{FindDistanceInTree}{$T$: drzewi, $\omega$: ważenie, $s$: wierzchołek startowy, $t$: wierzchołek docelowy}
+		\State \textit{odległość} $\gets$ tablica liczb, rozmiaru $V[G]$
+		\For{$v \in V(G)$}
+		\State \textit{odległość}$[v] \gets \infty$
 		\EndFor
-		\State \Return \false
+		\State \textit{odległość}$[s] \gets 0$
+		\State $L \gets$ \textsc{TopologicalSort}($T$) 
+		\State Usuń z $L$ wszystkie wierzchołki przed $s$
+		\While{$L$ nie jest pusta}
+		\State $u \gets L$.DetachHead()
+		\For{$v \in N(u)$} 
+		\If{\textit{odległość}$[u] + \omega(uv) <$ \textit{odległość}$[v]$}
+		\State \textit{odległość}$[v] \gets $ {odległość}$[u] + \omega(uv)$
+
+		\EndIf
+		\EndFor
+		\EndWhile
+		\State \Return \textit{odległość}$[t]$
 		\EndProcedure
 	\end{algorithmic}
 	\label{Zadanie34}
