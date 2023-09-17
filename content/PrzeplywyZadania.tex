@@ -1,5 +1,5 @@
-\subsection{Zadanie 3 -- Szukanie najliczniejszego zbioru wewnętrznie rozłącznych
-	ścieżek}
+\subsection{Szukanie najliczniejszego zbioru wewnętrznie rozłącznych
+ścieżek (4.3)}
 \paragraph{Treść.} Zaprojektuj algorytm, który dla zadanego grafu $G$
 oraz wierzchołków $v, w \in V(G)$ znajdzie najliczniejszy
 zbiór wewnętrznie rozłącznych wierzchołkowo ścieżek od 
@@ -28,7 +28,7 @@ tworzymy graf $G''$, w którym usuwamy wszystkie krawędzie $e \in E(G)$,
 takie, że $f(e) = 0$. Dla każdego sąsiada $v$ idziemy do $w$, odkładając
 napotkane wierzchołki na listę. Zwracamy wszystkie listy. 
 
-\subsection{Zadanie 4 -- Znajdowanie najmniejszego przekroju w sieci}
+\subsection{Znajdowanie najmniejszego przekroju w sieci (4.4)}
 \paragraph{Treść.} Przekrojem sieci $(G, c, s, t)$ 
 nazywamy podział zbioru $V(G)$ na 
 rozłączne zbiory $S$ i $T$ taki, że $s \in S$
@@ -47,7 +47,7 @@ z $s$ w sieci rezydualnej $R$. Zbiór osiągalnych wierzchołków $S$ oraz
 $\overline{S} = V(G) \setminus S$ stanowią podział o najmniejszej 
 przepustowości.
 
-\subsection{Zadanie 5 -- Algorytm Dinica}
+\subsection{Algorytm Dinica (4.5)}
 \paragraph{Treść.} Niech $R$ będzie siecią rezydualną 
 dla pewnej sieci przeplywowej $(G, c, s, t)$ i przepływu $f$; 
 niech $d$ będzie
@@ -98,7 +98,7 @@ i utworzenia przepływów.
 	\label{alg:dinic}
 \end{algorithm}
 
-\subsection{Zadanie 6 -- Wyznaczanie pesymistycznej wydajności w sieci}
+\subsection{Wyznaczanie pesymistycznej wydajności w sieci (4.6)}
 \paragraph{Treść.} Przypuśćmy, że mamy daną sieć przewodową składającą 
 się z $n$ węzłów (w tym jeden serwer) i $m$
 połączeń między węzłami, przy czym każde połączenie ma pewną 
@@ -154,7 +154,7 @@ wartość dowolnego przekroju), a jako minimum 1.
 	\label{zad46}
 \end{algorithm}
 
-\subsection{Zadanie 8}
+\subsection{(4.8)}
 \paragraph{Treść.} Rozważmy pociąg, który zatrzymuje się na stacjach 
 numerowanych liczbami od 1 do $n$. Pociag może
 przewozić jednocześnie P pasażerów. Dla każdej pary stacji 

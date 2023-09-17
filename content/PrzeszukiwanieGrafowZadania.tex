@@ -1,4 +1,4 @@
-\subsection{Zadanie 1 -- Struktura danych reprezentująca graf skierowany}
+\subsection{Struktura danych reprezentująca graf skierowany (2.1)}
 
 \paragraph{Treść.} Zaprojektuj strukturę danych reprezentującą graf skierowany o $n$ wierzchołkach i $m$ krawędziach, z
 następującymi operacjami:
@@ -29,11 +29,10 @@ która spełnia następujące wymagania:
 	\item Tablica haszująca o $m$ elementach (haszowanie łańcuchowe)
 \end{enumerate}
 
-\subsection{Zadanie 2 -- Nierekurencyjne przeszukiwanie w głąb (DFS)}
+\subsection{Nierekurencyjne przeszukiwanie w głąb -- DFS (2.2)}
 \label{zad:dfsnr}
 \paragraph{Treść.} Zaproponuj nierekurencyjną implementację
 przeszukiwania grafu w głąb.
-
 \paragraph{Rozwiązanie.}
 Poniższy algorytm działa zarówno dla grafów skierowanych
 jak i prostych.
@@ -79,7 +78,7 @@ tablicą booli $T$ o $|V(G)|$ elementach zainicjowaną wartością
 	\label{alg:dfs}
 \end{algorithm}
 
-\textbf{Oszacowanie złożoności:} Przyjmijmy bez straty ogólności, że graf wejściowy
+\paragraph{Oszacowanie złożoności.} Przyjmijmy bez straty ogólności, że graf wejściowy
 $G$ jest spójny. W takiej sytuacji algorytm DFS odwiedzi dokładnie $n$ wierzchołków. Ponadto
 przeszukujemy nieodwiedzonych sąsiadów badanego wierzchołka, co sprawia, że w całym
 wykonaniu algorytmu \ref{alg:dfs}, linijka nr 2 wykona się dokładnie $m$ razy.
@@ -87,11 +86,10 @@ wykonaniu algorytmu \ref{alg:dfs}, linijka nr 2 wykona się dokładnie $m$ razy.
 Z powyższych rozważań, wynika, że złożoność algorytmu DFS wynosi $O(n + m)$. Zauważmy, że
 w przypadku kiedy graf wejściowy $G$ ma więcej niż $m$ krawędzi, możemy przyjąć złożoność $O(m)$.
 
-\subsection{Zadanie 3 -- Implementacja przeszukiwania wszerz (BFS)}
+\subsection{Implementacja przeszukiwania wszerz -- BFS (2.3)}
 \label{zad:bfs}
 \paragraph{Treść.} Zaproponuj implementację
 przeszukiwania grafu wszerz.
-
 \paragraph{Rozwiązanie.}
 Poniższy algorytm działa zarówno dla grafów skierowanych
 jak i prostych.
@@ -120,7 +118,7 @@ jak i prostych.
 
 \textbf{Oszacowanie złożoności:} Analogiczne do algorytmu DFS (algorytm \ref{alg:dfs}).
 
-\subsection{Zadanie 4 -- Szukanie liczby składowych spójności grafu}
+\subsection{Szukanie liczby składowych spójności grafu (2.4)}
 
 \paragraph{Treść.} Skonstruuj algorytm znajdujący liczbę składowych 
 spójności zadanego grafu w czasie $O(m)$.
@@ -137,7 +135,7 @@ Liczba wywołań BFS lub DFS stanowi liczbę składowych w grafie $G$.
 \textbf{Oszacowanie złożoności:} Analogicznie do oszacowania DFS, co daje $O(n + m)$. Przyjmując, że
 graf wejśćiowy ma co najmniej $n$ krawędzi otrzymamy złożoność  $O(m)$.
 
-\subsection{Zadanie 5 -- Sprawdzanie dwudzielności grafu}
+\subsection{Sprawdzanie dwudzielności grafu (2.5)}
 \label{exc:bipart}
 \paragraph{Treść.} Skonstruuj algorytm sprawdzający, 
 czy zadany graf o $m$ krawędziach jest dwudzielny, w czasie $O(m)$.
@@ -179,7 +177,7 @@ będzie kolorował wierzchołki. Twierdzenie jest zatem prawdziwe.
 
 \paragraph{Oszacowanie złożoności.} Przebiega analogicznie do zadania nr 4.
 
-\subsection{Zadanie 6 -- Sortowanie topologiczne}
+\subsection{Sortowanie topologiczne (2.6)}
 \label{zad:tsort}
 \paragraph{Treść.} Skonstruuj algorytm znajdujący 
 sortowanie topologiczne acyklicznego grafu skierowanego 
@@ -228,7 +226,7 @@ Zauważmy, że dodanie do drzewa wierzchołka $x$, które odbywa się w linijkac
 cykli, bo w $G'$ nie istnieje łuk wchodzący do tego wierzchołka $x$. To w połączeniu z faktem, 
 że $G$ jest drzewem oznacza, że $G'$ również jest drzewem.
 
-\subsection{Zadanie 7 -- Szukanie cyklu Eulera}
+\subsection{Szukanie cyklu Eulera (2.7)}
 \paragraph{Treść.} Skontruuj algorytm znajdujący cykl Eulera 
 w zadanym grafie o $m$ krawędziach w czasie $O(m)$.
 

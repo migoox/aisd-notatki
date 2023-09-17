@@ -1,5 +1,5 @@
-\subsection{Zadanie 1 -- Najmniejszy zbiór dominujący}
-\paragraph{Treść:}
+\subsection{Najmniejszy zbiór dominujący (5.1)}
+\paragraph{Treść.}
 \textit{Zbiór dominujący} w grafie $G$ to podzbiór wierzchołków 
 $D \subset V(G)$ taki, że każdy wierzchołek grafu $G$
 należy do $D$ lub ma przynajmniej jednego sąsiada w $D$.
@@ -7,7 +7,7 @@ należy do $D$ lub ma przynajmniej jednego sąsiada w $D$.
 Zaprojektuj jak najwydajniejszy algorytm, który znajdzie rozmiar najmniejszego zbioru dominującego w zadanym
 grafie o $n$ wierzchołkach i maksymalnym stopniu nie większym niż 3. Oszacuj złożoność tego algorytmu.
 
-\paragraph{Rozwiązanie..}
+\paragraph{Rozwiązanie.}
 Aby rozwiązać to zadanie, zastosujemy algorytm z nawrotami.
 
 Wprowadźmy oznaczenia.
@@ -80,7 +80,7 @@ Po jego rozwiązaniu otrzymamy największy
 pierwiastek $x \approx 1{,}9276$. Zatem na mocy twierdzenia
 o rozwiązywaniu rekurencji złożoność algorytmu wynosi $O(n1.9276^n) = O^*(1.9276^n)$.
 
-\subsection{Zadanie 2 -- Problem 3-SAT}
+\subsection{Problem 3-SAT (5.2)}
 
 \paragraph{Treść.} Niech $x$ będzie zmienną mogącą przyjmować wartość \textsf{true} lub \textsf{false}. Przez literał rozumiemy zmienną
 $x$ lub jej zaprzeczenie $\lnot x$. Klauzulą nazywamy zbiór literałów -- na przykład $\{x, y, \lnot z\}$. Mówimy, że wartościowanie
@@ -164,7 +164,7 @@ gdzie $O(n)$ wynika z pesymistycznie liniowego czasu obliczania wartości $\math
 $x^3 = x^2 + x + 1$
 jest $x \approx 1{,}8393$, zatem z twierdzenia o rozwiązywaniu rekurencji pesymistyczna złożoność algorytmu wynosi $O^*(1{,}8393^n)$.
 
-\subsection{Zadanie 3 -- Kolorowanie grafu z list o rozmiarze nie większym niż 2}
+\subsection{Kolorowanie grafu z list o rozmiarze nie większym niż 2 (5.3)}
 \paragraph{Treść.} W problemie kolorowania grafu $G$ z list dla każdego wierzchołka 
 $v \in V(G)$ mamy daną listę $L_v$ i
 szukamy poprawnego kolorowania grafu $G$, w którym kolor każdego wierzchołka $v$ należy do $L_v$.

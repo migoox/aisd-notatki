@@ -1,5 +1,5 @@
 
-\subsection{Zadanie 1 -- Sprawdzenie czy wielokąty wypukłe z użyciem zamiatania} 
+\subsection{Sprawdzenie przecinania się wielokątów wypukłych z użyciem zamiatania (7.1)} 
 \paragraph{Treść.} Zaprojektuj algorytm, który w 
 czasie $O(n)$ sprawdzi, czy dwa zadane wielokąty wypukłe o nie więcej
 niż $n$ wierzchołkach się przecinają. 
@@ -70,7 +70,7 @@ jeden jest wewnątrz drugiego.
 	\label{algZadanie7_1}
 \end{algorithm}
 
-\subsection{Zadanie 3 -- sprawdzenie przynależności punktu do wielokąta}
+\subsection{Sprawdzenie przynależności punktu do wielokąta (7.3)}
 \paragraph{Treść.} Zaprojektuj strukturę danych, która dla zadanego wielokąta bez samoprzecięć o 
 $n$ wierzchołkach pozwoli
 na sprawdzenie przynależności punktów do tego wielokąta w czasie $O(\log n)$.
@@ -140,7 +140,7 @@ Złożoność algorytmu sprawdzania przynależności jest logarytmiczna (nie lic
 	\label{alg:Zadanie7_1}
 \end{algorithm}
 
-\subsection{Zadanie 4 -- Otoczka wypukła punktu i wielokątu wypukłego}
+\subsection{Otoczka wypukła punktu i wielokątu wypukłego (7.4)}
 \paragraph{Treść.} Dany jest wielokąt wypukły o zbiorze wierzcholków $Z$ oraz punkt $p$. Znajdź otoczkę wypukłą zbioru $Z \cup \{p\}$ w czasie $O(|Z|)$.
 \paragraph{Rozwiązanie.}
 Przyjmijmy, że $Z = \{z_1, z_2, \ldots, z_n\}$ to lista, która przechowuje wierzchołki
@@ -187,7 +187,7 @@ Rozważmy dwa przypadki.
 	\end{algorithmic}
 \end{algorithm}
 
-\subsection{Zadanie 5 -- Łączenie dwóch otoczek}
+\subsection{Łączenie dwóch otoczek (7.5)}
 \paragraph{Treść.} Dane są dwa zbiory $Z_1$ i $Z_2$ takie, że dla każdych $(x_1, y_1) \in Z_1$ i $(x_2, y_2) \in Z_2$ zachodzi $x_1 < x_2$ (tzn. zbiór $Z_1$ jest w całości na lewo od $Z_2$). Zaprojektuj algorytm, który mając dane otoczki wypukłe zbiorów $Z_1$ i $Z_2$
 znajdzie otoczkę wypukłą zbioru $Z_1 \cup Z_2$ w czasie $O(|Z_1| + |Z_2|)$.
 

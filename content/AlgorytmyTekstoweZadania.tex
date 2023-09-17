@@ -1,4 +1,4 @@
-\subsection{Zadanie 1 -- najdłuższy prefiks}
+\subsection{Szukanie najdłuższego prefiksu (8.1)}
 \paragraph{Treść.}
 Dany jest wzorzec $x$ oraz napis $y$. Zaprojektuj algorytm, który znajdzie najdłuższy prefiks $x$ zawarty w napisie $y$ w czasie $O(|x|+|y|)$.
 
@@ -33,9 +33,9 @@ W zadaniu tym można wykorzystać modyfikację \hyperref[KMP]{algorytmu KMP}, kt
 	\end{algorithmic}
 \end{algorithm}
 
-\subsection{Zadanie 2 -- szukanie przynajmniej połowy wzorca}
+\subsection{Szukanie przynajmniej połowy wzorca (8.2)}
 
-\subsection{Zadanie 4 -- dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{?}'}
+\subsection{Dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{?}' (8.4)}
 \label{zadanie8.4}
 \paragraph{Treść.}
 Problem dopasowania wzorca ze znakami nieznaczącymi różni się od problemu wyszukiwania wzorca w tekście tylko tym, że wzorzec może zawierać specjalny znak '\texttt{?}', który pasuje do każdego znaku.
@@ -63,6 +63,6 @@ podwzorzec $1$\RowStyle{\color{ForestGreen}}&X&Y&Z&&&&&\color{red}X&&&X&Y&Z&\\
 
 Algorytm ten wywołuje KMP $k+1$ razy, zatem jego złożoność to $O(nk)$.
 
-\subsection{Zadanie 5 -- dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{*}'}
+\subsection{Dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{*}' (8.5)}
 \paragraph{Treść.}
 Rozwiąż zadanie \ref{zadanie8.4} w wersji ogólniejszej, ze znakiem '\texttt{*}' we wzorcu, który pasuje do każdego ciągu znaków o długości nie większej niż $d$, dla zadanej stałej $d$.
