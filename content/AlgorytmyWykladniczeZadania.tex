@@ -27,7 +27,7 @@ taki, że $V(G) \not = \emptyset$,
 to każdy zbiór dominujący dla tego grafu nie jest pusty.
 
 W poniższym algorytmie, przyjmujemy, że $D_{\min}$ to globalny zbiór
-wierzchołków, który początkowo jest pusty.
+wierzchołków, który początkowo jest pusty. % skoro globalny to go nie ma w argumentach
 \begin{algorithm}[H]
 	\caption{Algorytm znajdowania najmniejszego zbioru dominującego}
 	\begin{algorithmic}[1]
@@ -45,23 +45,23 @@ wierzchołków, który początkowo jest pusty.
 		\State \Return
 		\EndIf
 		\State Niech $u$ to dowolny wierzchołek z $Y$
-		\State DominatingSet($G$, $D \cup \{u\}$, $X$, $D_{\min}$)
+		\State DominatingSet($G$, $D \cup \{u\}$, $X$)
 		\If{$|N(u)| \geq 1$}
 		\State Niech $v_1 \in N(u)$
 		\If{$v_1 \not \in D \land v_1 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u\}$, $D_{\min}$)
+		\State DominatingSet($G$, $D \cup \{v_1\}$, $X \cup \{u\}$)
 		\EndIf
 		\EndIf
 		\If{$|N(u)| \geq 2$}
 		\State Niech $v_2 \in N(u) \setminus \{v_1\}$
 		\If{$v_2 \not \in D \land v_2 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_2\}$, $X \cup \{u, v_1\}$, $D_{\min}$)
+		\State DominatingSet($G$, $D \cup \{v_2\}$, $X \cup \{u, v_1\}$)
 		\EndIf
 		\EndIf
 		\If{$|N(u)| = 3$}
 		\State Niech $v_3 \in N(u) \setminus \{v_1, v_2\}$
 		\If{$v_3 \not \in D \land v_3 \not \in X$}
-		\State DominatingSet($G$, $D \cup \{v_3\}$, $X \cup \{u, v_1, v_2\}$, $D_{\min}$)
+		\State DominatingSet($G$, $D \cup \{v_3\}$, $X \cup \{u, v_1, v_2\}$)
 		\EndIf
 		\EndIf
 		\EndProcedure		
@@ -72,7 +72,7 @@ Aby oszacować złożoność powyższego algorytmu skorzystamy z
 twierdzenia o rozwiązywaniu rekurencji. Przez $f(n)$
 oznaczmy pesymistyczny czas działania funkcji \textsc{DominatingSet},
 wtedy prawdą jest, że
-\[f(n) \leq f(n-1) + f(n-1) + f(n-2) + f(n-3) + f(n-4) + O(n),\]
+\[f(n) \leq f(n-1) + f(n-2) + f(n-3) + f(n-4) + O(n),\]
 gdzie $O(n)$ to złożoność znajdowania zbioru $Y$. 
 Szukamy pierwiastka poniższego równania
 \[x^4 = x^3 + x^2 + x + 1,\]
