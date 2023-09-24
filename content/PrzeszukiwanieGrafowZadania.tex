@@ -121,16 +121,29 @@ jak i prostych.
 \textbf{Oszacowanie złożoności:} Analogiczne do algorytmu DFS (algorytm \ref{alg:dfs}).
 
 \subsection{Zadanie 4 -- Szukanie liczby składowych spójności grafu}
-\textbf{Treść: } Skonstruuj algorytm znajdujący liczbę składowych 
+\paragraph{Treść.} Skonstruuj algorytm znajdujący liczbę składowych 
 spójności zadanego grafu w czasie $O(m)$.
 
-\textbf{Rozwiązanie: } Stosujemy BFS lub DFS z dowolnego 
-wierzchołka i zapisujemy odwiedzone wierzchołki (tablica typu \textit{bool}).
-Jeżeli po zakończeniu wyszukiwania istnieje jakiś nieodwiedzony wierzchołek $x \in V(G)$ 
-to ponownie wykonujemy BFS lub DFS, tym razem z wierzchołka $x$.
-Powtarzamy tę czynność tak długo, aż wszystkie wierzchołki będą odwiedzone. 
+\paragraph{Rozwiązanie.} Stosujemy \hyperref[Zadanie23]{BFS} lub \hyperref[Zadanie22a]{DFS} z dowolnego wierzchołka i zapisujemy odwiedzone wierzchołki (dla uproszczenia zakładamy, że algorytmy te jako dodatkowy argument przyjmują tablicę $T$ typu \textit{bool}). Jeżeli po zakończeniu wyszukiwania istnieje jakiś nieodwiedzony wierzchołek $x \in V(G)$, to ponownie wykonujemy BFS lub DFS, tym razem z wierzchołka $x$. Powtarzamy tę czynność tak długo, aż wszystkie wierzchołki będą odwiedzone. 
 
 Liczba wywołań BFS lub DFS stanowi liczbę składowych w grafie $G$.
+
+\begin{algorithm}[H]
+	\caption{Znajdowanie liczby składowych}\label{Zadanie24}
+	\begin{algorithmic}[1]
+		\Procedure{ComponentCount($G$: graf)}{}
+		\State Zainicjalizuj tablicę booli $T$ o $|V(G)|$ elementach wartością \false
+		\State $count\gets0$
+		\For{$v=0;\;\;v<|V(G)|;\;\;v\pp$}
+			%\If{$T[i]$}\State\textbf{continue}\EndIf
+			\State \algorithmicif\ $T[v]$\ \algorithmicthen\ \textbf{continue} % wersja inline, wolę ją, ale u do u
+			\State $count\pp$
+			\State BFS($G$, $v$, $T$)\quad albo\quad DFS($G$, $v$, $T$)
+		\EndFor
+		\State \Return $count$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
 
 \textbf{Oszacowanie złożoności:} Analogicznie do oszacowania DFS, co daje $O(n + m)$. Przyjmując, że
 graf wejśćiowy ma co najmniej $n$ krawędzi otrzymamy złożoność  $O(m)$.
