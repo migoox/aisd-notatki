@@ -6,7 +6,7 @@
 	\begin{algorithmic}[1]
 		\Procedure{ComputeP}{$x$: napis}
 		\State $P[0], P[1], t \gets 0$
-		\For{$j = 2, \dots, |x|$}
+		\For{$j = 2, \dotsc, |x|$}
 		\While{$ t> 0 \land x[t] \neq x[j-1]$}
 		\State $t \gets P[t]$
 		\EndWhile
@@ -23,7 +23,7 @@
 		\State $n \gets |tekst|$
 		\State $m \gets |wzorzec|$
 		\State $j \gets 0$
-		\For{$i = 0; i \leq n - m; i \pleq \operatorname{max}(j - P[j], 1)$}
+		\For{$i = 0; \;\; i \leq n - m; \;\; i \pleq \operatorname{max}(j - P[j], 1)$}
 			\State {$j = P[j]$}
 			\While {$j < m \land tekst[i+j]=wzorzec[j]$}
 				\State $j\pp$
@@ -53,19 +53,20 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 	\begin{proof}
 		Indukcja po $j$.
 		\begin{itemize}
-			\item Baza indukcji. Długość NWPS wynosi 0 dla napisu długości 0 (oczywiste) oraz napisu długości 1 (bo prefikso-sufiks będący całym napisem nie jest właściwy). $P[0]=P[1]=0$.
-			\item Krok indukcyjny. Załóżmy, że $P[j-1]$ jest długością NWPS $j-1$ pierwszych znaków napisu. Pokażemy, że wtedy $P[j]$ jest długością NWPS $j$ pierwszych znaków $x$.
+			\item Baza indukcji. Długość NWPS wynosi 0 dla napisu długości 0 (oczywiste) oraz dla napisu długości 1 (bo prefikso-sufiks będący całym napisem nie jest właściwy). $P[0]=P[1]=0$.
+			\item Krok indukcyjny. Załóżmy, że $P[k]$, gdzie $k<j$, jest długością NWPS $k$ pierwszych znaków napisu. Pokażemy, że wtedy $P[j]$ jest długością NWPS $j$ pierwszych znaków $x$.
 			
-			Oznaczmy $x' = x[0\dots j-2]$, $T = \operatorname{NWPS}(x')$ oraz $c = x[j-1]$. W pętli \textit{while} iterujemy po kolejnych (w kolejności malejącej długości) prefikso-sufiksach $x'$. Po jej skończeniu zatrzymujemy się na prefikso-sufiksie $T'$. Rozważmy przypadki:
+			Oznaczmy $x' = x[0\dots j-2]$, $T = \operatorname{NWPS}(x')$ oraz $c = x[j-1]$. W pętli \textit{while} iterujemy po kolejnych (w kolejności malejącej długości) prefikso-sufiksach $x'$. Z założenia indukcyjnego są one wyznaczone poprawnie. Po jej skończeniu zatrzymujemy się na prefikso-sufiksie $T'$. Rozważmy przypadki:
 			\begin{itemize}
 				\item $T'$ jest napisem pustym. Wtedy $t=0$ i:
 				\begin{gather*}
 					P[j] = 
 					\begin{cases}
 						1, & \text{gdy } x[0]=c, \\
-						0, & \text{wpp}.
+						0, & \text{wpp},
 					\end{cases}
 				\end{gather*}
+				zatem wartość $P[j]$ jest poprawna.
 				\item $T':=x[0 \dots t-1], t > 0$. Z warunku pętli wynika, że wtedy $x[t]=c$ i z faktu $\ref{prefiksosufiks}$ napis $T'c$ jest prefikso-sufiksem napisu $x'c$ o długości $|T'|+1=P[t]+1$. Ponieważ prefikso-sufiksy rozpatrywaliśmy od najdłuższego, jest to NWPS napisu $x'c$. Wartość wpisana w komórkę $P[j]$ to $P[t]+1$, czyli długość NWPS pierwszych $j$ znaków napisu $x$. \qedhere
 			\end{itemize}		 
 		\end{itemize}
@@ -119,33 +120,34 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 
 \begin{lemma}[Złożoność funkcji \textsc{ComputeP}]
 	\label{lemma:zlozonoscComputeP}
-	Niech $m$ to długość wzorca. Wtedy pesymistyczna złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
+	Niech $m$ będzie długością wzorca. Wtedy pesymistyczna złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
 	\begin{proof}
-		Problematyczną częścią funkcji podczas badania złożoności pesymistycznej jest pętla \textit{while} w linijce nr 4, 
-		ze względu na jej niedeterministyczną liczbę wykonań podczas jednej iteracji pętli \textit{for} z linijki nr 3. Aby poradzić sobie z tym problemem, zliczymy, ile razy wykonuje się ta pętla
+		Problematyczną częścią funkcji podczas badania złożoności pesymistycznej jest pętla \textit{while} w linijce nr 4 
+		ze względu na jej zmienną % ciężką do opisania, nieprzewidywalną, potrzebuję tu pomocy mądrzejszych ludzi
+		liczbę wykonań podczas jednej iteracji pętli \textit{for} z linijki nr 3. Aby poradzić sobie z tym problemem, zliczymy, ile razy wykonuje się ta pętla
 		w czasie działania \textit{całej} funkcji, a nie jednej iteracji.
 		 
 		Pokażmy, że podczas działania całej funkcji operacja $t \gets P[t]$ w linijce nr 5 wykonuje się co najwyżej $m-1$ razy.
 		
-		Zauważmy, że operacja $t\scalebox{0.75}{++}$ wykona się nie więcej niż $m-1$ razy.
-		Ponadto operacja $t \gets P[t]$ może jedynie zmniejszyć $t$. Jako, że $t$ nie może
+		Zauważmy, że operacja $t\pp$ wykona się nie więcej niż $m-1$ razy.
+		Ponadto operacja $t \gets P[t]$ może jedynie zmniejszyć $t$. Jako że $t$ nie może
 		być ujemne, z dwóch poprzednich obserwacji wnioskujemy, że
 		liczba wykonań operacji $t \gets P[t]$ nie może przekroczyć $m-1$.
 		
 		W ten sposób otrzymujemy zamortyzowaną złożoność pętli \textit{while} w linijce nr 4
-		wynoszącą $O(1)$, zatem złożonść funkcji \textsc{ComputeP} wynosi $O(m)$.
+		wynoszącą $O(1)$, zatem złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
 		
 	\end{proof}	
 \end{lemma}
 
 
 \begin{theorem}[Złożoność algorytmu KMP]
-	Niech $n$ to długość tekstu, w którym wyszukujemy wzorzec o długości $m \leq n$. Wtedy pesymistyczna złożoność algorytmu KMP wynosi $O(n)$.
+	Niech $n$ będzie długością tekstu, w którym wyszukujemy wzorzec o długości $m \leq n$. Wtedy pesymistyczna złożoność algorytmu KMP wynosi $O(n)$.
 	\begin{proof}
 		Przez \textit{porównanie negatywne} będziemy rozumieli sytuację w algorytmie
 		(nie w pojedynczej iteracji algorytmu), w której
 		$tekst[i + j] \not = wzorzec[j]$, natomiast przez \textit{porównanie pozytywne}
-		będziemy rozumieli sytuację przeciwną, tzn. $tekst[i + j] = wzorzec[j]$.
+		będziemy rozumieli sytuację przeciwną, tj. $tekst[i + j] = wzorzec[j]$.
 		
 		Zauważmy, że liczba porównań negatywnych w całym algorytmie jest 
 		nie większa niż $n - m + 1$
@@ -156,7 +158,7 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 		Zauważmy, że wyrażenie $i + j$ nigdy nie maleje w czasie działania algorytmu, ponieważ:
 		\begin{enumerate}
 			\item jeśli porównanie jest pozytywne, to wykona się 
-			operacja $j\scalebox{0.75}{++}$ (linijka nr. 18), czyli $i + j$ zwiększy się, 
+			operacja $j\pp$ (linijka nr. 18), czyli $i + j$ zwiększy się, 
 			\item jeśli porównanie jest negatywne, to wykonają się 
 			operacja $i \pleq \max\{j - P[j], 1\}$ (linijka nr 15) oraz
 			operacja $j \gets P[j]$ (linijka nr 16). Oznaczmy przez $i', j'$ kolejno wartości $i$
@@ -167,13 +169,12 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 			a w przeciwnym przypadku
 			\[ i' + j' = i + 1 + j \geq i + j.\]
 		\end{enumerate}
-		
-		
-		Jako, że wartość wyrażenia $i + j$ nie maleje, jest nie większa niż $n$ oraz
-		na początku algorytmu wynosi 0, to operacji $j\scalebox{0.75}{++}$
+				
+		Jako że wartość wyrażenia $i + j$ nie maleje, jest nie większa niż $n$ oraz
+		na początku algorytmu wynosi 0, to operacji $j\pp$
 		jest nie więcej niż $n$.
 		
-		Zatem z faktu, że operacji $j\scalebox{0.75}{++}$ (linijka nr 18) w całym algorytmie jest 
+		Zatem z faktu, że operacji $j\pp$ (linijka nr 18) w całym algorytmie jest 
 		dokładnie tyle, ile wynosi liczba porównań pozytywnych w całym algorytmie, wynika, że
 		liczba porównań pozytywnych w całym algorytmie jest nie większa niż $n$. Otrzymujemy
 		\begin{gather*}
