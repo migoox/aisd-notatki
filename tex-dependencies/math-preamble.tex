@@ -265,7 +265,7 @@
 \settowidth{\ifwidth}{\algorithmicif\ }
 \algdef{SE}[parIF]{parIf}{EndparIf}[1]
 {\parbox[t]{\dimexpr\linewidth-\algmargin}{%
-		\hangindent\ifwidth\strut\algorithmicif\ #1\ \algorithmicdo\strut}}{}%
+		\hangindent\ifwidth\strut\algorithmicif\ #1\ \algorithmicthen\strut}}{}%
 \algnewcommand{\parState}[1]{\State%
 	\parbox[t]{\dimexpr\linewidth-\algmargin}{\strut #1\strut}}
 
