@@ -23,7 +23,7 @@
 		\State $n \gets |tekst|$
 		\State $m \gets |wzorzec|$
 		\State $j \gets 0$
-		\For{$i = 0; i \leq n - m; i \pleq \operatorname{max}(j - P[j], 1)$}
+		\For{$i = 0; \;\; i \leq n - m; \;\; i \pleq \operatorname{max}(j - P[j], 1)$}
 			\State {$j = P[j]$}
 			\While {$j < m \land tekst[i+j]=wzorzec[j]$}
 				\State $j\pp$
@@ -119,9 +119,9 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 
 \begin{lemma}[Złożoność funkcji \textsc{ComputeP}]
 	\label{lemma:zlozonoscComputeP}
-	Niech $m$ to długość wzorca. Wtedy pesymistyczna złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
+	Niech $m$ będzie długością wzorca. Wtedy pesymistyczna złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
 	\begin{proof}
-		Problematyczną częścią funkcji podczas badania złożoności pesymistycznej jest pętla \textit{while} w linijce nr 4, 
+		Problematyczną częścią funkcji podczas badania złożoności pesymistycznej jest pętla \textit{while} w linijce nr 4 
 		ze względu na jej niedeterministyczną liczbę wykonań podczas jednej iteracji pętli \textit{for} z linijki nr 3. Aby poradzić sobie z tym problemem, zliczymy, ile razy wykonuje się ta pętla
 		w czasie działania \textit{całej} funkcji, a nie jednej iteracji.
 		 
@@ -133,19 +133,19 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 		liczba wykonań operacji $t \gets P[t]$ nie może przekroczyć $m-1$.
 		
 		W ten sposób otrzymujemy zamortyzowaną złożoność pętli \textit{while} w linijce nr 4
-		wynoszącą $O(1)$, zatem złożonść funkcji \textsc{ComputeP} wynosi $O(m)$.
+		wynoszącą $O(1)$, zatem złożoność funkcji \textsc{ComputeP} wynosi $O(m)$.
 		
 	\end{proof}	
 \end{lemma}
 
 
 \begin{theorem}[Złożoność algorytmu KMP]
-	Niech $n$ to długość tekstu, w którym wyszukujemy wzorzec o długości $m \leq n$. Wtedy pesymistyczna złożoność algorytmu KMP wynosi $O(n)$.
+	Niech $n$ będzie długością tekstu, w którym wyszukujemy wzorzec o długości $m \leq n$. Wtedy pesymistyczna złożoność algorytmu KMP wynosi $O(n)$.
 	\begin{proof}
 		Przez \textit{porównanie negatywne} będziemy rozumieli sytuację w algorytmie
 		(nie w pojedynczej iteracji algorytmu), w której
 		$tekst[i + j] \not = wzorzec[j]$, natomiast przez \textit{porównanie pozytywne}
-		będziemy rozumieli sytuację przeciwną, tzn. $tekst[i + j] = wzorzec[j]$.
+		będziemy rozumieli sytuację przeciwną, tj. $tekst[i + j] = wzorzec[j]$. % c:
 		
 		Zauważmy, że liczba porównań negatywnych w całym algorytmie jest 
 		nie większa niż $n - m + 1$
@@ -168,8 +168,7 @@ Wprowadźmy skrót NWPS oznaczający najdłuższy właściwy prefikso-sufiks.
 			\[ i' + j' = i + 1 + j \geq i + j.\]
 		\end{enumerate}
 		
-		
-		Jako, że wartość wyrażenia $i + j$ nie maleje, jest nie większa niż $n$ oraz
+		Jako że wartość wyrażenia $i + j$ nie maleje, jest nie większa niż $n$ oraz
 		na początku algorytmu wynosi 0, to operacji $j\scalebox{0.75}{++}$
 		jest nie więcej niż $n$.
 		

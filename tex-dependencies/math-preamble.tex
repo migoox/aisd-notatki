@@ -71,6 +71,9 @@
 % equations and figures counted by sections
 \counterwithin{equation}{section}
 \counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+\counterwithin{table}{section}
 
 \renewcommand\useanchorwidth{T} % https://tex.stackexchange.com/questions/205145/flip-the-underbrace
 \renewcommand\theadalign{bc} % table head align - bottom center
@@ -249,6 +252,23 @@
 	\renewcommand*{\thefootnote}{\arabic{footnote}}%
 }
 
+% custom instructions for algorithmic for proper indentation in multi-line statements
+\makeatletter
+\newcommand{\algmargin}{\the\ALG@thistlm}
+\makeatother
+\newlength{\whilewidth}
+\settowidth{\whilewidth}{\algorithmicwhile\ }
+\algdef{SE}[parWHILE]{parWhile}{EndparWhile}[1]
+{\parbox[t]{\dimexpr\linewidth-\algmargin}{%
+		\hangindent\whilewidth\strut\algorithmicwhile\ #1\ \algorithmicdo\strut}}{\algorithmicend\ \algorithmicwhile}%
+\newlength{\ifwidth}
+\settowidth{\ifwidth}{\algorithmicif\ }
+\algdef{SE}[parIF]{parIf}{EndparIf}[1]
+{\parbox[t]{\dimexpr\linewidth-\algmargin}{%
+		\hangindent\ifwidth\strut\algorithmicif\ #1\ \algorithmicthen\strut}}{}%
+\algnewcommand{\parState}[1]{\State%
+	\parbox[t]{\dimexpr\linewidth-\algmargin}{\strut #1\strut}}
+
 \let\originalleft\left
 \let\originalright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
@@ -258,9 +278,9 @@
 \newcommand{\mieq}{\mathrel{\scalebox{0.75}{-{=}}}}
 \newcommand{\pp}{\scalebox{0.75}{++}}
 \newcommand{\mm}{\scalebox{0.75}{$--$}}
-\usepackage{xspace}
-\newcommand{\true}{\textsf{true\xspace}}
-\newcommand{\false}{\textsf{false\xspace}}
+\newcommand{\true}{\textsf{true}}
+\newcommand{\false}{\textsf{false}}
+
 \usepackage{lmodern}
 
 \captionsetup[table]{font=small}

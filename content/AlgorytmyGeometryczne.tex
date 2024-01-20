@@ -43,9 +43,9 @@ odcinki muszą się przecinać.
 \begin{algorithm}[H]
 	\caption{Sprawdzenie, czy dwa odcinki się przecinają w przestrzeni $\mathbb{R}^3$}
 	\begin{algorithmic}[1]
-		\Procedure{SegmentIntersectionR3($P_1$, $P_2$, $P_3$, $P_4$)}{}
+		\Procedure{SegmentIntersectionR3}{($P_1, P_2$), ($P_3, P_4$): odcinki}
 		\If{$P_1 = P_3 \lor P_1 = P_4 \lor P_2 = P_3 \lor P_2 = P_4$}
-		\State \Return \textit{true}
+		\State \Return \true
 		\EndIf
 		\State $\vec{v}_{12} \gets P_2 - P_1$
 		\State $\vec{v}_{34} \gets P_4 - P_3$
@@ -53,29 +53,29 @@ odcinki muszą się przecinać.
 		\If{$\vec{w} = \mathbf{0}$} \Comment Jeśli odcinki są współliniowe
 		\State $d \gets \max\{|P_1P_3|, |P_1P_4|, |P_2P_3|, |P_2P_4|\}$
 		\If{$d \leq |P_1P_2| + |P_3P_4|$}
-		\State \Return \textit{true}
+		\State \Return \true
 		\EndIf
 		\EndIf
 		\State $\vec{v}_{13} \gets P_3 - P_1$
 		\State $\vec{v}_{14} \gets P_4 - P_1$
 		\If{$(\vec{v}_{12} \times \vec{v}_{14}) \cdot \vec{w}$ oraz 
 		$(\vec{v}_{12} \times \vec{v}_{13}) \cdot \vec{w}$ są tego samego znaku}
-		\State \Return \textit{false}
+		\State \Return \false
 		\EndIf
 		\State $\vec{v}_{32} \gets P_2 - P_3$
 		\State $\vec{v}_{31} \gets P_1 - P_3$
 		\If{$(\vec{v}_{34} \times \vec{v}_{31}) \cdot \vec{w}$ oraz 
 		$(\vec{v}_{34} \times \vec{v}_{32}) \cdot \vec{w}$ są tego samego znaku}
-		\State \Return \textit{false}
+		\State \Return \false
 		\EndIf
-		\State \Return \textit{true}
+		\State \Return \true
 		\EndProcedure
 	\end{algorithmic}
 	\label{segment_intersection_r3}
 \end{algorithm}
 
 Zauważmy, że gdybyśmy powyższy problem rozwiązywali w przestrzeni $\mathbb{R}^2$,
-to podczas badania iloczynów wektorowych, jedyne co nas by interesowało
+to podczas badania iloczynów wektorowych jedyne co interesowałoby nas,
 to znak trzeciej współrzędnej. Z zasady prawej ręki, jeśli
 trzecia współrzędna wektora 
 $\vec{u} \times \vec{v}$ jest dodatnia, to wektor $\vec{v}$
@@ -94,32 +94,32 @@ obliczymy korzystając ze wzoru:
 \begin{algorithm}[H]
 	\caption{Sprawdzenie przecinania się dwóch odcinków w przestrzeni $\mathbb{R}^2$}
 	\begin{algorithmic}[1]
-		\Procedure{Prod2($\vec{u}$,$\vec{v}$)}{}
+		\Procedure{Prod2}{$\vec{u}$,$\vec{v}$: wektory}
 		\State \Return $\vec{u}_x \vec{v}_y - \vec{v}_x \vec{u}_y$
 		\EndProcedure
-		\Procedure{SegmentIntersectionR2($P_1$, $P_2$, $P_3$, $P_4$)}{}
+		\Procedure{SegmentIntersectionR2}{($P_1, P_2$), ($P_3, P_4$): odcinki}
 		\If{$P_1 = P_3 \lor P_1 = P_4 \lor P_2 = P_3 \lor P_2 = P_4$}
-		\State \Return \textit{true}
+		\State \Return \true
 		\EndIf
 		\State $\vec{v}_{12} \gets P_2 - P_1$
 		\State $\vec{v}_{34} \gets P_4 - P_3$
-		\If{Prod2$(\vec{v}_{12}$, $\vec{v}_{34}) = 0$} \Comment Jeśli odcinki są współliniowe
+		\If{\textsc{Prod2}$(\vec{v}_{12}$, $\vec{v}_{34}) = 0$} \Comment Jeśli odcinki są współliniowe
 		\State $d \gets \max\{|P_1P_3|, |P_1P_4|, |P_2P_3|, |P_2P_4|\}$
 		\If{$d \leq |P_1P_2| + |P_3P_4|$}
-		\State \Return \textit{true}
+		\State \Return \true
 		\EndIf
 		\EndIf
 		\State $\vec{v}_{13} \gets P_3 - P_1$
 		\State $\vec{v}_{14} \gets P_4 - P_1$
-		\If{$\text{Prod2}(\vec{v}_{12}$, $\vec{v}_{14})$ $\cdot$ $\text{Prod2}(\vec{v}_{12}$, $\vec{v}_{13}) > 0$}
-		\State \Return \textit{false}
+		\If{$\textsc{Prod2}(\vec{v}_{12}$, $\vec{v}_{14})$ $\cdot$ $\textsc{Prod2}(\vec{v}_{12}$, $\vec{v}_{13}) > 0$}
+		\State \Return \false
 		\EndIf
 		\State $\vec{v}_{32} \gets P_2 - P_3$
 		\State $\vec{v}_{31} \gets P_1 - P_3$
-		\If{$\text{Prod2}(\vec{v}_{34}$, $\vec{v}_{31})$ $\cdot$ $\text{Prod2}(\vec{v}_{34}$, $\vec{v}_{32}) > 0$}
-		\State \Return \textit{false}
+		\If{$\textsc{Prod2}(\vec{v}_{34}$, $\vec{v}_{31})$ $\cdot$ $\textsc{Prod2}(\vec{v}_{34}$, $\vec{v}_{32}) > 0$}
+		\State \Return \false
 		\EndIf
-		\State \Return \textit{true}
+		\State \Return \true
 		\EndProcedure
 	\end{algorithmic}
 	\label{segment_intersection_r2}
@@ -138,7 +138,7 @@ teoriomnogościowej tych odcinków).
 
 Aby rozwiązać ten problem, skorzystamy z metody zamiatania. Dla
 uproszczenia przyjmijmy, że odcinki z wejściowego zbioru $X$ są reprezentowane
-jako dwuwymiarowe punkty takie, że dla każdego punktu, $x$-owa
+jako dwuwymiarowe punkty takie, że dla każdego punktu $x$-owa
 współrzędna jest taka sama.
 
 W ogólności w przestrzeni mamy kilka serii
@@ -157,7 +157,7 @@ do problemu dyskretnego.
 
 W naszym przypadku każde natrafienie miotły na dowolny kraniec odcinka
 traktujemy jako zdarzenie. Jeśli dojdzie do takiego zdarzenia,
-zapiszemy współrzędną $y$ oraz informację czy punkt jest początkiem czy końcem odcinka.
+zapiszemy współrzędną $y$ oraz informację, czy punkt jest początkiem czy końcem odcinka.
 
 W algorytmie \ref{alg:VerticalSegmentsUnionLength} przyjmujemy, że
 struktura \textit{Event} składa się ze zmiennej \textit{Coord}, która reprezentuje
@@ -171,11 +171,11 @@ reprezentuje informację, czy punkt zaczyna odcinek.
 		\State $Events \gets \text{lista}$
 		\For{$AB \in X$}
 			\If{$A_y \leq B_y$}
-				\State \textit{Events}.PushBack($A$, \textit{true})
-				\State \textit{Events}.PushBack($B$, \textit{false})
+				\State \textit{Events}.PushBack($A$, \true)
+				\State \textit{Events}.PushBack($B$, \false)
 			\Else
-				\State \textit{Events}.PushBack($A$, \textit{false})
-				\State \textit{Events}.PushBack($B$, \textit{true})
+				\State \textit{Events}.PushBack($A$, \false)
+				\State \textit{Events}.PushBack($B$, \true)
 			\EndIf
 		\EndFor
 		\State Posortuj rosnąco \textit{Events} względem zmiennej \textit{Coord}
@@ -203,7 +203,7 @@ reprezentuje informację, czy punkt zaczyna odcinek.
 \end{algorithm}
 
 \subsubsection{Znajdowanie pola sumy prostokątów prostopadłych do osi układu współrzędnych}
-Wyobraź sobie prostokąty. Teraz wyobraź sobie pionową linię zamiatającą. Idzie ona od lewej do prawej. Tym
+Wyobraźmy sobie pewien zbiór prostokątów o bokach równoległych do osi układu współrzędnych. Wyobraźmy sobie następnie pionową linię zamiatającą idącą od lewej do prawej. Tym
 razem zatrzymuje się ona za każdym razem, gdy natrafi na pionowy bok prostokąta (każdy prostokąt ma dwa takie
 boki). Takie zatrzymanie nazywamy zdarzeniem. 
 
@@ -219,7 +219,7 @@ reprezentuje informację, czy punkt zaczyna odcinek. Ponadto
 struktura zawiera zmienną \textit{Idx}, która przechowuje
 indeks prostokąta w odpowiedniej tablicy.
 
-Ponadto struktura \textit{Rectangle} tworzona jest przez zmienne \textit{MinX, MinY, MaxX, MaxY}.
+Struktura \textit{Rectangle} tworzona jest przez zmienne \textit{MinX, MinY, MaxX, MaxY}.
 
 \begin{algorithm}[H]
 	\caption{Znajdowanie pola sumy prostokątów}
@@ -227,8 +227,8 @@ Ponadto struktura \textit{Rectangle} tworzona jest przez zmienne \textit{MinX, M
 		\Procedure{RectangleUnionArea}{$R$: tablica prostokątów, $n$: liczba prostokątów}
 		\State $Events \gets \text{lista}$
 		\For{$i \in 1,2, \ldots, n$}
-		\State \textit{Events}.PushBack($R[i]$.MinX, \textit{true}, $i$)
-		\State \textit{Events}.PushBack($R[i]$.MaxX, \textit{false}, $i$)
+		\State \textit{Events}.PushBack($R[i]$.MinX, \true, $i$)
+		\State \textit{Events}.PushBack($R[i]$.MaxX, \false, $i$)
 		\EndFor
 		\State Posortuj rosnąco \textit{Events }względem zmiennej \textit{Coord}
 		\State Niech \textit{currentSegments} oznacza % oznacza cooo? :(
@@ -251,7 +251,7 @@ Ponadto struktura \textit{Rectangle} tworzona jest przez zmienne \textit{MinX, M
 		\EndIf
 		\EndFor
 		
-		\State \Return area
+		\State \Return \textit{area}
 		\EndProcedure
 	\end{algorithmic}
 	\label{alg:RectangleUnionArea}
@@ -264,18 +264,20 @@ w przestrzeni $\R^2$ przecinają się. Ponadto przy drugim wariancie problemu
 założymy, że dysponujemy funkcją, która znajduje punkt wspólny dwóch 
 przecinających się odcinków. 
 
-\textbf{Dane.} Zbiór odcinków $S$ taki, że nie istnieją 3 wierzchołki przecinające
+\paragraph{Dane.} Zbiór odcinków $S$ taki, że nie istnieją 3 wierzchołki przecinające
 się w tym samym punkcie oraz nie istnieją odcinki pionowe.
-\textbf{Wariant 1.} Rozstrzygnięcie, czy w zbiorze wierzchołków istnieje 
+
+\paragraph{Wariant 1.} Rozstrzygnięcie, czy w zbiorze wierzchołków istnieje 
 para przecinających się odcinków.
-\textbf{Wariant 2.} Znalezienie wszystkich punktów przecięć dwóch odcinków ze zbioru $S$.
+
+\paragraph{Wariant 2.} Znalezienie wszystkich punktów przecięć dwóch odcinków ze zbioru $S$.
 
 W celu rozwiązania obu wariantów zastosujemy metodę zamiatania. Wyobraźmy
 sobie dwuwymiarową płaszczyznę, na której rozmieszczone są odcinki ze zbioru $S$.
 Ustawiamy miotłę po lewej stronie tej płaszczyzny. Będziemy przechodzić od lewej do prawej.
 \\
 
-Zajmijmy się teraz \textbf{wariantem 1}.
+Zajmijmy się teraz wariantem 1.
 
 Jako zdarzenie będziemy traktowali natrafienie na punkt zaczynający 
 lub kończący jakiś odcinek należący do zbioru $S$.
@@ -315,6 +317,7 @@ powinna udostępniać następujące metody:
 	\item Delete($s$) -- usunięcie odcinka $s$,
 	\item Above($s$) -- znalezienie ,,górnego'' sąsiada odcinka $s$,
 	\item Below($s$) -- znalezienie ,,dolnego'' sąsiada odcinka $s$,
+
 	\item Interchange($s_1$, $s_2$) -- zmiana uporządkowania odcinków $s_1$ i $s_2$.
 \end{itemize}
 Chcemy, aby powyższe metody miały pesymistyczną złożoność $O(\log(n))$. W tym celu możemy skorzystać ze zrównoważonych drzew BST, czyli
@@ -323,7 +326,7 @@ drzew AVL lub czerwono-czarnych.
 Metoda Interchange jest potrzebna do drugiego wariantu 
 problemu i zostanie szczegółowo omówiona w dalszej części.
 
-Algorytm w \textbf{wariancie 1} będzie polegał na sprawdzaniu, 
+Algorytm w {wariancie 1.} będzie polegał na sprawdzaniu, 
 czy pewne dwa sąsiadujące odcinki na miotle spełniają założenia 
 Obserwacji \ref{obs:miotła}. Jeśli tak, to stanowią kandydatów na przecinające 
 się odcinki. W ten sposób minimalizujemy liczbę sprawdzeń.
@@ -367,9 +370,9 @@ Złożoność powyższego algorytmu jest rzędu $O(n\log n)$, ponieważ liczba z
 rzędu $n$ oraz dla każdego zdarzenia wykonujemy operacje na $X$- i $Y$-strukturze rzędu $\log(n)$.
 \\
 
-Teraz rozważmy \textbf{wariant 2}.
+Teraz rozważmy {wariant 2}.
 
-Zauważmy, że skoro algorytm w \textbf{wariancie 2} ma kontynuować swoje wykonanie po znalezieniu punktu
+Zauważmy, że skoro algorytm w {wariancie 2.} ma kontynuować swoje wykonanie po znalezieniu punktu
 przecięcia, musimy zaktualizować $Y$-strukturę w momencie, w którym
 miotła znajduje się w punkcie przecięcia. 
 
@@ -380,7 +383,7 @@ miotła znajduje się w punkcie przecięcia.
 \end{obs}
 
 Powyższa obserwacja pozwala wywioskować, że aktualizacja w momencie 
-natrafienia miotły na punkt przecięcia dwóch odcinków, powinna polegać
+natrafienia miotły na punkt przecięcia dwóch odcinków powinna polegać
 na zamianie miejscami dwóch odcinków w $Y$-strukturze, których punkt przecięcia znaleźliśmy. 
 Odpowiada za to wcześniej wspomniania funkcja Interchange.
 
@@ -391,7 +394,7 @@ odcinki $s_1$, $s_2$ oraz punkt przecięcia $p$.
 Na koniec zauważmy jeszcze, że kiedy dokonamy takiej zamiany, musimy 
 jeszcze sprawdzić czy nowe sąsiedztwo w strukturze $Y$ zamienionych miejscami 
 odcinków przecina się z nimi. Jeżeli tego nie zrobimy, możemy pominąć niektóre przecięcia.
-Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzyklad_wariant2}.
+Taką przykładową sytuację ilustruje rysunek \ref{fig:zamiatanie_kontrprzyklad_wariant2}.
 % może da się to dokładniej pokazać? ale idk może nie trzeba..
 
 \begin{figure}[H]
@@ -421,25 +424,25 @@ Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzykla
 		\State $p \gets \text{punkt odpowiadający \textit{zdarzeniu}}$
 		\State
 		\If{$p$ jest początkiem odcinika $s$}
-		\If{$s$ przecina się z $Y$.Above($s$) lub z $Y$.Below($s$)
-			$\land$
-			$x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s$, $Y$.Above($s$)
-		albo $Y$.below($s$)\footnote{Zawsze będzie to tylko jeden z nich z założenia o braku pionowych odcinków.} oraz ich punkt przecięcia
-		\EndIf
+		\parIf{$s$ przecina się z $Y$.Above($s$) lub z $Y$.Below($s$)
+			oraz
+			$x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $s$, $Y$.Above($s$)
+		albo $Y$.below($s$)\footnotemark \, oraz ich punkt przecięcia }
+		\EndparIf
 		\ElsIf{$p$ jest końcem odcinka $s$}
-		\If{$Y$.above($s$) przecina się z $Y$.below($s$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.Above($s$), $Y$.Below($s$) oraz ich punkt przecięcia  
-		\EndIf
+		\parIf{$Y$.above($s$) przecina się z $Y$.below($s$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $Y$.Above($s$), $Y$.Below($s$) oraz ich punkt przecięcia }
+		\EndparIf
 		\Else
 		\State $P \gets P \cup \{p\}$
 		\State $Y$.Interchange($s_1$, $s_2$)
-		\If{$s_1$ przecina się z $Y$.Above($s_1$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.Above($s_1$) oraz ich punkt przecięcia
-		\EndIf
-		\If{$s_2$ przecina się z $Y$.Below($s_2$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $p_x$}
-		\State Dodaj do $X$ \textit{zdarzenie} zawierające $s_2$, $Y$.Below($s_2$) oraz ich punkt przecięcia
-		\EndIf
+		\parIf{$s_1$ przecina się z $Y$.Above($s_1$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $s_1$, $Y$.Above($s_1$) oraz ich punkt przecięcia}
+		\EndparIf
+		\parIf{$s_2$ przecina się z $Y$.Below($s_2$) oraz $x$-owa współrzędna tego przecięcia jest większa niż $x_p$}
+		\parState {Dodaj do $X$ \textit{zdarzenie} zawierające $s_2$, $Y$.Below($s_2$) oraz ich punkt przecięcia}
+		\EndparIf
 		\EndIf
 		\EndWhile
 		\State \Return $P$
@@ -447,9 +450,10 @@ Taką przykładową sytuację widać na rysunku \ref{fig:zamiatanie_kontrprzykla
 	\end{algorithmic}
 	\label{HasIntersectingSegments2}
 \end{algorithm}
+\footnotetext{Zawsze będzie to tylko jeden z nich z założenia o braku pionowych odcinków.}
 
 Warto zwrócić uwagę na to, że dodajemy zdarzenie tylko wtedy, kiedy
-$x$-owa współrzędna tego przecięcia jest większa niż $p_x$. Gdybyśmy tego nie zrobili,
+$x$-owa współrzędna tego przecięcia jest większa niż $x_p$. Gdybyśmy tego nie zrobili,
 pojawią się przypadki, w których będziemy badali dwukrotnie ten sam punkt, co 
 może sprawiać problemy implementacyjne.
 
@@ -516,7 +520,13 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 		Niech $P$ to pewien zbiór punktów, wtedy przez $\operatorname{CH}(P)$, będziemy rozumieli otoczkę wypukłą na zbiorze punktów $P$.
 		\phantom{a}
 		\begin{enumerate}
-			\item Jako $S_k$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ do otoczki (tzn. po $(k-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots P[k]\}$.
+			\item Pokażemy, że $P[0]$ jest wierzchołkiem otoczki wypukłej $P$. 
+			
+			Załóżmy nie wprost, że $P[0]$ nie jest wierzchołkiem $\operatorname{CH}(P)$. Wtedy istnieje krawędź $\operatorname{CH}(P)$ znajdująca się pod $P[0]$, co oznacza, że istnieje punkt (koniec tej krawędzi) o mniejszej współrzędnej $y$ -- sprzeczność, bo z definicji $P[0]$ jest punktem o najmniejszej współrzędnej $y$.
+			
+			Analogicznie dowodzimy w przypadku, gdy jest kilka punktów o tej samej współrzędnej $y$.
+		
+			\item Jako $S_k$ oznaczmy ciąg punktów na stosie po dodaniu punktu $P[k]$ do otoczki (tzn. po $(k-1)$-szej iteracji). Pokażemy niezmiennik pętli \textit{for}: punkty w $S_{k}$ stanowią otoczkę wypukłą zbioru $\{P[0], P[1], \dots, P[k]\}$.
 			
 			\begin{itemize}
 				\item Baza indukcji. Przed pętlą \textit{for} ciąg $S_1$ opisuje odcinek $(P[0], P[1])$, który naturalnie jest otoczką wypukłą zbioru  $\{P[0], P[1]\}$.
@@ -542,7 +552,7 @@ W celu opisania algorytmu Grahama potrzebujemy zdefiniować pojęcie lewego oraz
 						\begin{figure}[H]
 							\centering
 							\includegraphics[width=\textwidth]{data/graham2.png}
-							\caption{\small Usuwając punkty z $S$ w pętli \textit{while} mamy pewność, że nie leżą one na brzegu szukanej otoczki wypukłej.}
+							\caption{\small Usuwając punkty z $S$ w pętli \textit{while} mamy pewność, że nie leżą one na brzegu szukanej otoczki wypukłej}
 							\label{fig:graham:usuwanie}
 						\end{figure}
 					\end{minipage}				

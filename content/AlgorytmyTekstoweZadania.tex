@@ -1,9 +1,9 @@
-\subsection{Zadanie 1 -- najdłuższy prefiks}
-\paragraph{Treść:}
+\subsection{Szukanie najdłuższego prefiksu (8.1)}
+\paragraph{Treść.}
 Dany jest wzorzec $x$ oraz napis $y$. Zaprojektuj algorytm, który znajdzie najdłuższy prefiks $x$ zawarty w napisie $y$ w czasie $O(|x|+|y|)$.
 
-\paragraph{Rozwiązanie:}
-W zadaniu tym można wykorzystać modyfikację algorytmu KMP (\ref{KMP}), która zapamiętuje pozycję i długość najdłuższego znalezionego prefiksu.
+\paragraph{Rozwiązanie.}
+W zadaniu tym można wykorzystać modyfikację \hyperref[KMP]{algorytmu KMP}, która zapamiętuje pozycję i długość najdłuższego znalezionego prefiksu.
 
 \begin{algorithm}[H]
 	\caption{Algorytm \emph{LongestMatchingPrefix}}
@@ -33,18 +33,18 @@ W zadaniu tym można wykorzystać modyfikację algorytmu KMP (\ref{KMP}), która
 	\end{algorithmic}
 \end{algorithm}
 
-\subsection{Zadanie 2 -- szukanie przynajmniej połowy wzorca}
+\subsection{Szukanie przynajmniej połowy wzorca (8.2)}
 
-\subsection{Zadanie 4 -- dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{?}'}
+\subsection{Dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{?}' (8.4)}
 \label{zadanie8.4}
-\paragraph{Treść:}
+\paragraph{Treść.}
 Problem dopasowania wzorca ze znakami nieznaczącymi różni się od problemu wyszukiwania wzorca w tekście tylko tym, że wzorzec może zawierać specjalny znak '\texttt{?}', który pasuje do każdego znaku.
 
 Zaprojektuj algorytm rozwiązujący ten problem w czasie $O(nk)$, gdzie $n$ jest długością tekstu, a $k$ -- liczbą znaków nieznaczących we wzorcu.
-\paragraph{Rozwiązanie:}
+\paragraph{Rozwiązanie.}
 Dzielimy wzorzec wg. znaku '\texttt{?}' na $k+1$ podwzorców (być może niektóre są puste, bo kilka '\texttt{?}' stoi obok siebie, ale nie szkodzi). Tworzymy tablicę $n\times(k+1)$, gdzie na pozycji $(i,j)$ znajduje się informacja, czy na $i$-tej pozycji tekstu znajduje się $j$-ty podwzorzec. Korzystając z KMP, wyszukujemy każdy podwzorzec w tekście i zapisujemy w tablicy odpowiednią informację o jego obecności. Dla pustych podwzorców wypełniamy cały wiersz informacją o jego znalezieniu, żeby zapewnić sobie poprawne działanie dalszej części algorytmu.
 
-Następnie przeglądamy wygenerowaną tablicę w celu znalezienia wystąpienia całego wzorca. Po znalezieniu wystąpienia pierwszego podwzorca, tj. na pozycji $(i_0, 0)$, przesuwamy się o jeden wiersz w dół i długość podwzorca plus jeden w prawo, to znaczy w miejsce, gdzie spodziewamy się dopasowania kolejnego podwzorca. Robimy tak, aż do znalezienia ostatniego podwzorca, gdyż wtedy dopasowaliśmy cały wzorzec. Jeśli którykolwiek podwzorzec po drodze nie został znaleziony, to przerywamy operację i przechodzimy do kolejnego wystąpienia pierwszego podwzorca, tj. $(i_1,0)$ i powtarzamy szukanie.\daggerfootnote{Możemy usprawnić ten algorytm zauważając następujący niezmiennik: kolejne podwzorce będą znajdować się w tekście dalej, niż poprzednie. Co za tym idzie, możemy wywołać KMP dopiero od pierwszego dopasowania poprzedniego podwzorca.}
+Następnie przeglądamy wygenerowaną tablicę w celu znalezienia wystąpienia całego wzorca. Po znalezieniu wystąpienia pierwszego podwzorca, tj. na pozycji $(i_0, 0)$, przesuwamy się o jeden wiersz w dół i długość podwzorca plus jeden w prawo -- to znaczy w miejsce, gdzie spodziewamy się dopasowania kolejnego podwzorca. Robimy tak aż do znalezienia ostatniego podwzorca, gdyż wtedy dopasowaliśmy cały wzorzec. Jeśli którykolwiek podwzorzec po drodze nie został znaleziony, to przerywamy operację i przechodzimy do kolejnego wystąpienia pierwszego podwzorca, tj. $(i_1,0)$ i powtarzamy szukanie.\daggerfootnote{Możemy usprawnić ten algorytm zauważając następujący niezmiennik: kolejne podwzorce będą znajdować się w tekście dalej, niż poprzednie. Co za tym idzie, możemy wywołać KMP dopiero od pierwszego dopasowania poprzedniego podwzorca.}
 
 Załóżmy, że szukamy wzorca ,,\texttt{AAB?XYZ}'' w tekście ,,\texttt{XYZAABAABCXYZA}''.
 \begin{table}[H]
@@ -63,6 +63,6 @@ podwzorzec $1$\RowStyle{\color{ForestGreen}}&X&Y&Z&&&&&\color{red}X&&&X&Y&Z&\\
 
 Algorytm ten wywołuje KMP $k+1$ razy, zatem jego złożoność to $O(nk)$.
 
-\subsection{Zadanie 5 -- dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{*}'}
-\paragraph{Treść:}
+\subsection{Dopasowanie wzorca ze znakami nieznaczącymi typu '\texttt{*}' (8.5)}
+\paragraph{Treść.}
 Rozwiąż zadanie \ref{zadanie8.4} w wersji ogólniejszej, ze znakiem '\texttt{*}' we wzorcu, który pasuje do każdego ciągu znaków o długości nie większej niż $d$, dla zadanej stałej $d$.
