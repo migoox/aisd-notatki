@@ -2,7 +2,7 @@
 \begin{defi}
 	Sieć przepływowa to graf skierowany $G$
 	z funkcją wag $c: E(G) \to 
-	\mathbb{R}_{\geq 0} \cup \{\infty\}$ oraz
+	{\mathbb{R}_{\geq 0} \cup \{\infty\}}$ oraz
 	wyróżnionymi wierzchołkami $s$ i $t$. Mówimy, że
 	\begin{itemize}[noitemsep, nolistsep]
 		\item $c(e)$ to przepustowość krawędzi $e \in E(G)$,
@@ -29,7 +29,7 @@
 \end{defi}
 
 \subsection{Problem maksymalnego przepływu}
-Dana jest sieć przepływowa $(G, c, s, t)$ szukamy przepływu $f$
+Dana jest sieć przepływowa $(G, c, s, t)$. Szukamy przepływu $f$
 o maksymalnej możliwej wartości $\text{val}(f)$. 
 
 \begin{defi}
@@ -39,18 +39,17 @@ o maksymalnej możliwej wartości $\text{val}(f)$.
 	równym $\{uv : c_f(uv) > 0\}$, gdzie funkcja $c_f$ jest 
 	zdefiniowana następująco
 	\begin{itemize}
-		\item $c_f(uw) = c(uw) - f(uw)$, gdy $uw \in E(G)$ oraz $wu \not \in E(G)$ (krawędź w przód)
-		\item $c_f(uw) = f(wu)$, gdy $uw \not \in E(G)$ oraz $wu \in E(G)$ (krawędź wstecz)
-		\item $c_f(uw) = c(uw) - f(uw) + f(wu)$, gdy 
-		$uw \in E(G)$ oraz $wu \in E(G)$
+		\item $c_f(uv) = c(uv) - f(uv)$, gdy $uv \in E(G)$ oraz $vu \not \in E(G)$ (krawędź w przód)
+		\item $c_f(uv) = f(vu)$, gdy $uv \not \in E(G)$ oraz $vu \in E(G)$ (krawędź wstecz)
+		\item $c_f(uv) = c(uv) - f(uv) + f(vu)$, gdy 
+		$uv \in E(G)$ oraz $vu \in E(G)$
 	\end{itemize}
 \end{defi}
 
-Intuicyjnie $c_f(uw)$ możemy
-rozumieć jako określenie ile jednostek przepływu 
-jesteśmy w stanie ,,przepuścić'' z $u$ do $w$, co
-możemy osiągnąć albo zwiększając przepływ na krawędzi $uw$,
-albo zmniejszając przepływ na krawędzi $wu$.
+Intuicyjnie $c_f(uv)$ określa, ile jednostek przepływu 
+jesteśmy w stanie ,,przepuścić'' z $u$ do $v$, co
+możemy osiągnąć albo zwiększając przepływ na krawędzi $uv$,
+albo zmniejszając przepływ na krawędzi $vu$.
 
 Warto zauważyć, że w sieci rezydualnej rozpatrujemy tylko te 
 krawędzie, dla których przepustowość rezydualna jest większa niż 0.
@@ -68,13 +67,13 @@ $\min\limits_{uw \in E(P)} \{c_f(uw)\}$.
 \subsubsection{Algorytm Forda-Fulkersona}
 
 \begin{algorithm}[H]
-	\caption{Algorytm Forda-Fulkersona}\label{ford-fulker_alg}
+	\caption{Algorytm Forda-Fulkersona}\label{alg:ford-fulker}
 	\begin{algorithmic}[1]
-		\Procedure{FordFulkerson($(G, w)$, $s$, $t$)}{}
-		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
+		\Procedure{FordFulkerson}{$(G, c, s, t)$: sieć}
+		\State $f$ $\gets$ zerowy przepływ w sieci $(G,c,s,t)$
 		\State Utwórz sieć rezydualną $(R, c_f)$ dla wejściowej 
 		sieci przepływowej oraz dla $f$ 
-		\While{Istnieje ścieżka powiększająca $P$ w $R$}
+		\While{istnieje ścieżka powiększająca $P$ w $R$}
 		\State Oznaczmy $P = v_1v_2\dots v_k$ (gdzie $v_1 = s$ oraz $v_k = t$)
 		\State $a \gets \min_{i \in \{1, 2, \dots, k-1\}} r(v_iv_{i+1})$
 		\State Powiększ $f$ o $a$ na wszystkich krawędziach $P$
@@ -95,8 +94,8 @@ $\min\limits_{uw \in E(P)} \{c_f(uw)\}$.
 
 Uwaga: zwykle 
 zakładamy, że przepustowości krawędzi są liczbami całkowitymi, 
-ponieważ, wówczas po każdym 
-wykonaniu pętli while, wartość przepływu $f$ zwiększy się
+ponieważ wówczas po każdym 
+wykonaniu pętli \textit{while} wartość przepływu $f$ zwiększy się
 przynajmniej o 1, co umożliwia oszacowanie
 złożoności algorytmu. 
 
@@ -117,14 +116,14 @@ Taka modyfikacja daje nam gwarancję, że
 algorytm zakończy się w czasie wielomianowym.
 
 \begin{algorithm}[H]
-	\caption{Edmonds-Karp}\label{edmonds-karp_alg}
+	\caption{Algorytm Edmondsa-Karpa}\label{alg:edmonds-karp}
 	\begin{algorithmic}[1]
-		\Procedure{EdmondsKarp($G, w$, $s$, $t$))}{}
-		\State Niech $f$ to zerowy przepływ w sieci $(G,c,s,t)$
+		\Procedure{EdmondsKarp}{$(G, c, s, t)$: sieć}
+		\State  $f$ $\gets$ zerowy przepływ w sieci $(G,c,s,t)$
 		\State Utwórz sieć rezydualną $(R, c_f)$ dla wejściowej 
 		sieci przepływowej oraz dla $f$ 
-		\While{Istnieje ścieżka powiększająca w $R$}
-		\State Niech $P = v_1v_2\dots v_k$ będzie \textbf{najkrótszą}
+		\While{istnieje ścieżka powiększająca w $R$}
+		\State Niech $P = v_1v_2\dots v_k$ będzie \emph{najkrótszą}
 		ścieżką powiększająca (gdzie $v_1 = s$ oraz $v_k = t$)
 		\State $a \gets \min_{i \in \{1, 2, \dots, k-1\}} r(v_iv_{i+1})$
 		\State Powiększ $f$ o $a$ na wszystkich krawędziach $P$
@@ -147,26 +146,26 @@ algorytm zakończy się w czasie wielomianowym.
 		rezydualnej odpowiadającej przepływowi $f$ (inaczej: odległość
 		od $u$ do $v$ w sensie liczby krawędzi w sieci rezydualnej dla $f$).
 		
-		Niech $P_1, P_2, \dots P_k$ to wszystkie najkrótsze
-		$s$-$v$-ścieżki w sieci rezydualnej odpowiadającej przepływowi
+		Niech $P_1, P_2, \dots P_k$ będą wszystkimi najkrótszymi
+		$s$-$v$-ścieżkami w sieci rezydualnej odpowiadającej przepływowi
 		$f$, wtedy 
 		\[L_f := \left|\bigcup_{i \in [k]} E(P_i)\right|.\]
 		
-		\textbf{Stwierdzenie 1:} Niech $f$ będzie przepływem przed
-		pewną iteracją pętli w linii nr. 4, a $f'$ przepływem 
+		\paragraph{Stwierdzenie 1.} Niech $f$ będzie przepływem przed
+		pewną iteracją pętli w linii nr 4, a $f'$ przepływem 
 		po tej iteracji. Wówczas
-		dla każdego $v$ zachodzi $d_{f'}(s, v) \geq d_{f}(s,v)$,
+		dla każdego $v$ zachodzi $d_{f'}(s, v) \geq d_{f}(s,v)$.
 		
-		\textbf{Dowód stwierdzenia 1:}
-		Przypuśćmy, że tak nie jest, tzn., że istnieje 
+		\paragraph{Dowód stwierdzenia 1.}
+		Przypuśćmy, że tak nie jest, tzn. że istnieje 
 		taki wierzchołek $v \in V(G)$, że $d_{f'}(s, v) < d_f(s,v)$.
 		Bez straty ogólności przyjmijmy, że $v$
 		minimalizuje $d_{f'}(s,v)$ spośród takich problematycznych 
-		wierzchołków - tzn., że dla każdego wierzchołka $x$, dla 
+		wierzchołków -- tzn., że dla każdego wierzchołka $x$, dla 
 		którego $d_{f'}(s, x) < d_{f'}(s, v)$ prawdą jest, że 
 		$d_{f'}(s, x) \geq d_f(s,x)$.
 		
-		Niech $P'$ to najkrótsza w sensie liczby krawędzi $s$-$v$-ścieżka
+		Niech $P'$ będzie najkrótszą w sensie liczby krawędzi $s$-$v$-ścieżką
 		w sieci rezydualnej odpowiadającej $f'$. Przez $w$ oznaczmy 
 		przedostatni wierzchołek na ścieżce $P'$. Rozpatrzmy
 		teraz dwa przypadki:
@@ -203,83 +202,83 @@ algorytm zakończy się w czasie wielomianowym.
 		
 		Zatem stwierdzenie 1 jest prawdziwe.
 		
-		\textbf{Stwierdzenie 2:} Niech $f$ będzie przepływem przed
+		\paragraph{Stwierdzenie 2.} Niech $f$ będzie przepływem przed
 		pewną iteracją pętli w linii nr. 4, a $f'$ przepływem 
 		po tej iteracji. Wówczas 
 		jeżeli $d_{f'}(s, t) = d_f(s,t)$, to $L_{f'} < L_f$.
 		
-		\textbf{Dowód stwierdzenia 2:} Najpierw pokażemy, że
-		każda krawędź licząca się do $L_{f'}$, musi zaliczać się
+		\paragraph{Dowód stwierdzenia 2.} Najpierw pokażemy, że
+		każda krawędź licząca się do $L_{f'}$ musi zaliczać się
 		również do $L_f$. W tym celu rozważmy pewną najkrótszą (względem
-		liczby krawędzi) ścieżkę $P' = w_0 w_1 \dots w_k$,
+		liczby krawędzi) ścieżkę $P' = w_0 w_1 \dots w_k$ 
 		w sieci rezydualnej dla $f'$,
 		gdzie $s = w_0$, $t = w_k$ oraz $k = d_{f'}(s, t)$.
 		Rozważmy odległości kolejnych wierzchołków na ścieżce 
 		od $s$ w sieci rezydualnej dla $f$. 
 		
 		Rozważmy dwa przypadki dla krawędzi $w_i w_{i+1}$:
-		\begin{itemize}
-			\item[1.] Krawędź $w_i w_{i+1}$ była obecna w sieci rezydualnej
-			dla przepływu $f$, wtedy musi zachodzić 
+		\begin{enumerate}
+			\item Krawędź $w_i w_{i+1}$ była obecna w sieci rezydualnej
+			dla przepływu $f$. Wtedy musi zachodzić 
 			\[d_f(w_{i+1}) \leq d_f(w_{i}) + 1.\]
-			\item[2.] Krawędź $w_i w_{i+1}$ nie była obecna w sieci rezydualnej
-			dla przepływu $f$, wtedy musi zachodzić
+			\item Krawędź $w_i w_{i+1}$ nie była obecna w sieci rezydualnej
+			dla przepływu $f$. Wtedy musi zachodzić
 			\[d_f(w_{i+1}) \leq d_f(w_{i}) - 1,\]
 			ponieważ krawędź $w_i w_{i+1}$ została dodana
 			do sieci rezydualnej $f'$ wskutek powiększenia przepływu
 			wzdłuż ścieżki $P$ wybranej w linii nr. 5.
-		\end{itemize}
+		\end{enumerate}
 		
 		Kumulując powyższe przypadki, otrzymamy
 		\[d_{f}(s, t) \leq d_{f}(s, w_{k-1}) \pm 1 \leq
 		(d_{f}(s, w_{k-2}) \pm 1) \pm 1 \leq \ldots \leq A - B,\]
 		gdzie $A$ oznacza liczbę wystąpień przypadku 1., z kolei
-		$B$ - liczbę wystąpień przypadku 2. Ale z założenia 
+		$B$ -- liczbę wystąpień przypadku 2. Jednak z założenia 
 		$d_{f'}(s,t)=d_f(s,t)$, więc ścieżka $P'$ ma dokładnie $d_f(s,t)$
 		krawędzi, co pociąga za sobą $B = 0$ (bo wyrażenie
 		$A-B$ jest maksymalnie równe $d_f(s,t)$), z czego wynika, 
 		że żadna z krawędzi 
 		ścieżki $P'$ nie może realizować przypadku 2. Z tego 
-		rozumowania wynika, że każda krawędź na ścieżce $P'$
+		rozumowania otrzymujemy, że każda krawędź na ścieżce $P'$
 		znajdowała się w sieci rezydualnej dla $f$. Z dowolności wyboru
 		$P'$ każda krawędź licząca się do $L_{f}$ musi też zaliczać się
 		do $L_{f'}$, co chcieliśmy pokazać.
 		
 		Teraz zauważmy, że przynajmniej jedna krawędź wliczająca
-		się do $L_f$ nie wlicza się do $L_{f'}$, jest to krawędź 
-		o przepustowości $a$ (linijka nr. 6), która znajduje się
-		na ścieżce $P$ wybranej w linii nr. 5. Zatem ostatecznie 
+		się do $L_f$ nie wlicza się do $L_{f'}$. Jest to krawędź 
+		o przepustowości $a$ (linijka nr 6), która znajduje się
+		na ścieżce $P$ wybranej w linii nr 5. Zatem ostatecznie 
 		\[L_{f'} < L_f,\]
 		a więc dowód stwierdzenia 2. jest kompletny.
 		
-		Z obu powyższych stwierdzeń możemy wywnioskować, dwa przypadki
-		\begin{itemize}
-			\item[1.] $d_{f'}(s, t) > d_f(s, t)$,
-			\item[2.] $d_{f'}(s, t) = d_f(s, t) \Rightarrow 
+		Z obu powyższych stwierdzeń możemy wyodrębnić dwa przypadki:
+		\begin{enumerate}
+			\item $d_{f'}(s, t) > d_f(s, t)$,
+			\item $d_{f'}(s, t) = d_f(s, t) \Rightarrow 
 			L_{f'} < L_f$.
-		\end{itemize}
+		\end{enumerate}
 		Oba powyższe przypadki implikują, że z sieci rezydualnej została 
 		usunięta co najmniej jedna krawędź, co pozwala nam 
-		dokonać oszacowania.
+		dokonać poniższego oszacowania.
 		
 		W pesymistycznym przypadku mamy $n-1$ $s$-$t$-ścieżek oraz 
-		pesymistycznie usuwamy dokładnie jedną krawędź w każdej iteracji
-		co ostatecznie daje nam nie więcej niż $nm$ wywołań pętli w nr 4.
-		Ponadto w każdej iteracji wywołujemy BFS w celu znalezienia najkrótszej
-		ścieżki, z kosztem $O(m)$. Zatem złożoność algorytmu Edmondsa-Karpa
-		to $O(nm^2)$. \textbf{TODO Marcin:} \textit{Wytłumaczyć to inaczej}
+		pesymistycznie usuwamy dokładnie jedną krawędź w każdej iteracji. 
+		Ostatecznie daje nam to nie więcej niż $nm$ wywołań pętli w wierszu nr 4.
+		Ponadto w każdej iteracji z kosztem $O(m)$ wywołujemy BFS w celu znalezienia najkrótszej
+		ścieżki. Zatem złożoność algorytmu Edmondsa-Karpa
+		to $O(nm^2)$.  \qedhere
 		
 	\end{proof}
 \end{theorem}
 
-\subsection{Problem MinCostMaxFlow}
-\textbf{Dane:}
-\begin{itemize}
+\subsection{Problem \textit{MinCostMaxFlow}}
+\paragraph{Dane.}
+\begin{itemize}[noitemsep, nolistsep]
 	\item Sieć przepływowa $(G, c, s, t)$
 	\item Funkcja kosztu $k : E(G) \to \mathbb{R}$
 \end{itemize}
 
-\textbf{Szukane:}
+\paragraph{Szukane.}
 Maksymalny przepływ $f$, który minimalizuje koszt 
 \[k(f) := \sum_{e\in E(G)}k(e)f(e).\]
 
@@ -295,17 +294,17 @@ $k(f)$ jest najmniejsze.
 	krawędzi równym $\{ uv: c_f(uv) > 0\}$, gdzie funkcje 
 	$c_f$ i $k_f$ są zdefiniowane następująco:
 	\begin{itemize}
-		\item $c_f(uw) = c(uw) - f(uw)$ i $k_f(uw) = k(uw)$,
-		jeśli $uw \in E(G)$ oraz $wu \not \in E(G)$
-		\item $c_f(uw) = f(uw)$ i $k_f(uw) = -k(uw)$,
-		jeśli $uw \not \in E(G)$ oraz $wu \in E(G)$
+		\item $c_f(uv) = c(uv) - f(uv)$ i $k_f(uv) = k(uv)$,
+		jeśli $uv \in E(G)$ oraz $vu \not \in E(G)$
+		\item $c_f(uv) = f(uv)$ i $k_f(uv) = -k(uv)$,
+		jeśli $uv \not \in E(G)$ oraz $vu \in E(G)$
 	\end{itemize} 
 \end{defi}
 W powyższej definicji nie uwzględniamy przypadku kiedy 
-$uw \in E(G)$ oraz $wu \in E(G)$, ponieważ w takiej sytuacji
+$uv \in E(G)$ oraz $vu \in E(G)$, ponieważ w takiej sytuacji
 sieć rezydualna jest multigrafem, który utrudnia reprezentację. 
-Jako, że taką sytuację można łatwo rozwiązać tworząć podpodział
-krawędzi $uw$ lub $wu$, przyjmujemy, że operujemy na grafach,
+Jako że taką sytuację można łatwo rozwiązać tworząć podpodział
+krawędzi $uv$ lub $vu$, przyjmujemy, że operujemy na grafach,
 w których takie sytuacje nie występują.
 
 \begin{theorem}
@@ -316,20 +315,20 @@ w których takie sytuacje nie występują.
 	odpowiadająca mu sieć rezydualna z kosztami
 	nie zawiera cyklu o ujemnym koszcie.
 	\begin{proof}
-		Przez $(R_f, c_f, k_f)$, będziemy oznaczali sieć rezydualną
+		Przez $(R_f, c_f, k_f)$ będziemy oznaczali sieć rezydualną
 		z kosztami odpowiadającą przepływowi $f$, gdzie $c_f$ 
 		jest funkcją przepustowości, a $k_f$ funkcją kosztów.
 		Zauważmy, że $(R_f, c_f)$ oraz $(R_f, k_f)$ są ważonymi 
 		grafami skierowanymi.
 		
 		Najpierw pokażemy, że jeśli $(R_f, k_f)$ zawiera ujemny cykl,
-		to maksymalny przepływ $f$ nie minimalnego kosztu.
+		to maksymalny przepływ $f$ nie ma minimalnego kosztu.
 		Niech $C$ będzie ujemnym cyklem w $(R_f, k_f)$, tzn. $k_f(C) < 0$.
-		Niech $a$ to najmniejsza przepustowość w $(R_f, c_f, k_f)$, pewnej
+		Niech $a$ będzie najmniejszą przepustowością w $(R_f, c_f, k_f)$ pewnej
 		krawędzi na $C$, tzn.
 		\[a := \min_{uw \in C} c_f(uw) > 0,\]
 		gdzie nierówność wynika z definicji sieci rezydualnej. Rozważmy 
-		przepływ $f'$, taki, że, dla każdego
+		przepływ $f'$ taki, że dla każdego
 		$e \in E(G)$
 		\[f'(e) = \begin{cases} 
 			f(e) + a, &  e \in C \\
@@ -338,17 +337,17 @@ w których takie sytuacje nie występują.
 		Zauważmy, że wartość przepływu $f'$ jest taka sama
 		jak wartość przepływu $f$, zatem $f'$ również jest
 		maksymalnym przepływem. Ponadto zachodzi 
-		\[k(f') = k(f) + ak_f(C),\]
-		skoro $k_f(C)$ jest ujemne, to 
+		\[k(f') = k(f) + ak_f(C).\]
+		Skoro $k_f(C)$ jest ujemne, to 
 		\[k(f') > k(f),\]
-		czyli znaleźliśmy inny przepływ maksymalny o mniejszym koszcie
+		czyli znaleźliśmy inny przepływ maksymalny o mniejszym koszcie,
 		co kończy tę część dowodu.
 		
 		Pokażemy teraz, że jeśli maksymalny przepływ $f$
 		nie jest minimalnego kosztu, to w $(R_f, k_f)$ musi istnieć
 		ujemny cykl. Rozważmy przepływ $f'$, który jest
 		maksymalnym przepływem o minimalnym koszcie różniącym
-		się od $f$ na najmniejszej możliwej liczbie krawędzi tzn.
+		się od $f$ na najmniejszej możliwej liczbie krawędzi, tzn.
 		dla każdego maksymalnego przepływu $f''$ prawdą jest, że
 		\[|\{e \in E(G) : f'(e) \not = f(e)\}| \leq 
 		|\{e \in E(G) : f''(e) \not = f(e)\}|.\]
@@ -370,14 +369,14 @@ w których takie sytuacje nie występują.
 		\[f^{'+}(v) - f^+(v) = f^{'-}(v) - f^{-}(v),\]
 		więc jeśli do $v$ wchodzi jakaś krawędź z $S$, to 
 		z powyższej równości oraz definicji $S$ wynika, że
-		musi z niego wychodzić jakaś krawędź z $S$. Jako, że
-		liczba wierzchołków jest skończona powyższy fakt musi 
+		musi z niego wychodzić jakaś krawędź z $S$. Jako że
+		liczba wierzchołków jest skończona, powyższy fakt musi 
 		pociągać za sobą istnienie cyklu wewnątrz zbioru $S$ (bo
 		nie możemy wychodzić
 		do nieodwiedzonego wierzchołka w nieskończoność).
 		
 		Niech $C$ będzie cyklem w $S$, a więc również 
-		cyklem w sieci rezydualnej $f$; przez $C'$ oznaczmy
+		cyklem w sieci rezydualnej $f$. Przez $C'$ oznaczmy
 		odwrotność cyklu $C$, tzn. $C' := \{wu : uw \in C\}$.
 		Zauważmy, że $C'$ jest cyklem w $S'$, a więc jest
 		również cyklem w sieci rezydualnej $f'$. 
@@ -386,32 +385,34 @@ w których takie sytuacje nie występują.
 		przez $a$ najmniejszą wartość z $f'(uw) - f(uw)$ po krawędziach
 		$uw \in C$ spełniających $f(uw) < f'(uw)$ oraz z 
 		$f(wu) - f'(wu)$ po krawędziach $wu \in C$ spełniających
-		$f(wu) > f'(wu)$. Intuicyjnie, $a$ jest taką wartościa, 
+		$f(wu) > f'(wu)$. (Intuicyjnie $a$ jest taką wartością, 
 		że
-		możemy powiększyć przepływ $f$ wzdłuż cyklu $C$ o $a$ 
+		możemy powiększyć przepływ $f$ wzdłuż cyklu $C$ o $a$,
 		nie przekraczając przepustowości krawędzi oraz 
 		takie powiększenie
 		spowoduje, że któraś z krawędzi $C$ przestanie 
-		„zaliczać się” do zbioru $S$.
+		„zaliczać się” do zbioru $S$).
 		
-		Zauważmy, że gdyby $k_f(C) > 0$ , wówczas $k_{f'}(C) < 0$
+		Zauważmy, że gdyby $k_f(C) > 0$, mielibyśmy  $k_{f'}(C) < 0$
 		co jest sprzeczne, bo $f'$ jest maksymalnym
-		przepływem o minimalnym koszcie a już pokazaliśmy,
-		że to implikuje brak ujemnych cykli
-		w sieci rezydualnej z kosztem.
+		przepływem o minimalnym koszcie, a jak pokazaliśmy,
+		nie byłoby wtedy ujemnych cykli
+		w sieci rezydualnej z kosztem dla przepływu $f'$. 
+		% w którą stronę jest implikacja? "implikuje to" jest dla mnie niejednoznaczne,
+		% czym jest "to"? 
 		
-		W przypadku kiedy $k_f(C) = 0$ to oznaczałoby że $k_{f'}(C)=0$,
+		W przypadku kiedy $k_f(C) = 0$, oznaczałoby to, że $k_{f'}(C)=0$,
 		a więc przepływ $f'' := f' + aC'$, czyli przepływ otrzymany
-		z $f'$ poprzez powiększenie wzdłuż cyklu $C'$ o $a$ również 
-		jest maksymalnym przepływem o minimalnym koszcie, jednakże
+		z $f'$ poprzez powiększenie wzdłuż cyklu $C'$ o $a$, również 
+		jest maksymalnym przepływem o minimalnym koszcie. Jednakże
 		ze sposobu wyboru $a$ wynika, że $f''$ różni się od $f$
 		na mniejszej liczbie krawędzi niż $f'$, co stoi w 
 		sprzeczności ze sposobem wyboru $f'$.
 		
-		Oznacza to, że $k_f(C) > 0$ co kończy dowód.
+		Oznacza to, że $k_f(C) > 0$, co kończy dowód. \qedhere
 		
 	\end{proof}
-	\label{mincost_maxflow_proof}
+	\label{thrm:mincostmaxflow}
 \end{theorem}
 
 \begin{algorithm}[H]
@@ -420,7 +421,7 @@ w których takie sytuacje nie występują.
 		\Procedure{CycleCanceling(($G, c, s, t$), $k$)}{}
 		\State $f \gets $ maksymalny przepływ dla $(G,c,s,t)$
 		\State $(R,c_f,k_f) \gets $ sieć rezydualna dla $f$
-		\While{Istnieje ujemny cykl $C$ w $(R, k_f)$}
+		\While{istnieje ujemny cykl $C$ w $(R, k_f)$}
 		\State $a \gets \min\{c_f(uw) : uw \in C\}$
 		\State Powiększ $f$ o $a$ na wszystkich krawędziach $C$
 		\State Uaktualnij $(R, c_f, k_f)$ na wszystkich krawędziach $C$
